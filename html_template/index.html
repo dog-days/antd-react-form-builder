@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+      #init-loading-tip {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        background-color: rgb(242, 242, 242);
+        z-index: 999;
+      }
+      #init-loading-tip .loading {
+        position: absolute;
+        text-align:center;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      #init-loading-tip .spinner {
+        width: 60px;
+        height: 60px;
+        position: relative;
+        text-align: center;
+        margin: 40px auto;
+        animation: spinner-sk-rotate 2s linear infinite;
+      }
+      #init-loading-tip .spinner i {
+        width: 50%;
+        height: 50%;
+        display: inline-block;
+        position: absolute;
+        top: 0px;
+        background-color: rgb(56, 187, 225);
+        border-radius: 100%;
+        animation: spinner-sk-bounce 2s ease-in-out infinite;
+      }
+      #init-loading-tip .spinner .dot2 {
+        top: auto;
+        bottom: 0px;
+        animation-delay: -1s;
+      }
+
+      @keyframes spinner-sk-rotate {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes spinner-sk-bounce{
+        0%,100% { transform: scale(0.0) }
+        50% { transform: scale(1.0) }
+      }
+      
+    </style>
+  </head>
+  <body>
+    <div id="init-loading-tip">
+      <div class="loading">
+        <div class="spinner">
+          <i class="dot1"></i>
+          <i class="dot2"></i>
+        </div>
+        <span>正在加载</span>
+        <br/>
+        <br/>
+      </div>
+    </div>
+    <div id="app_container" >
+    </div>
+    <script>
+      var hide = document.getElementById("init-loading-tip")
+      hide.style.display = "none";
+    </script>
+  </body>
+</html>
+
+
+
+

@@ -1,0 +1,53 @@
+{
+  "type": "horizontal",
+  "fields": {
+    [
+      {
+        "type": "email",
+        "name": "email",
+        "label": "邮箱：",
+        "value": "xianshannan@qq.com",
+        "defaultValue": "xianshannan@qq.com",
+        "placeholder": "请输入邮箱！",
+        "verification": true
+      },
+      {
+        "type": "password",
+        "rePassword": true,
+        "name": "password",
+        "label": "密码：",
+        "value": "123456",
+        "defaultValue": "",
+        "placeholder": "请输入密码！",
+        "verification": true
+      },
+      {
+        "type": "select",
+        "name": "select",
+        "value": "123456",
+        "defaultValue": "",
+        "label": "城市：",
+        "placeholder": "请选择城市！",
+        "verification": true
+      },
+      {
+        "type": "texarea",
+        "name": "texarea",
+        "value": "123456",
+        "defaultValue": "",
+        "label": "评论：",
+        "placeholder": "",
+        "verification": false 
+      },
+      {
+        "type": "number",
+        "name": "number",
+        "value": "123456",
+        "defaultValue": "",
+        "label": "序号：",
+        "placeholder": "",
+        "verification": true
+      }
+    ]
+  }
+}
