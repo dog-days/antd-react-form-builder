@@ -6,10 +6,6 @@ let FormItem = AntdForm.Item;
 
 export default class Button extends React.Component {
 
-  constructor(props){
-    super(props);
-  }
-
   render() {
     let props = this.props;
     let {
@@ -29,7 +25,6 @@ export default class Button extends React.Component {
         </AntdButton>
       </FormItem>
     ) 
-    
   }
 }
 

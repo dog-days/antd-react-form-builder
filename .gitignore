@@ -3,3 +3,5 @@ npm-debug.log
 *.swp
 *.zip
 /public/
+/lib/
+/coverage/

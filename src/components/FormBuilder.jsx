@@ -5,6 +5,7 @@ import {
   InputNumber,
   Select,
   Button,
+  TimePicker,
 } from '../FormItemBind'
 
 /**
@@ -55,9 +56,10 @@ class FormBuilder extends React.Component {
     if(!obj.formItemProps){
       obj.formItemProps =  {}
     }
-    if(formProps.hasFeedback){
+    if(obj.formItemProps.hasFeedback === undefined && formProps.hasFeedback){
       obj.formItemProps.hasFeedback = true;
     }
+    
     //obj--end
     return obj;
   }
@@ -110,6 +112,9 @@ class FormBuilder extends React.Component {
               break;
               case "button":
                 Element = Button;
+              break;
+              case "time":
+                Element = TimePicker;
               break;
             }
             if(Element){

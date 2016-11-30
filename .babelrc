@@ -1,12 +1,4 @@
 {
-  "presets": [
-    "react", 
-    ["es2015",{ "modules": false }],
-    "stage-0"
-  ],
-	"plugins": [
-		"transform-decorators-legacy",
-	],
   "env": {
 		"default": {
       "presets": [
@@ -22,6 +14,14 @@
         "stage-0"
       ],
 		}
-	}
+	},
+	"plugins": [
+		"transform-decorators-legacy",
+	],
+  "presets": [
+    "react", 
+    ["es2015",{ "modules": false }],
+    "stage-0"
+  ]
 }
 
