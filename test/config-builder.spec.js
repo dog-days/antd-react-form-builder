@@ -188,7 +188,10 @@ describe("<FormBuilder><Input /></FormBuilder>",function(){
     function commonRuleExpect(other_rules=[]){
       if(rules){
         it(`"${ v.type }" Form child's verification did work correctly`,function(){
-          expect(rules).toEqual(Object.assign(v.rules || [],other_rules))
+          var temp_rules = [];
+          Array.prototype.push.apply(temp_rules,v.rules);
+          Array.prototype.push.apply(temp_rules,other_rules);
+          expect(rules).toEqual(temp_rules)
         })
       }
     }
