@@ -1,8 +1,11 @@
-{ "name": "react-form-builder",
+{
+  "name": "react-form-builder",
   "version": "0.0.1",
   "description": "",
-  "main": "./lib/index.js",
+  "main": "lib/index.js",
+  "jsnext:main": "es/index.js",
   "devDependencies": {
+    "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
     "babel-jest": "^17.0.2",
     "babel-loader": "^6.2.8",
@@ -43,6 +46,11 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development node server.js",
+    "build": "npm run build-es && npm run build-default",
+    "build-es": "cross-env BABEL_ENV=es babel ./src -d es",
+    "build-default": "cross-env BABEL_ENV=default babel ./src -d lib",
+    "build-default-watch": "cross-env BABEL_ENV=default babel ./src -d lib -w",
+    "build-es-watch": "cross-env BABEL_ENV=es babel ./src -d es -w",
     "test": "cross-env NODE_ENV=default jest --coverage"
   },
   "repository": {

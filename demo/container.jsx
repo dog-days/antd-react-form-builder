@@ -6,7 +6,7 @@ import {
   Select,
   Button as FButton,
   TimePicker,
-} from '../src/index'
+} from '../lib/index'
 import { 
   LocaleProvider,
   Button,
@@ -19,7 +19,7 @@ import feilds from "./config"
 
 //begin国际化处理
 import AntdEnUS from 'antd/lib/locale-provider/en_US'
-import FormBuilderEnUS from '../src/locale-provider/es_US'
+import FormBuilderEnUS from '../lib/locale-provider/es_US'
 import 'moment/locale/zh-cn'
 
 moment.locale('en');
