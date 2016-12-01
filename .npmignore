@@ -5,3 +5,9 @@ npm-debug.log
 /public/
 /coverage/
 /src/
+/demo/
+/test/
+server.js
+webpack.js
+http-server.js
+/html_template/
