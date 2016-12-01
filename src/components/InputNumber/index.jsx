@@ -22,8 +22,12 @@ function component(BasicItemComponent){
 
     render(){
       let { rules=[],...other } = this.props;
-      Array.prototype.push.apply(rules,this.getRules());
-      other.rules = rules;
+
+      let temp_rules = [];
+      Array.prototype.push.apply(temp_rules,rules)
+      Array.prototype.push.apply(temp_rules,this.getRules())
+      other.rules = temp_rules;
+
       other.value = parseInt(other.value,10);
       other.targetComponent = AntdInputNumber;
       return (

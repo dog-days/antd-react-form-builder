@@ -81,8 +81,10 @@ function component(BasicItemComponent){
     render(){
       let { type,rules=[],...other } = this.props;
       let infoObject = this.getInfoObject(type); 
-      Array.prototype.push.apply(rules,infoObject.rules || [])
-      other.rules = rules;
+      let temp_rules = [];
+      Array.prototype.push.apply(temp_rules,rules)
+      Array.prototype.push.apply(temp_rules,infoObject.rules || [])
+      other.rules = temp_rules;
       other.type = infoObject.type;
       other.targetComponent = AntdInput;
       return (

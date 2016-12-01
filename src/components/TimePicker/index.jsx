@@ -15,10 +15,13 @@ function component(BasicItemComponent){
     }
 
     render(){
-      let { ...other } = this.props;
+      let { rules,...other } = this.props;
+
       let temp_rules = [];
-      Array.prototype.push.apply(temp_rules,this.getRules());
+      Array.prototype.push.apply(temp_rules,rules)
+      Array.prototype.push.apply(temp_rules,this.getRules())
       other.rules = temp_rules;
+
       other.targetComponent = AntdTimePicker;
       if(_.isString(other.value)){
         other.value = new moment(other.value,"HH:mm:ss")
