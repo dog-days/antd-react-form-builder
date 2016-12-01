@@ -1,5 +1,5 @@
 {
-  "name": "react-form-builder",
+  "name": "antd-react-form-builder",
   "version": "0.0.1",
   "description": "",
   "main": "lib/index.js",
@@ -56,14 +56,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dog-days/react-form-builder.git"
+    "url": "git+https://github.com/dog-days/antd-react-form-builder.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dog-days/react-form-builder/issues"
+    "url": "https://github.com/dog-days/antd-react-form-builder/issues"
   },
-  "homepage": "https://github.com/dog-days/react-form-builder#readme",
+  "homepage": "https://github.com/dog-days/react-react-form-builder#readme",
   "jest": {
     "setupFiles": [
       "test/setup.js"
