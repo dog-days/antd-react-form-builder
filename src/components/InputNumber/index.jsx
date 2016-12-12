@@ -14,9 +14,6 @@ function component(BasicItemComponent){
 
     getRules(){
       return [
-        {
-          type: "number",
-        },
       ]
     }
 

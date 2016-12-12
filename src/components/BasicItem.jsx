@@ -1,16 +1,29 @@
 import React from 'react'
 import AntdForm from 'antd/lib/form'
+import PureRender from '../decorator/PureRender'
 
 let FormItem = AntdForm.Item;
 
-export default class TimePicker extends React.Component {
+@PureRender
+class BasicItem extends React.Component {
 
   constructor(props){
     super(props);
   }
 
+  static PropTypes = {
+    rules: React.PropTypes.array,
+    type: React.PropTypes.string,
+    name: React.PropTypes.string,
+    formItemProps: React.PropTypes.object,
+  }
+
   static contextTypes = {
-    form: React.PropTypes.any
+    form: React.PropTypes.object,
+    size: React.PropTypes.string,
+    hasFeedback: React.PropTypes.bool,
+    labelCol: React.PropTypes.object,
+    wrapperCol: React.PropTypes.object,
   }
   
   //getFieldDecorator第二参数适配
@@ -27,15 +40,49 @@ export default class TimePicker extends React.Component {
     return obj;
   }
 
+  getDealProp(props,index,defaultValue){
+    if(props[index] === undefined){
+      if(this.context[index]){
+        props[index] = this.context[index];
+      }else {
+        props[index] = defaultValue;
+      }
+    }
+  }
+
+  addOtherPropsFromFormBuilder(props){
+    this.getDealProp(props,"size","default");
+    return props;
+  }
+
+  addFormItemPropsFromFormBuilder(props){
+    this.getDealProp(props,"hasFeedback",false);
+    this.getDealProp(props,"labelCol",null);
+    this.getDealProp(props,"wrapperCol",null);
+    return props;
+  }
+
+  onChange(e){
+//console.debug(e)
+    var value = e.target.value;
+    if(this.props.listenForChange){
+      this.props.listenForChange.value = value;
+    }
+  }
+
   render() {
     let props = this.props;
     let {
       value,
+      listenForChange,//不会使用，只是为了监听当前表单组件是否改变
+      array,//不会使用，只是为了消除不存在的props报错
+      nestedType,//不会使用，只是为了消除不存在的props报错
       name,
+      fieldDecoratorName,
       children,
       rules = [],
       targetComponent,
-      formItemProps,
+      formItemProps={},
       ...other,
     } = props;
     const form = this.context.form;
@@ -43,22 +90,30 @@ export default class TimePicker extends React.Component {
       console.error("请使用Antd.Form.create()(targetForm)处理目标form函数对象（类）")
       return false;
     }
-
+    other = this.addOtherPropsFromFormBuilder(other);
+    formItemProps = this.addFormItemPropsFromFormBuilder(formItemProps);
     var obj = this.getFieldDecoratorSecondParam(rules);
     var FormItemComponent = targetComponent;
     var component; 
-//console.debug(children)
     if(!FormItemComponent){
       return false;
     }else if(children){
       //可以传子组件进来，像Select的option等
-      component = form.getFieldDecorator(name, obj)(
-        <FormItemComponent {...other}>
+      component = form.getFieldDecorator(fieldDecoratorName, obj)(
+        <FormItemComponent 
+          {...other} 
+          onChange={ this.onChange.bind(this) }
+        >
           { children }
         </FormItemComponent>
       )
     }else {
-      component = form.getFieldDecorator(name, obj)(<FormItemComponent {...other}/>)
+      component = form.getFieldDecorator(name, obj)(
+        <FormItemComponent 
+          {...other} 
+          onChange={ this.onChange.bind(this) }
+        />
+      )
     }
 
     if(other.type === "hidden") {
@@ -72,6 +127,5 @@ export default class TimePicker extends React.Component {
   }
 }
 
-
-
+export default BasicItem; 
 

@@ -1,0 +1,41 @@
+.cp {
+  cursor: pointer;
+}
+/**begin ------antd 重写**/
+.builder-con {
+  .ant-btn-group > .ant-btn {
+    padding: 4px 8px;
+  }
+}
+/**end -----antd 重写**/
+
+.builder-nested-item-con {
+  .builder-nested-btn-group {
+    position: absolute;
+    bottom: 26px;
+    left: 0px;
+  }
+}
+.builder-flex-con {
+  display: flex;
+}
+.builder-item-left {
+  flex: 1;
+}
+.builder-item-right {
+  position: relative;
+  width: 117px;
+  margin-left: 10px;
+}
+
+.builder-con {
+  .none-label-con {
+    .ant-form-item-label {
+      visibility: hidden;
+    }
+  }
+}
+
+
+
+

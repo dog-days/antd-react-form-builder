@@ -2,20 +2,22 @@ import React from 'react'
 import {
   FormBuilder,
   Input,
+  InputNest,
   InputNumber,
   Select,
-  Button as FButton,
+  Button,
   TimePicker,
 } from '../lib/index'
+import UseWithJsx from "./UseWithJsx"
+import UseWithConfig from "./UseWithConfig"
 import { 
   LocaleProvider,
-  Button,
-  Form,
   Tabs 
 } from 'antd'
 import moment from 'moment'
-import "antd/dist/antd.css"
 import feilds from "./config"
+import "antd/dist/antd.css"
+import "../style/css/style.scss"
 
 //begin国际化处理
 import AntdEnUS from 'antd/lib/locale-provider/en_US'
@@ -28,37 +30,14 @@ let enUS = Object.assign({},AntdEnUS,FormBuilderEnUS)
 //end国际化处理
 let TabPane = Tabs.TabPane; 
 
-export default class Container extends React.Component {
+@FormBuilder.create()
+class Container extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       locale: enUS,
-      config: {
-        "feilds": [
-          feilds.text,
-          feilds.hidden,
-          feilds.email,
-          feilds.url,
-          feilds.textarea,
-          feilds.number,
-          feilds.singleSelect,
-          feilds.groupSelect,
-          feilds.multipleSelect,
-          feilds.timePicker,
-          feilds.button,
-        ]
-      }
     }
-  }
-
-  handleOnsubmit(e,err,values){
-    e.preventDefault();
-    console.debug('表单值: ', values);
-    if(err){
-      console.debug("表单错误",err)
-      return; 
-    }
-  }
+  } 
 
   render() {
     return (
@@ -69,57 +48,14 @@ export default class Container extends React.Component {
               <LocaleProvider
                 locale={ this.state.locale }
               >
-                <FormBuilder 
-                  onSubmit={ this.handleOnsubmit }
-                  size="default"
-                  hasFeedback={ true }
-                  horizontal 
-                  config={ this.state.config }
-                >
-                  <Form.Item>
-                    <Button 
-                      style={
-                        {
-                          float: "right"
-                        }
-                      }
-                      type="primary"
-                      size="default"
-                      htmlType="submit"
-                    >
-                      提交按钮2
-                    </Button>
-                  </Form.Item>
-                </FormBuilder>
+                <UseWithConfig />   
               </LocaleProvider>
             </TabPane>
             <TabPane tab="直接使用JSX" key="2">
-              <FormBuilder 
-                onSubmit={ this.handleOnsubmit }
-                size="default"
-                hasFeedback={ false }
-                horizontal 
-              >
-                <Input 
-                  type="text" 
-                  name="text"
-                  rules={ 
-                    [
-                      {
-                        "required": true,
-                        "message": "请不要留空"
-                      }
-                    ]
-                  }
-                  value="ddd"
-                  placeholder="请输入！"
-                />
-                <Input 
-                  type="email" 
-                  name="email"
-                  placeholder="请输入邮箱"
-                />
-              </FormBuilder>
+              <UseWithJsx />   
+            </TabPane>
+            <TabPane tab="混合使用" key="3">
+              <UseWithJsx />   
             </TabPane>
           </Tabs>
         </div>
@@ -128,4 +64,4 @@ export default class Container extends React.Component {
   }
 }
 
-
+export default Container; 
