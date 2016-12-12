@@ -8,9 +8,6 @@ function component(BasicItemComponent){
   return class TimePicker extends React.Component {
     getRules(){
       return [
-        {
-          type: "object",
-        }
       ]
     }
 

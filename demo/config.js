@@ -1,19 +1,51 @@
 module.exports = {
   text: {
-    "type": "text",
-    "name": "text",
-    "rules": [
+    type: "text",
+    name: "text",
+    formItemProps: {
+      label: "随意",
+      labelCol: { span: 2 },
+      wrapperCol: {
+        span: 22,
+      },
+    },
+    rules: [
       {
-        "required": true,
-        "message": "请不要留空"
+        required: true,
+        message: "请不要留空"
       }
     ],
-    "formItemProps": {
-      "label": "随意",
-      "labelCol": { "span": 0 }
+    placeholder: "请输入！",
+  },
+  nextedText: {
+    type: "text",
+    name: "text2",
+    formItemProps: {
+      label: "随意",
+      labelCol: { span: 2 },
+      wrapperCol: {
+        span: 22,
+      },
     },
-    "value": "dddd",
-    "placeholder": "请输入！"
+    rules: [
+      {
+        required: true,
+        message: "请不要留空"
+      }
+    ],
+    placeholder: "请输入！",
+    action: true, 
+    array: [
+      {
+        value: "dddd",
+      },
+      {
+        value: "dddd",
+      },
+      {
+        value: "dddd",
+      },
+    ]
   },
   hidden: {
     "type": "hidden",
@@ -21,25 +53,46 @@ module.exports = {
     "value": "dddd"
   },
   email: {
-    "type": "email",
-    "name": "email",
-    "value": "xianshannan@qq.com",
-    "rules": [
+    type: "email",
+    name: "email",
+    formItemProps: {
+      "label": "邮件",
+    },
+    rules: [
       {
-        "required": true,
-        "message": "请不要留空"
+        required: true,
+        message: "请不要留空"
       }
     ],
-    "placeholder": "请输入邮箱！",
-    "formItemProps": {
-      "label": "邮箱",
-      "labelCol": { "span": 0 }
-    }
+    placeholder: "请输入邮箱！",
+  },
+  nestedEmail: {
+    type: "email",
+    name: "email2",
+    formItemProps: {
+      "label": "邮件",
+    },
+    rules: [
+      {
+        required: true,
+        message: "请不要留空"
+      }
+    ],
+    placeholder: "请输入邮箱！",
+    action: true, 
+    array: [
+      {
+        value: "xianshannan@qq.com",
+      },
+      {
+        value: "xianshannan@qq.com",
+      },
+    ]
   },
   url: {
     "type": "url",
     "name": "url",
-    "value": "xianshannan@test.com",
+    "value": "http://www.xianshannan.com",
     "rules": [
       {
         "required": true,
@@ -48,7 +101,6 @@ module.exports = {
     ],
     "formItemProps": {
       "label": "网址",
-      "labelCol": { "span": 0 }
     },
     "placeholder": "请输入网址"
   },
@@ -74,6 +126,7 @@ module.exports = {
     "value": "123456",
     "rules": [
       {
+        "type": "number",
         "required": true,
         "message": "请不要留空"
       }
@@ -180,6 +233,7 @@ module.exports = {
     "value": "13:30:56", 
     "rules": [
       {
+        "type": "object",
         "required": true,
         "message": "请选择时间"
       }

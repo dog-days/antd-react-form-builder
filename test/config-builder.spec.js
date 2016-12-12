@@ -22,6 +22,8 @@ let enUS = Object.assign({},AntdEnUS,FormBuilderEnUS)
 //end国际化处理
 
 let inputRules = Input.getRules(enUS);
+//进行一些处理，以便测试（不改动demo/config.js文件）
+feilds.text.formItemProps.labelCol.span = 10;
 
 describe("<FormBuilder><Input /></FormBuilder>",function(){
   var config = {
@@ -50,6 +52,7 @@ describe("<FormBuilder><Input /></FormBuilder>",function(){
         onSubmit={ handleOnsubmit }
         hasFeedback={ true }
         horizontal 
+        labelCol={ { span: 20 } }
         config={ config }
       />
     </LocaleProvider>
@@ -76,13 +79,16 @@ describe("<FormBuilder><Input /></FormBuilder>",function(){
     //测试点一，表单子项渲染数目是否相等
     it(`"${ v.type }" Form child's props should be equal`,function(){
       //本项目的Input、Select等Props从配置中是否正确传进来
-      expect(wrapperMount.childAt(k).props()).toEqual(Object.assign(
-        {
-          size: "default", 
-          formItemProps: {hasFeedback: true}
-        },
-        v
-      ));
+      var obj = v;
+      if(v.type !== "hidden"){
+        obj = Object.assign(
+          {
+            formItemProps: {hasFeedback: true}
+          },
+          v
+        )
+      }
+      expect(wrapperMount.childAt(k).props()).toEqual(obj);
     })
 
     if(v.type !== "hidden"){
@@ -90,6 +96,7 @@ describe("<FormBuilder><Input /></FormBuilder>",function(){
       it(`some of "${ v.type }" <FormItem />'s props should be equal`,function(){
         //antd FormItem 第一子组件 Props
         var formItemProps = wrapperMount.childAt(k).childAt(0).props(); 
+        //console.log(formItemProps.span,v.formItemProps.labelCol.span)
         expect(formItemProps.span).toEqual(v.formItemProps.labelCol.span);
         expect(formItemProps.children.props.children).toEqual(v.formItemProps.label);
       })
@@ -206,14 +213,10 @@ describe("<FormBuilder><Input /></FormBuilder>",function(){
         commonRuleExpect(inputRules.url);
       break;
       case "number":
-        commonRuleExpect([{
-          type: "number",
-        }]);
+        commonRuleExpect();
       break;
       case "time":
-        commonRuleExpect([{
-          type: "object",
-        }]);
+        commonRuleExpect();
       break;
       default:
         commonRuleExpect();

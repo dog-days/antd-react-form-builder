@@ -112,7 +112,7 @@ if(useSass) {
       loader: isProduction ? ExtractTextPlugin.extract({
         fallbackLoader: "style-loader",
         loader: ["css-loader","sass-loader"],
-      }) : ["style-loader","css-loader"], 
+      }) : ["style-loader","css-loader","sass-loader"], 
     }
   );
 }
