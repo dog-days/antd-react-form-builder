@@ -1,12 +1,26 @@
 module.exports = {
+  inlineText: {
+    type: "text",
+    name: "text",
+    formItemProps: {
+      label: "随意",
+    },
+    rules: [
+      {
+        required: true,
+        message: "请不要留空"
+      }
+    ],
+    placeholder: "请输入！",
+  },
   text: {
     type: "text",
     name: "text",
     formItemProps: {
       label: "随意",
-      labelCol: { span: 2 },
+      labelCol: { span: 1 },
       wrapperCol: {
-        span: 22,
+        span: 23,
       },
     },
     rules: [
@@ -22,9 +36,9 @@ module.exports = {
     name: "text2",
     formItemProps: {
       label: "随意",
-      labelCol: { span: 2 },
+      labelCol: { span: 1 },
       wrapperCol: {
-        span: 22,
+        span: 23,
       },
     },
     rules: [
@@ -248,7 +262,6 @@ module.exports = {
     "buttonType": "primary",
     "htmlType": "submit",
     "formItemProps": {
-      "label": "操作",
       "labelCol": { "span": 0 }
     },
     "value": "提交"

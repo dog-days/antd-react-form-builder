@@ -8,9 +8,33 @@
   }
 }
 /**end -----antd 重写**/
+//common
+.builder-con {
+  .none-label-con {
+    .ant-form-item-label {
+      visibility: hidden;
+    }
+  }
+}
+.builder-group-con {
+  padding: 0px 2px;
+}
 
-.builder-nested-item-con {
-  .builder-nested-btn-group {
+
+//begin-------nested item container
+.builder-group-item-con {
+  margin-bottom: 10px;
+}
+.builder-group-item-con {
+  .builder-group-btn-group {
+    margin-top: -5px;
+  }
+}
+//end-------nested item container
+
+//begin-------simple item container
+.builder-simple-item-con {
+  .builder-simple-btn-group {
     position: absolute;
     bottom: 26px;
     left: 0px;
@@ -27,14 +51,9 @@
   width: 117px;
   margin-left: 10px;
 }
+//end-------simple item container
 
-.builder-con {
-  .none-label-con {
-    .ant-form-item-label {
-      visibility: hidden;
-    }
-  }
-}
+
 
 
 

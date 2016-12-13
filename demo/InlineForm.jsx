@@ -10,26 +10,29 @@ import {
 } from '../lib/index'
 import feilds from "./config"
 
+//适配
+feilds.text.formItemProps = {
+  label: "随意",
+}
+
 @FormBuilder.create()
 class Container extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      config: [
-        feilds.text,
-        feilds.nextedText,
-        feilds.hidden,
-        feilds.nestedEmail,
-        feilds.email,
-        feilds.url,
-        feilds.textarea,
-        feilds.number,
-        feilds.singleSelect,
-        feilds.groupSelect,
-        feilds.multipleSelect,
-        feilds.timePicker,
-        feilds.button,
-      ]
+      config: {
+        "feilds": [
+          feilds.text,
+          feilds.email,
+          feilds.url,
+          feilds.number,
+          feilds.singleSelect,
+          feilds.groupSelect,
+          feilds.multipleSelect,
+          feilds.timePicker,
+          feilds.button,
+        ]
+      },
     }
   }
 
@@ -50,7 +53,6 @@ class Container extends React.Component {
         onSubmit={ this.handleOnsubmit.bind(this) }
         size="default"
         hasFeedback={ true }
-        horizontal
         config={ this.state.config }
       />    
     );

@@ -9,7 +9,7 @@ import {
   TimePicker,
 } from '../../FormItemBind'
 import SimpleFormBuilder from './SimpleFormBuilder'
-import NestFormBuilder from './NestFormBuilder'
+import GroupFormBuilder from './GroupFormBuilder'
 
 /**
  * FormBuilder 
@@ -70,9 +70,9 @@ class FormBuilder extends React.Component {
       ...other,
     } = this.props;
     if(nestedConfig){
-      other.nestedConfig = nestedConfig;
+      other.config = nestedConfig;
       return (
-        <NestFormBuilder
+        <GroupFormBuilder
           { ...other }
         />
       )

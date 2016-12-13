@@ -1,10 +1,10 @@
 import React from 'react'
 import AntdForm from 'antd/lib/form'
-import PureRender from '../decorator/PureRender'
+//import PureRender from '../decorator/PureRender'
 
 let FormItem = AntdForm.Item;
 
-@PureRender
+//@PureRender
 class BasicItem extends React.Component {
 
   constructor(props){
@@ -62,19 +62,11 @@ class BasicItem extends React.Component {
     return props;
   }
 
-  onChange(e){
-//console.debug(e)
-    var value = e.target.value;
-    if(this.props.listenForChange){
-      this.props.listenForChange.value = value;
-    }
-  }
-
   render() {
     let props = this.props;
     let {
+      uniqueKey,//不会使用，只是为了消除不存在的props报错
       value,
-      listenForChange,//不会使用，只是为了监听当前表单组件是否改变
       array,//不会使用，只是为了消除不存在的props报错
       nestedType,//不会使用，只是为了消除不存在的props报错
       name,
@@ -102,7 +94,6 @@ class BasicItem extends React.Component {
       component = form.getFieldDecorator(fieldDecoratorName, obj)(
         <FormItemComponent 
           {...other} 
-          onChange={ this.onChange.bind(this) }
         >
           { children }
         </FormItemComponent>
@@ -111,7 +102,6 @@ class BasicItem extends React.Component {
       component = form.getFieldDecorator(name, obj)(
         <FormItemComponent 
           {...other} 
-          onChange={ this.onChange.bind(this) }
         />
       )
     }
