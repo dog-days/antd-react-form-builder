@@ -45,52 +45,54 @@ function getFormItemComponentByType(type){
 
 function renderItemByArray(feilds,Container,propsCallback){
 //console.debug(feilds)
-    if(!_.isFunction(Container)){
-      propsCallback = Container;
-      Container = null;
-    }
-    return feilds.map((v,k)=>{
-      let { 
-        action,
-        uniqueKey,
-        ...other
-      } = v;
-      if(propsCallback){
-        other = propsCallback(other,k);
-      }
-      var Element = this.getFormItemComponentByType(v.nestedType || v.type);
-//console.debug(v.nestedType)
-      if(v.nestedType){
-        return (
-          <Element 
-            key={uniqueKey} 
-            { ...other } 
-          />
-        )
-      }
-      if(!Element){
-        return false;
-      }
-      if(v.type === "hidden"){
-        return false;
-      }
-      if(Container && action){
-        return ( 
-          <Container 
-            key={ uniqueKey } 
-            index={ k } 
-            data={feilds}
-          >
-            <Element { ...other } />
-          </Container>
-        )
-      }else {
-        return (
-          <Element key={uniqueKey} { ...other } />
-        )
-      }
-    })
+  if(!_.isFunction(Container)){
+    propsCallback = Container;
+    Container = null;
   }
+  return feilds.map((v,k)=>{
+    let { 
+      originalName,
+      action,
+      uniqueKey,
+      ...other
+    } = v;
+    if(propsCallback){
+      other = propsCallback(other,k);
+    }
+    var Element = this.getFormItemComponentByType(v.nestedType || v.type);
+//console.debug(v.nestedType)
+    if(v.nestedType){
+      other.action = action;
+      return (
+        <Element 
+          key={uniqueKey} 
+          { ...other } 
+        />
+      )
+    }
+    if(!Element){
+      return false;
+    }
+    if(v.type === "hidden"){
+      return false;
+    }
+    if(Container && action){
+      return ( 
+        <Container 
+          key={ uniqueKey } 
+          index={ k } 
+          data={feilds}
+        >
+          <Element { ...other } />
+        </Container>
+      )
+    }else {
+      return (
+        <Element key={uniqueKey} { ...other } />
+      )
+    }
+  })
+}
 
 function renderItemDecorator(component){
   component.prototype.getFormItemComponentByType = getFormItemComponentByType;

@@ -10,5 +10,14 @@ module.exports = {
     arr[index1] = arr.splice(index2, 1, arr[index1])[0];
     return arr;
   },
+  /**
+  * 获取随机的唯一key值
+  *@param { int } number 随机范围
+  *@function { string } 返回字符串随机key值，基本唯一 
+  */
+  getUniqueKey(number = 100000000000){
+    var uniqueKey = Math.floor(Math.random(number) * number) + "";
+    return uniqueKey;
+  },
 }
 

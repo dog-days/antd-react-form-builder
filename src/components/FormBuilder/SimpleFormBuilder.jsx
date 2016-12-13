@@ -1,16 +1,11 @@
 import React from 'react'
+import _ from 'lodash'
 import BuilderDecorator from '../../decorator/Builder'
-import renderItemDecorator from "../../decorator/RenderItem"
 import ItemContainer from "../_util/NestItemContainer"
 import util from "../../util"
-import _ from 'lodash'
+import SimpleWithoutFormBuilder from "./SimpleWithoutFormBuilder"
 import { 
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  Button,
-  TimePicker,
+  Form
 } from '../../FormItemBind'
 
 /**
@@ -22,41 +17,14 @@ import {
  * @prop {Boolean} hasFeedback 表单验证在FormItem是否反馈，表单子项hasFeedback优先级更高 
  * @prop {Object} config FormBuilder 配置项，表单就是从这些配置中渲染出来的 （可选） 
  */
-
-@renderItemDecorator
 @BuilderDecorator
 class SimpleFormBuilder extends React.Component {
 
   constructor(props){
     super(props);
-    if(this.props.config){
-      this.config = {
-        feilds: this.configAdapter(),
-      };
-    }
   }
-
-  //config数据适配，主要是name=”xxx[]“的处理
-  configAdapter(){
-    var feilds = this.props.config.feilds;
-    var data = [];
-    feilds.forEach((v,k)=>{
-      var uniqueKey = Math.floor(Math.random(10000000) * 10000000) + "";
-      v.uniqueKey = uniqueKey;
-      if(v.array && _.isArray(v.array)){
-        v.nestedType = "InputNest";
-      }else if(v.type !== "button"){
-        v.fieldDecoratorName = v.name;
-      }
-      v.listenForChange = { value: "" };
-      data.push(v);
-    })
-//console.debug(data)
-    return data; 
-  }
-
+  
   render() {
-console.debug(this.config)
     let { 
       form,
       size,
@@ -67,22 +35,12 @@ console.debug(this.config)
       className,
       ...other 
     } = this.props;
-    //console.debug(this.props.children)
+//console.debug(this.props.children)
     other.className = className + " builder-con";
-    config = this.config;
-    //console.debug(this.config)
+//console.debug(this.config)
     return (
-      <Form 
-        { ...other }
-      >
-        { 
-          config 
-          && config.feilds  
-          && config.feilds[0] 
-          && this.renderItemByArray(
-            config.feilds
-          ) 
-        }
+      <Form { ...other } >
+        <SimpleWithoutFormBuilder config={ config }/>
         { this.props.children }
       </Form>
     );

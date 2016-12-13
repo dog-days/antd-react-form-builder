@@ -22,15 +22,14 @@ class InputNest extends React.Component {
     }
   }
 
-  //config数据适配，主要是name=”xxx[]“的处理
+  //config数据适配
   configAdapter(){
     let {
       array, 
       ...other,
     } = this.props;
-//console.debug(this.props,array)
     array.forEach((a_v,a_k)=>{
-      var uniqueKey = Math.floor(Math.random(10000000) * 10000000) + "";
+      var uniqueKey = util.getUniqueKey();
       var formItemProps = Object.assign({},other.formItemProps,{
         className: "none-label-con",
       })
@@ -39,14 +38,15 @@ class InputNest extends React.Component {
       }
       var targetData = array[a_k];
       targetData = Object.assign({},other,{
+        formItemProps,
+      },a_v,{
+        array: null,
+        nestedType: null,
         uniqueKey,
         fieldDecoratorName: other.name + `-[${ uniqueKey }]`,
         name: other.name + `-[${ uniqueKey }]`,
-        formItemProps,
-        array: null,
-        nestedType: null,
-        listenForChange: { isChange: false },
-      },a_v);
+      });
+//console.debug(other,targetData,"--",a_v)
       if(targetData.formItemProps.wrapperCol  && targetData.formItemProps.labelCol){
         if((targetData.formItemProps.wrapperCol.span + targetData.formItemProps.labelCol.span) > 24){
           if(a_k !== 0){
@@ -60,7 +60,7 @@ class InputNest extends React.Component {
       }
       array[a_k] = targetData;
     })
-    //console.debug(data)
+//console.debug(array)
     return array; 
   } 
 
@@ -76,7 +76,7 @@ class InputNest extends React.Component {
           util.swapArrayItem(data,index,index + 1);
         break;
         case "plus":
-          var uniqueKey = Math.floor(Math.random(10000000) * 10000000) + "";
+          var uniqueKey = util.getUniqueKey();
           data.splice(index + 1,0,Object.assign({},data[index],{
             fieldDecoratorName: data[index].name.split("-")[0] + `-[${ uniqueKey }]`,
             uniqueKey, 

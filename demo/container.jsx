@@ -10,6 +10,7 @@ import {
 } from '../lib/index'
 import UseWithJsx from "./UseWithJsx"
 import UseWithConfig from "./UseWithConfig"
+import GroupForm from "./GroupForm"
 import { 
   LocaleProvider,
   Tabs 
@@ -32,6 +33,7 @@ let TabPane = Tabs.TabPane;
 
 @FormBuilder.create()
 class Container extends React.Component {
+
   constructor(props){
     super(props);
     this.state = {
@@ -43,7 +45,7 @@ class Container extends React.Component {
     return (
       <div>
         <div style={ { padding: "20px" } }>
-          <Tabs defaultActiveKey="2">
+          <Tabs defaultActiveKey="3">
             <TabPane tab="配置生成表单" key="1">
               <LocaleProvider
                 locale={ this.state.locale }
@@ -54,8 +56,8 @@ class Container extends React.Component {
             <TabPane tab="直接使用JSX" key="2">
               <UseWithJsx />   
             </TabPane>
-            <TabPane tab="混合使用" key="3">
-              <UseWithJsx />   
+            <TabPane tab="分组表单" key="3">
+              <GroupForm />   
             </TabPane>
           </Tabs>
         </div>

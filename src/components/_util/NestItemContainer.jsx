@@ -32,7 +32,7 @@ class NestItemContainer extends React.Component {
     if(data.length === 1){
       disableButtons.push(3); 
     }
-    var con_class = " builder-nested-item-con builder-flex-con";
+    var con_class = "builder-simple-item-con builder-flex-con";
     if(other.className){
       other.className = con_class + other.className;
     }else {
@@ -45,13 +45,16 @@ class NestItemContainer extends React.Component {
         </div>
         <div className="builder-item-right">
           <ButtonGroup 
-            className="builder-nested-btn-group"
+            className="builder-simple-btn-group"
             size="default"
             keys={keys}
             hightButton={false}
             disableButtons={ disableButtons }
             buttonTexts={buttonTexts}
-            onButtonClick={ this.context.onButtonGroupClick(data,index) }
+            onButtonClick={ 
+              this.context.onButtonGroupClick 
+              && this.context.onButtonGroupClick(data,index) 
+            }
           />
         </div>
       </div>
