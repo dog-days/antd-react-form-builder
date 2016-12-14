@@ -62,10 +62,22 @@ class BasicItem extends React.Component {
     return props;
   }
 
+  onChange(e){
+    var value = e.target.value;
+    if(this.props.storage){
+      this.props.storage.value = value;
+    }
+    this.props.onChange && this.props.onChange(e);
+  }
+
   render() {
     let props = this.props;
+    //console.debug(this.props.storage)
     let {
       uniqueKey,//不会使用，只是为了消除不存在的props报错
+      uniqueKeySpecial,//不会使用，只是为了消除不存在的props报错
+      uniqueKeyNestedSpecial,//不会使用，只是为了消除不存在的props报错
+      storage,//存储一些信息，如同步antd的value值
       value,
       array,//不会使用，只是为了消除不存在的props报错
       nestedType,//不会使用，只是为了消除不存在的props报错
@@ -94,6 +106,9 @@ class BasicItem extends React.Component {
       component = form.getFieldDecorator(fieldDecoratorName, obj)(
         <FormItemComponent 
           {...other} 
+          onChange={
+            this.onChange.bind(this)
+          }
         >
           { children }
         </FormItemComponent>
@@ -102,6 +117,9 @@ class BasicItem extends React.Component {
       component = form.getFieldDecorator(name, obj)(
         <FormItemComponent 
           {...other} 
+          onChange={
+            this.onChange.bind(this)
+          }
         />
       )
     }

@@ -28,14 +28,13 @@ class Container extends React.Component {
         feilds.groupSelect,
         feilds.multipleSelect,
         feilds.timePicker,
-        feilds.button,
       ]
     }
   }
 
   handleOnsubmit(e){
     e.preventDefault();
-    this.validateFieldsAndScroll((err, values) => {
+    this.validateFieldsAndScroll(this.state.config,(err, values) => {
       console.debug('表单值: ', values);
       if(err){
         console.debug("表单错误",err)
@@ -52,7 +51,14 @@ class Container extends React.Component {
         hasFeedback={ true }
         horizontal
         config={ this.state.config }
-      />    
+      >    
+        <Button
+          buttonType="primary"
+          htmlType="submit"
+        >
+          提交
+        </Button>
+      </FormBuilder>
     );
   }
 }

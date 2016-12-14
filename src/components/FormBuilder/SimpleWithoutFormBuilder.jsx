@@ -45,6 +45,12 @@ class SimpleWithoutFormBuilder extends React.Component {
         v.nestedType = "InputNest";
       }else if(v.type !== "button"){
         v.fieldDecoratorName = v.name;
+        //存储antd表单value同步信息
+        v.storage = {
+          value: v.value,
+        };
+      }else {
+        v.storage = {};
       }
       data.push(v);
     })

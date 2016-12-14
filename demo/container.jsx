@@ -11,6 +11,7 @@ import {
 import UseWithJsx from "./UseWithJsx"
 import UseWithConfig from "./UseWithConfig"
 import GroupForm from "./GroupForm"
+import NestedForm from "./NestedForm"
 import { 
   LocaleProvider,
   Tabs 
@@ -45,7 +46,7 @@ class Container extends React.Component {
     return (
       <div>
         <div style={ { padding: "20px" } }>
-          <Tabs defaultActiveKey="3">
+          <Tabs defaultActiveKey="4">
             <TabPane tab="配置生成表单" key="1">
               <LocaleProvider
                 locale={ this.state.locale }
@@ -58,6 +59,9 @@ class Container extends React.Component {
             </TabPane>
             <TabPane tab="分组表单" key="3">
               <GroupForm />   
+            </TabPane>
+            <TabPane tab="Nested表单" key="4">
+              <NestedForm />   
             </TabPane>
           </Tabs>
         </div>

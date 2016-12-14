@@ -10,6 +10,7 @@ import {
 } from '../../FormItemBind'
 import SimpleFormBuilder from './SimpleFormBuilder'
 import GroupFormBuilder from './GroupFormBuilder'
+import NestedFormBuilder from './NestedFormBuilder'
 
 /**
  * FormBuilder 
@@ -43,18 +44,93 @@ class FormBuilder extends React.Component {
       }
       return new_values; 
     }
+
+    function getValues(antValues,data){
+      var values = {};
+      if(!data){
+        return getDealValue(antValues)
+      }
+      data && data.forEach((v,k)=>{
+        let name_1 = v.name;
+        if(!name_1){
+          name_1 = k;
+        }
+        values[name_1] = {};
+        //SimpleFormBuilder
+        if(!v.feilds && !v.nest){
+          if(!v.array){
+            values[name_1] = v.storage.value;
+          }else {
+            v.array.forEach((v2,k2)=>{
+              values[name_1][k2] = v2.storage.value;
+            })
+          }
+        }
+        //GroupFormBuilder，也用到上面的
+        v.feilds && v.feilds[0] && v.feilds.forEach((v2,k2)=>{
+          let name_2 = v2.name.split("-")[1];
+          if(!name_2){
+            name_2 = k2;
+          }
+          if(v2.array){
+            values[name_1][name_2] = [];
+            v2.array.forEach((v3,k3)=>{
+              values[name_1][name_2][k3] = v3.storage.value;
+            })
+          }else {
+            values[name_1][name_2] = v2.storage.value;
+          }
+        })
+        //NestedFormBuilder
+        v.nest && v.nest[0] && v.nest.forEach((v2,k2)=>{
+          let name_2 = v2.name;
+          if(!name_2){
+            name_2 = k2;
+          }
+          if(!v2.feilds){
+            values[name_1][name_2] = v2.storage.value; 
+          }else {
+            if(!values[name_1][name_2]){
+              values[name_1][name_2] = []; 
+            }
+            values[name_1][name_2][k2] = {}; 
+            v2.feilds && v2.feilds[0] && v2.feilds.forEach((v3,k3)=>{
+              let name_3 = v3.name.split("-")[1];
+              if(!v3.array){
+                values[name_1][name_2][k2][name_3] = v3.storage.value;
+              }else {
+                values[name_1][name_2][k2][name_3] = [];
+                v3.array && v3.array[0] && v3.array.forEach((v4,k4)=>{
+                  values[name_1][name_2][k2][name_3][k4] = v4.storage.value;
+                })
+              }
+            })
+          }
+        })
+      })
+//console.debug(values)
+      return values;
+    }
     
     return function(Component){
       var FormComponent = AntdForm.create(options)(Component);
-      Component.prototype.validateFieldsAndScroll = function(callback){
+      Component.prototype.validateFieldsAndScroll = function(data,callback){
+        if(!callback){
+          callback = data;
+          data = null;
+        }
         this.props.form.validateFieldsAndScroll((err, values) => {
-          var new_values = getDealValue(values);
+          var new_values = getValues(values,data);
           callback(err,new_values);
         });
       }
-      Component.prototype.validateFields = function(callback){
+      Component.prototype.validateFields = function(data,callback){
+        if(!callback){
+          callback = data;
+          data = null;
+        }
         this.props.form.validateFields((err, values) => {
-          var new_values = getDealValue(values);
+          var new_values = getValues(values,data);
           callback(err,new_values);
         });
       }
@@ -66,22 +142,25 @@ class FormBuilder extends React.Component {
 //console.debug(this.context.form)
     let {
       config,
+      groupConfig,
       nestedConfig,
       ...other,
     } = this.props;
-    if(nestedConfig){
+    if(groupConfig){
+      other.config = groupConfig;
+      return (
+        <GroupFormBuilder { ...other } />
+      )
+    }else if(nestedConfig){
       other.config = nestedConfig;
       return (
-        <GroupFormBuilder
-          { ...other }
-        />
+        <NestedFormBuilder { ...other } />
       )
-    }else {
+
+    } else {
       other.config = config;
       return (
-        <SimpleFormBuilder
-          { ...other }
-        />
+        <SimpleFormBuilder { ...other } />
       )
     }
   }

@@ -21,7 +21,6 @@ let childContextTypes = {
   hasFeedback: React.PropTypes.bool,
   labelCol: React.PropTypes.object,
   wrapperCol: React.PropTypes.object,
-  //SimpleFormBuilder是没有这个方法的
   onButtonGroupClick: React.PropTypes.func,
 }
 
@@ -35,7 +34,6 @@ function getChildContext(){
     hasFeedback: this.props.hasFeedback,
     labelCol: this.props.labelCol,
     wrapperCol: this.props.wrapperCol,
-    //SimpleFormBuilder是没有这个方法的
     onButtonGroupClick: this.onButtonGroupClick && this.onButtonGroupClick.bind(this),
   }
 } 

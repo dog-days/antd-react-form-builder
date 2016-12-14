@@ -79,6 +79,7 @@ function renderItemByArray(feilds,Container,propsCallback){
     if(Container && action){
       return ( 
         <Container 
+          action={ action }
           key={ uniqueKey } 
           index={ k } 
           data={feilds}

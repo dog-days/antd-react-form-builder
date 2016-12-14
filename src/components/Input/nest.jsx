@@ -45,6 +45,8 @@ class InputNest extends React.Component {
         uniqueKey,
         fieldDecoratorName: other.name + `-[${ uniqueKey }]`,
         name: other.name + `-[${ uniqueKey }]`,
+        //存储antd表单value同步信息
+        storage: {value: a_v.value},
       });
 //console.debug(other,targetData,"--",a_v)
       if(targetData.formItemProps.wrapperCol  && targetData.formItemProps.labelCol){

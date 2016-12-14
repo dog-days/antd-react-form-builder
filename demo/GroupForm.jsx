@@ -13,6 +13,8 @@ class GroupForm extends React.Component {
         _.cloneDeep(feilds.nextedText),
         {
           title: "分组一",
+          action: true,
+          name: "group",
           feilds: [
             _.cloneDeep(feilds.text),
             _.cloneDeep(feilds.nextedText),
@@ -26,7 +28,7 @@ class GroupForm extends React.Component {
 
   handleOnsubmit(e){
     e.preventDefault();
-    this.validateFieldsAndScroll((err, values) => {
+    this.validateFieldsAndScroll(this.state.config,(err, values) => {
       console.debug('表单值: ', values);
       if(err){
         console.debug("表单错误",err)
@@ -41,7 +43,7 @@ class GroupForm extends React.Component {
         onSubmit={ this.handleOnsubmit.bind(this) }
         size="default"
         hasFeedback={ true }
-        nestedConfig={ this.state.config }
+        groupConfig={ this.state.config }
       >    
         <Button
           buttonType="primary"

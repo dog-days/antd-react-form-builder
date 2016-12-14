@@ -32,7 +32,7 @@ class Container extends React.Component {
       <FormBuilder 
         onSubmit={ this.handleOnsubmit.bind(this) }
         size="default"
-        hasFeedback={ false }
+        hasFeedback={ true }
         horizontal 
       >
         <Input 

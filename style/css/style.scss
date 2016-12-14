@@ -3,6 +3,12 @@
 }
 /**begin ------antd 重写**/
 .builder-con {
+  .ant-select {
+    min-width: 150px;
+  }
+  .ant-form-item {
+    margin-bottom: 24px;
+  }
   .ant-btn-group > .ant-btn {
     padding: 4px 8px;
   }
@@ -23,7 +29,7 @@
 
 //begin-------nested item container
 .builder-group-item-con {
-  margin-bottom: 10px;
+  margin-bottom: 24px;
 }
 .builder-group-item-con {
   .builder-group-btn-group {
@@ -34,8 +40,14 @@
 
 //begin-------simple item container
 .builder-simple-item-con {
+  align-items: flex-end;
+  -ms-flex-align: end;
+  -webkit-box-align: end; 
+  -webkit-align-items: flex-end; 
+}
+.builder-simple-item-con {
   .builder-simple-btn-group {
-    position: absolute;
+    position: relative;
     bottom: 26px;
     left: 0px;
   }
@@ -48,7 +60,6 @@
 }
 .builder-item-right {
   position: relative;
-  width: 117px;
   margin-left: 10px;
 }
 //end-------simple item container
