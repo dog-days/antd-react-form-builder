@@ -38,6 +38,7 @@ export default class Button extends React.Component {
   render() {
     let props = this.props;
     let {
+      storage,
       children,
       value,
       buttonType,

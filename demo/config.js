@@ -18,10 +18,6 @@ module.exports = {
     name: "text",
     formItemProps: {
       label: "随意",
-      labelCol: { span: 1 },
-      wrapperCol: {
-        span: 23,
-      },
     },
     rules: [
       {
@@ -36,10 +32,6 @@ module.exports = {
     name: "text2",
     formItemProps: {
       label: "随意",
-      labelCol: { span: 1 },
-      wrapperCol: {
-        span: 23,
-      },
     },
     rules: [
       {

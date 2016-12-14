@@ -12,25 +12,66 @@ class NestItemContainer extends React.Component {
   render() {
     let {
       index,
+      action,
       data,
       ...other
     } = this.props;
-    var keys = ["up","down","plus","delete"];
-    var buttonTexts = [
-      <Icon type="arrow-up"/>,
-      <Icon type="arrow-down"/>,
-      <Icon type="plus"/>,
-      <Icon type="close"/>,
-    ];
-    var disableButtons = [];
-    if(index === 0){
-      disableButtons.push(0); 
-    }
-    if(index === data.length - 1){
-      disableButtons.push(1); 
-    }
-    if(data.length === 1){
-      disableButtons.push(3); 
+    var buttonGroup;
+    if(action){
+      if(_.isBoolean(action)){
+        action = {
+          up_action: true,
+          down_action: true,
+          plus_action: true,
+          close_action: true,
+        };
+      }
+      var keys = [];
+      //begin------buttonTexts
+      var buttonTexts = [];
+      if(action.up_action){
+        keys.push("up");
+        buttonTexts.push(<Icon type="arrow-up"/>);
+      }
+      if(action.down_action){
+        keys.push("down");
+        buttonTexts.push(<Icon type="arrow-down"/>);
+      }
+      if(action.plus_action){
+        keys.push("plus");
+        buttonTexts.push(<Icon type="plus"/>);
+      }
+      if(action.close_action){
+        keys.push("delete");
+        buttonTexts.push(<Icon type="close"/>);
+      }
+      //end--------buttonTexts
+      var disableButtons = [];
+      if(index === 0){
+        disableButtons.push(0); 
+      }
+//console.debug(index,data.length)
+      if(index === data.length - 1){
+        disableButtons.push(1); 
+      }
+      if(data.length === 1){
+        disableButtons.push(3); 
+      }
+//console.debug(this.context)
+      buttonGroup = (
+        <ButtonGroup 
+          className="builder-simple-btn-group"
+          size="default"
+          keys={keys}
+          hightButton={false}
+          disableButtons={ disableButtons }
+          buttonTexts={buttonTexts}
+          onButtonClick={ 
+            this.context.onButtonGroupClick 
+            && this.context.onButtonGroupClick(data,index) 
+          }
+        />
+      );  
     }
     var con_class = "builder-simple-item-con builder-flex-con";
     if(other.className){
@@ -44,18 +85,7 @@ class NestItemContainer extends React.Component {
           { this.props.children }
         </div>
         <div className="builder-item-right">
-          <ButtonGroup 
-            className="builder-simple-btn-group"
-            size="default"
-            keys={keys}
-            hightButton={false}
-            disableButtons={ disableButtons }
-            buttonTexts={buttonTexts}
-            onButtonClick={ 
-              this.context.onButtonGroupClick 
-              && this.context.onButtonGroupClick(data,index) 
-            }
-          />
+          { buttonGroup }
         </div>
       </div>
     ) 
