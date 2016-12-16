@@ -83,6 +83,10 @@ class FormBuilder extends React.Component {
         })
         //NestedFormBuilder
         v.nest && v.nest[0] && v.nest.forEach((v2,k2)=>{
+          //递归区值
+          if(v2.recursion){
+            return;
+          }
           let name_2 = v2.name;
           if(!name_2){
             name_2 = k2;
@@ -113,7 +117,6 @@ class FormBuilder extends React.Component {
     }
     
     return function(Component){
-      var FormComponent = AntdForm.create(options)(Component);
       Component.prototype.validateFieldsAndScroll = function(data,callback){
         if(!callback){
           callback = data;
@@ -134,6 +137,7 @@ class FormBuilder extends React.Component {
           callback(err,new_values);
         });
       }
+      var FormComponent = AntdForm.create(options)(Component);
       return FormComponent;
     }
   }

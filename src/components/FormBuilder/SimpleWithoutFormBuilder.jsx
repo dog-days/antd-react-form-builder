@@ -39,7 +39,12 @@ class SimpleWithoutFormBuilder extends React.Component {
     var data = [];
 //console.debug(feilds)
     feilds && feilds.forEach((v,k)=>{
-      var uniqueKey = Math.floor(Math.random(10000000) * 10000000) + "";
+      if(!v){
+        console.warn("SimpleFormBuilder配置数据源数组数据为undefined");
+        return;
+      }
+      var uniqueKey = util.getUniqueKey();
+//console.debug(v,uniqueKey)
       v.uniqueKey = uniqueKey;
       if(v.array && _.isArray(v.array)){
         v.nestedType = "InputNest";

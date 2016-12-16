@@ -25,33 +25,38 @@ class GroupFormBuilder extends React.Component {
 
   constructor(props){
     super(props);
-    this.config = this.configAdapter();
+    this.config = this.configAdapter(this.props.config);
   }
 
-  configAdapter(){
-    var config = this.props.config;
+  configAdapter(config){
+    //console.debug(config)
     var data = [];
     config && config.forEach((v,k)=>{
       var uniqueKey = util.getUniqueKey();
       v.uniqueKey = uniqueKey; 
       v.uniqueKeyNestedSpecial = util.getUniqueKey(); 
-      v.nest && v.nest.forEach((v2,k2)=>{
-        if(!v2){
-          return;
-        }
-        if(v2.feilds && _.isBoolean(v2.action)){
-          v2.action = {
-            up_action: true,
-            down_action: true,
-            plus_action: true,
-            close_action: true,
+      if(v.recursion && v.recursion[0]){
+        v.recursion = this.configAdapter(_.cloneDeep(v.recursion));
+      }else {
+        v.nest && v.nest.forEach((v2,k2)=>{
+          if(!v2){
+            return;
           }
-        }
-      })
+          if(v2.feilds && _.isBoolean(v2.action)){
+            //v2.uniqueKey = util.getUniqueKey(); 
+            v2.action = {
+              up_action: true,
+              down_action: true,
+              plus_action: true,
+              close_action: true,
+            }
+          }
+        })
+      }
       data.push(v);
     })
 //console.debug(data)
-    return config; 
+    return data; 
   }
   
   onButtonGroupClick(data,index){
@@ -76,6 +81,7 @@ class GroupFormBuilder extends React.Component {
       let {
         action,
         nest,
+        recursion,
         title,
         uniqueKey,
         uniqueKeyNestedSpecial,
@@ -88,7 +94,15 @@ class GroupFormBuilder extends React.Component {
           close_action: false,
         };
       }
-      if(nest){
+      if(nest || recursion){
+        var nestedComponent; 
+        if(recursion && recursion[0]){
+          //递归
+          nestedComponent = recursion.map((v2,k2)=>{
+            return this.renderByNestedConfig(recursion);
+          })
+        }
+        //console.debug(nest)
         return (
           <NestedItemContainer 
             index={ k } 
@@ -97,9 +111,16 @@ class GroupFormBuilder extends React.Component {
             data={ config }
             action={ action }
           >
-            <GroupWithoutFormBuilder
-              config={ nest }
-            />
+            {
+              nestedComponent &&
+              nestedComponent
+            }
+            {
+              !nestedComponent &&
+              <GroupWithoutFormBuilder
+                config={ nest }
+              />
+            }
           </NestedItemContainer>
         )
       }else {
