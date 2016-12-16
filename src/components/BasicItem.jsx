@@ -63,7 +63,12 @@ class BasicItem extends React.Component {
   }
 
   onChange(e){
-    var value = e.target.value;
+    var value;
+    if(e.target){
+      value = e.target.value;
+    }else {
+      value = e;
+    }
     if(this.props.storage){
       this.props.storage.value = value;
     }
