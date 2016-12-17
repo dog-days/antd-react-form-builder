@@ -109,14 +109,6 @@ class GroupWithoutFormBuilder extends React.Component {
         //解决后面的SimpleFormBuilder覆盖掉uniqueKey，重新生成一个key 
         uniqueKeySpecial,
       } = v;
-      if(_.isBoolean(action)){
-        action = {
-          up_action: true,
-          down_action: true,
-          plus_action: false,
-          close_action: false,
-        };
-      }
 //console.debug("--",uniqueKey)
       if(feilds){
         return (

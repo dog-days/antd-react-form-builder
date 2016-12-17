@@ -37,6 +37,8 @@ class BasicItem extends React.Component {
     if(value || value == 0){
       obj.initialValue = value; 
     }
+    //obj.trigger = "onSubmit";
+    obj.validateTrigger = "onSubmit";
     return obj;
   }
 
@@ -62,7 +64,7 @@ class BasicItem extends React.Component {
     return props;
   }
 
-  onChange(e){
+  onBlurEvent(e){
     var value;
     if(e.target){
       value = e.target.value;
@@ -72,7 +74,8 @@ class BasicItem extends React.Component {
     if(this.props.storage){
       this.props.storage.value = value;
     }
-    this.props.onChange && this.props.onChange(e);
+    //console.debug(value)
+    this.props.onBlur && this.props.onBlur(e);
   }
 
   render() {
@@ -111,8 +114,8 @@ class BasicItem extends React.Component {
       component = form.getFieldDecorator(fieldDecoratorName, obj)(
         <FormItemComponent 
           {...other} 
-          onChange={
-            this.onChange.bind(this)
+          onBlur={
+            this.onBlurEvent.bind(this)
           }
         >
           { children }
@@ -122,8 +125,8 @@ class BasicItem extends React.Component {
       component = form.getFieldDecorator(name, obj)(
         <FormItemComponent 
           {...other} 
-          onChange={
-            this.onChange.bind(this)
+          onBlur={
+            this.onBlurEvent.bind(this)
           }
         />
       )

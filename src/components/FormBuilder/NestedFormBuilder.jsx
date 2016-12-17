@@ -35,8 +35,10 @@ class GroupFormBuilder extends React.Component {
       var uniqueKey = util.getUniqueKey();
       v.uniqueKey = uniqueKey; 
       v.uniqueKeyNestedSpecial = util.getUniqueKey(); 
-      if(v.recursion && v.recursion[0]){
-        v.recursion = this.configAdapter(_.cloneDeep(v.recursion));
+      if(v.nest && v.nest[0] && v.nest[0].recursion){
+        v.nest.forEach((v2,k2)=>{
+          v2.recursion = this.configAdapter(_.cloneDeep(v2.recursion));
+        })
       }else {
         v.nest && v.nest.forEach((v2,k2)=>{
           if(!v2){
@@ -75,31 +77,23 @@ class GroupFormBuilder extends React.Component {
     }
   }
 
-  renderByNestedConfig(config){
+  renderByNestedConfig(data){
+    var config = data;
 //console.debug(config)
     return config && config[0] && config.map((v,k)=>{
       let {
         action,
         nest,
-        recursion,
         title,
         uniqueKey,
         uniqueKeyNestedSpecial,
       } = v;
-      if(_.isBoolean(action)){
-        action = {
-          up_action: true,
-          down_action: true,
-          plus_action: false,
-          close_action: false,
-        };
-      }
-      if(nest || recursion){
+      if(nest){
         var nestedComponent; 
-        if(recursion && recursion[0]){
+        if(nest[0] && nest[0].recursion){
           //递归
-          nestedComponent = recursion.map((v2,k2)=>{
-            return this.renderByNestedConfig(recursion);
+          nestedComponent = nest.map((v2,k2)=>{
+            return this.renderByNestedConfig(v2.recursion);
           })
         }
         //console.debug(nest)
