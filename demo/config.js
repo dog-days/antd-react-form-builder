@@ -16,8 +16,15 @@ module.exports = {
   text: {
     type: "text",
     name: "text",
+    value: "text",
     formItemProps: {
       label: "随意",
+      labelCol: {
+        span: 2,
+      },
+      wrapperCol: {
+        span: 22,
+      }
     },
     rules: [
       {
@@ -61,6 +68,7 @@ module.exports = {
   email: {
     type: "email",
     name: "email",
+    value: "xianshannan@163.com",
     formItemProps: {
       "label": "邮件",
     },
