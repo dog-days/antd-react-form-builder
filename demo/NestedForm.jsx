@@ -4,7 +4,7 @@ import { FormBuilder,Button } from '../lib/index'
 import feilds from "./config"
 
 @FormBuilder.create()
-class GroupForm extends React.Component {
+class NestedForm extends React.Component {
   constructor(props){
     super(props);
     var text = _.cloneDeep(feilds.text);
@@ -35,21 +35,127 @@ class GroupForm extends React.Component {
     this.state = {
       config: [
         {
-          title: "test",
+          title: "1",
           action: true,
+          name: "test0",
+          nest: [
+            {
+              name: "-1",
+              recursion: [
+                {
+                  title: "1-1",
+                  action: true,
+                  name: "1-1",
+                  nest: [
+                    {
+                      title: "1-1-1",
+                      action: true,
+                      name: "1-1-1",
+                      feilds: [
+                        _.cloneDeep(text),
+                        _.cloneDeep(text2),
+                        _.cloneDeep(text3),
+                        _.cloneDeep(text4),
+                        _.cloneDeep(feilds.email),
+                        _.cloneDeep(feilds.singleSelect),
+                      ],  
+                    }
+                  ],
+                },
+                _.cloneDeep(Object.assign({},text3,{
+                  action: true,
+                })),
+                {
+                  title: "1-2",
+                  action: true,
+                  name: "1-2",
+                  nest: [
+                    {
+                      name: "-1-2",
+                      recursion: [
+                        {
+                          title: "1-2-1",
+                          action: true,
+                          name: "1-2-1",
+                          nest: [
+                            _.cloneDeep(Object.assign({},feilds.textarea,{
+                              action: true,
+                            })),
+                            {
+                              title: "1-2-1-1",
+                              action: "least",
+                              name: "1-2-1-1",
+                              feilds: [
+                                _.cloneDeep(text),
+                                _.cloneDeep(text2),
+                                _.cloneDeep(text3),
+                                _.cloneDeep(text4),
+                                _.cloneDeep(feilds.email),
+                                _.cloneDeep(feilds.singleSelect),
+                              ],  
+                            }
+                          ],
+                        },
+                        {
+                          title: "1-2-1",
+                          action: true,
+                          name: "1-2-1",
+                          nest: [
+                            _.cloneDeep(feilds.textarea),
+                            {
+                              title: "1-2-1-1",
+                              action: true,
+                              name: "1-2-1-1",
+                              feilds: [
+                                _.cloneDeep(text),
+                                _.cloneDeep(text2),
+                                _.cloneDeep(text3),
+                                _.cloneDeep(text4),
+                                _.cloneDeep(feilds.email),
+                                _.cloneDeep(feilds.singleSelect),
+                              ],  
+                            }
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ]  
+            }
+          ],
+        },
+        {
+          title: "test",
+          action: "all",
           name: "test",
           nest: [
             {
               title: "分组一",
               action: true,
-              name: "group1",
+              name: "group",
               feilds: [
-                text,
-                text2,
-                text3,
-                text4,
+                _.cloneDeep(text),
+                _.cloneDeep(text2),
+                _.cloneDeep(text3),
+                _.cloneDeep(text4),
                 _.cloneDeep(feilds.email),
                 _.cloneDeep(feilds.singleSelect),
+                _.cloneDeep(feilds.multipleSelect),
+              ],  
+            },
+            {
+              title: "分组一",
+              action: true,
+              name: "group",
+              feilds: [
+                _.cloneDeep(text),
+                _.cloneDeep(text2),
+                _.cloneDeep(text3),
+                _.cloneDeep(text4),
+                _.cloneDeep(feilds.email),
+                _.cloneDeep(feilds.singleSelect),
+                _.cloneDeep(feilds.multipleSelect),
               ],  
             }
           ],
@@ -98,4 +204,4 @@ class GroupForm extends React.Component {
   }
 }
 
-export default GroupForm; 
+export default NestedForm; 
