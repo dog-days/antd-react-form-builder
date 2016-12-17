@@ -83,8 +83,11 @@ class FormBuilder extends React.Component {
         })
         //NestedFormBuilder
         v.nest && v.nest[0] && v.nest.forEach((v2,k2)=>{
-          //递归区值
+          //递归取值处
           if(v2.recursion){
+            var recursion_value = getValues(antValues,v2.recursion)
+            values[name_1] = recursion_value;
+            //console.debug(temp_value)
             return;
           }
           let name_2 = v2.name;
@@ -97,11 +100,23 @@ class FormBuilder extends React.Component {
             if(!values[name_1][name_2]){
               values[name_1][name_2] = []; 
             }
-            values[name_1][name_2][k2] = {}; 
+            //console.debug(v2.action)
+            //处理混合的表单数据，根据是否可以动态添加表单
+            if(v2.action.plus_action){
+              values[name_1][name_2][k2] = {}; 
+            }else {
+              values[name_1][name_2] = {}; 
+            }
+//console.debug(name_1,name_2)
             v2.feilds && v2.feilds[0] && v2.feilds.forEach((v3,k3)=>{
               let name_3 = v3.name.split("-")[1];
               if(!v3.array){
-                values[name_1][name_2][k2][name_3] = v3.storage.value;
+//console.debug(name_1,name_2,k2,name_3)
+                if(v2.action.plus_action){
+                  values[name_1][name_2][k2][name_3] = v3.storage.value;
+                }else {
+                  values[name_1][name_2][name_3] = v3.storage.value;
+                }
               }else {
                 values[name_1][name_2][k2][name_3] = [];
                 v3.array && v3.array[0] && v3.array.forEach((v4,k4)=>{
