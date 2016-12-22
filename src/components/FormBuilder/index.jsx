@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 import AntdForm from 'antd/lib/form'
 import { 
   Form,
@@ -91,19 +92,25 @@ class FormBuilder extends React.Component {
             return;
           }
           let name_2 = v2.name;
-          if(!name_2){
-            name_2 = k2;
-          }
+          //if(!name_2){
+            //name_2 = k2;
+          //}
           if(!v2.feilds){
             values[name_1][name_2] = v2.storage.value; 
           }else {
-            if(!values[name_1][name_2]){
-              values[name_1][name_2] = []; 
+            if(!name_2){
+              if(!_.isArray(values[name_1])){
+                values[name_1] = [];
+              }
+            }else {
+              if(!values[name_1][name_2]){
+                values[name_1][name_2] = []; 
+              }
             }
             //console.debug(v2.action)
             //处理混合的表单数据，根据是否可以动态添加表单
-            if(v2.action.plus_action){
-              values[name_1][name_2][k2] = {}; 
+            if(!name_2){
+              values[name_1][k2] = {}; 
             }else {
               values[name_1][name_2] = {}; 
             }
@@ -112,8 +119,8 @@ class FormBuilder extends React.Component {
               let name_3 = v3.name.split("-")[1];
               if(!v3.array){
 //console.debug(name_1,name_2,k2,name_3)
-                if(v2.action.plus_action){
-                  values[name_1][name_2][k2][name_3] = v3.storage.value;
+                if(!name_2){
+                  values[name_1][k2][name_3] = v3.storage.value;
                 }else {
                   values[name_1][name_2][name_3] = v3.storage.value;
                 }
