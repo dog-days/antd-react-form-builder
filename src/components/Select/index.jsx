@@ -30,7 +30,7 @@ function component(BasicItemComponent){
                     {
                       g_v.options && g_v.options[0] && g_v.options.map((o_v,o_k)=>{
                         return (
-                          <Option key={ o_k } value={ o_k+"" }>
+                          <Option key={ o_k } value={ o_v.value + "" }>
                             { o_v.text }
                           </Option>
                         )
@@ -48,7 +48,7 @@ function component(BasicItemComponent){
             {
               options && options[0] && options.map((o_v,o_k)=>{
                 return (
-                  <Option key={ o_k } value={ o_k+"" }>
+                  <Option key={ o_k } value={ o_v.value+"" }>
                     { o_v.text }
                   </Option>
                 )

@@ -38,7 +38,7 @@ class BasicItem extends React.Component {
       obj.initialValue = value; 
     }
     //obj.trigger = "onSubmit";
-    obj.validateTrigger = "onSubmit";
+    //obj.validateTrigger = "onSubmit";
     return obj;
   }
 
@@ -97,6 +97,9 @@ class BasicItem extends React.Component {
       formItemProps={},
       ...other,
     } = props;
+    if(!fieldDecoratorName){
+      fieldDecoratorName = name;
+    }
     const form = this.context.form;
     if(!form){
       console.error("请使用Antd.Form.create()(targetForm)处理目标form函数对象（类）")
@@ -122,7 +125,7 @@ class BasicItem extends React.Component {
         </FormItemComponent>
       )
     }else {
-      component = form.getFieldDecorator(name, obj)(
+      component = form.getFieldDecorator(fieldDecoratorName, obj)(
         <FormItemComponent 
           {...other} 
           onBlur={
