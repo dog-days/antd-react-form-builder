@@ -1,19 +1,19 @@
 import React from 'react'
 import BasicItem from '../BasicItem'
-import AntdSelect from 'antd/lib/select'
+import Select from 'antd/lib/select'
 
-const Option = AntdSelect.Option;
-const OptGroup = AntdSelect.OptGroup;
+//const Option = AntdSelect.Option;
+//const OptGroup = AntdSelect.OptGroup;
 
 function component(BasicItemComponent){
-  return class Select extends React.Component {
+  return class FSelect extends React.Component {
     render(){
       let {
         options,
         group,
         ...other, 
       } = this.props;
-      other.targetComponent = AntdSelect;
+      other.targetComponent = Select;
       if(group){
         return (
           //这里的BasicItemComponent相当于
@@ -26,17 +26,17 @@ function component(BasicItemComponent){
             {
               group && group[0] && group.map((g_v,g_k)=>{
                 return (
-                  <OptGroup key={ g_k } label={ g_v.label || "" }>
+                  <Select.OptGroup key={ g_k } label={ g_v.label || "" }>
                     {
                       g_v.options && g_v.options[0] && g_v.options.map((o_v,o_k)=>{
                         return (
-                          <Option key={ o_k } value={ o_v.value + "" }>
+                          <Select.Option key={ o_k } value={ o_v.value + "" }>
                             { o_v.text }
-                          </Option>
+                          </Select.Option>
                         )
                       })
                     }
-                  </OptGroup>
+                  </Select.OptGroup>
                 )
               })
             }
@@ -48,9 +48,9 @@ function component(BasicItemComponent){
             {
               options && options[0] && options.map((o_v,o_k)=>{
                 return (
-                  <Option key={ o_k } value={ o_v.value+"" }>
+                  <Select.Option key={ o_k } value={ o_v.value+"" }>
                     { o_v.text }
-                  </Option>
+                  </Select.Option>
                 )
               })
             }
