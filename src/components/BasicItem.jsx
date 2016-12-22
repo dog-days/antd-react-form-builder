@@ -66,7 +66,7 @@ class BasicItem extends React.Component {
 
   onBlurEvent(e){
     var value;
-    if(e.target){
+    if(e && e.target){
       value = e.target.value;
     }else {
       value = e;
