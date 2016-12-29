@@ -154,7 +154,7 @@ module.exports = {
   "singleSelect": {
     "type": "select",
     "name": "city",
-    "value": "0",
+    "value": "shenzen",
     "allowClear": true,
     "rules": [
       {
@@ -185,7 +185,7 @@ module.exports = {
   groupSelect: {
     "type": "select",
     "name": "city2",
-    "value": "0",
+    "value": "shenzen",
     "rules": [
       {
         "required": true, 
@@ -220,10 +220,10 @@ module.exports = {
         "message": "请选择城市"
       }
     ],
-    "value": ["0","1","2"],
+    "value": ["深圳","上海","北京"],
     "options": [
       {
-        "value": "shenzen",
+        "value": "深圳",
         "text": "深圳"
       },
       {

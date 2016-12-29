@@ -43,13 +43,13 @@ function getFormItemComponentByType(type){
   return Element;
 }
 
-function renderItemByArray(feilds,Container,propsCallback){
-//console.debug(feilds)
+function renderItemByArray(fields,Container,propsCallback){
+//console.debug(fields)
   if(!_.isFunction(Container)){
     propsCallback = Container;
     Container = null;
   }
-  return feilds.map((v,k)=>{
+  return fields.map((v,k)=>{
     let { 
       originalName,
       action,
@@ -82,7 +82,7 @@ function renderItemByArray(feilds,Container,propsCallback){
           action={ action }
           key={ uniqueKey } 
           index={ k } 
-          data={feilds}
+          data={fields}
         >
           <Element { ...other } />
         </Container>

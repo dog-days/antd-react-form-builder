@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import BuilderDecorator from '../../decorator/Builder'
+import PureRenderDecorator from "../../decorator/PureRender"
 import renderItemDecorator from "../../decorator/RenderItem"
 import NestedItemContainer from "../_util/NestedItemContainer"
 import SimpleItemContainer from "../_util/NestItemContainer"
@@ -25,7 +26,6 @@ class GroupFormBuilder extends React.Component {
 
   constructor(props){
     super(props);
-    this.config = this.configAdapter(this.props.config);
   }
 
   configAdapter(config){
@@ -33,19 +33,22 @@ class GroupFormBuilder extends React.Component {
     var data = [];
     config && config.forEach((v,k)=>{
       var uniqueKey = util.getUniqueKey();
-      v.uniqueKey = uniqueKey; 
-      v.uniqueKeyNestedSpecial = util.getUniqueKey(); 
+      if(!v.uniqueKey){
+        v.uniqueKey = uniqueKey; 
+      }
+      if(!v.uniqueKeyNestedSpecial){
+        v.uniqueKeyNestedSpecial = util.getUniqueKey(); 
+      }
       if(v.nest && v.nest[0] && v.nest[0].recursion){
-        v.nest.forEach((v2,k2)=>{
-          v2.recursion = this.configAdapter(_.cloneDeep(v2.recursion));
-        })
+        //v.nest.forEach((v2,k2)=>{
+          //v2.recursion = this.configAdapter(_.cloneDeep(v2.recursion));
+        //})
       }else {
         v.nest && v.nest.forEach((v2,k2)=>{
           if(!v2){
             return;
           }
-          if(v2.feilds && _.isBoolean(v2.action)){
-            //v2.uniqueKey = util.getUniqueKey(); 
+          if(v2.fields && _.isBoolean(v2.action)){
             v2.action = {
               up_action: true,
               down_action: true,
@@ -147,6 +150,7 @@ class GroupFormBuilder extends React.Component {
       ...other 
     } = this.props;
     other.className = className + " builder-con builder-group-con";
+    this.config = this.configAdapter(config);
     return (
       <Form { ...other } >
         { this.renderByNestedConfig(this.config) }
