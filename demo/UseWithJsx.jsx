@@ -8,7 +8,7 @@ import {
   Button,
   TimePicker,
 } from '../lib/index'
-import feilds from "./config"
+import fields from "./config"
 
 @FormBuilder.create()
 class Container extends React.Component {
@@ -36,16 +36,19 @@ class Container extends React.Component {
         horizontal 
       >
         <Input 
-          { ...feilds.text }
+          { ...fields.text }
         />
         <InputNest 
-          { ...feilds.nextedText }
+          { ...fields.nextedText }
         />
         <Input 
-          { ...feilds.email }
+          { ...fields.email }
         />
         <InputNest 
-          { ...feilds.nestedEmail }
+          { ...fields.nestedEmail }
+        />
+        <Select 
+          { ...fields.singleSelect }
         />
         <Button 
           htmlType="submit"

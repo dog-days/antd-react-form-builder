@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { FormBuilder,Button } from '../lib/index'
-import feilds from "./config"
+import fields from "./config"
 
 @FormBuilder.create()
 class GroupForm extends React.Component {
@@ -9,17 +9,17 @@ class GroupForm extends React.Component {
     super(props);
     this.state = {
       config: [
-        _.cloneDeep(feilds.text),
-        _.cloneDeep(feilds.nextedText),
+        _.cloneDeep(fields.text),
+        _.cloneDeep(fields.nextedText),
         {
           title: "分组一",
           action: true,
           name: "group",
-          feilds: [
-            _.cloneDeep(feilds.text),
-            _.cloneDeep(feilds.nextedText),
-            _.cloneDeep(feilds.email),
-            _.cloneDeep(feilds.textarea),
+          fields: [
+            _.cloneDeep(fields.text),
+            _.cloneDeep(fields.nextedText),
+            _.cloneDeep(fields.email),
+            _.cloneDeep(fields.textarea),
           ],
         }
       ],

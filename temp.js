@@ -30,19 +30,24 @@ let inputRules = Input.getRules(enUS);
 feilds.text.formItemProps.labelCol.span = 10;
 
 describe("<FormBuilder><Input /></FormBuilder>",function(){
-  var config = [
-    feilds.text,
-    feilds.email,
-    feilds.url,
-    feilds.textarea,
-    feilds.number,
-    feilds.singleSelect,
-    feilds.groupSelect,
-    feilds.multipleSelect,
-    feilds.timePicker,
-  ];
+  var config = {
+    feilds: [
+      feilds.text,
+      feilds.hidden,
+      feilds.email,
+      feilds.url,
+      feilds.textarea,
+      feilds.number,
+      feilds.singleSelect,
+      feilds.groupSelect,
+      feilds.multipleSelect,
+      feilds.timePicker,
+      feilds.button,
+    ]
+  }
   const handleOnsubmit = sinon.spy();
   const wrapperMount = mount(
+
     <LocaleProvider
       locale={ enUS }
     >
@@ -58,7 +63,7 @@ describe("<FormBuilder><Input /></FormBuilder>",function(){
   );
   
   it("<Input />'s length should be equal",function(){
-    expect(wrapperMount.find(Input)).toHaveLength(4);
+    expect(wrapperMount.find(Input)).toHaveLength(5);
   })
 
   it("<InputNumber />'s length should be equal",function(){
@@ -74,8 +79,7 @@ describe("<FormBuilder><Input /></FormBuilder>",function(){
   })
 
   //console.log(wrapperMount.childAt(0).childAt(1).childAt(0).childAt(0).props())
-  config.forEach((v,k)=>{
-    delete v.uniqueKey;
+  config.feilds.forEach((v,k)=>{
     //测试点一，表单子项渲染数目是否相等
     it(`"${ v.type }" Form child's props should be equal`,function(){
       //本项目的Input、Select等Props从配置中是否正确传进来
@@ -88,33 +92,34 @@ describe("<FormBuilder><Input /></FormBuilder>",function(){
           v
         )
       }
-      expect(wrapperMount.childAt(0).childAt(k).props()).toEqual(obj);
+      expect(wrapperMount.childAt(k).props()).toEqual(obj);
     })
 
     if(v.type !== "hidden"){
-//测试点二，Antd FormItem 部分props是否一致
+  //测试点二，Antd FormItem 部分props是否一致
       it(`some of "${ v.type }" <FormItem />'s props should be equal`,function(){
-        //console.log(wrapperMount.childAt(0).childAt(k).childAt(0).props())
         //antd FormItem 第一子组件 Props
-        var formItemProps = wrapperMount.childAt(0).childAt(k).childAt(0).props(); 
+        var formItemProps = wrapperMount.childAt(k).childAt(0).props(); 
+        //console.log(formItemProps.span,v.formItemProps.labelCol.span)
         expect(formItemProps.span).toEqual(v.formItemProps.labelCol.span);
         expect(formItemProps.children.props.children).toEqual(v.formItemProps.label);
       })
 
       //button是不用验证的
-//测试点三，Antd FormItem 是否有表单验证反馈
-      it(`"${ v.type }" Form child's verification feedback did work`,function(){
-        //antd FormItem 第二子组件 Props
-        var inputProps = wrapperMount.childAt(0).childAt(k).childAt(1).props(); 
-        expect(inputProps.children.props.className).toEqual("ant-form-item-control has-feedback has-success");
-      })
+      if(v.type !== "button"){
+  //测试点三，Antd FormItem 是否有表单验证反馈
+        it(`"${ v.type }" Form child's verification feedback did work`,function(){
+          //antd FormItem 第二子组件 Props
+          var inputProps = wrapperMount.childAt(k).childAt(1).props(); 
+          expect(inputProps.children.props.className).toEqual("ant-form-item-control has-feedback has-success");
+        })
+      }
     }
 
     var antdFormInputProps; 
     //antd 表单组件props（Input,Select等）
     if(v.type !== "hidden"){
-      //console.log(wrapperMount.childAt(0).childAt(k).childAt(1).childAt(0).childAt(0).props())
-      antdFormInputProps = wrapperMount.childAt(0).childAt(k).childAt(1).childAt(0).childAt(0).props()
+      antdFormInputProps = wrapperMount.childAt(k).childAt(1).childAt(0).childAt(0).props()
     }
 //测试点四，Antd 表单项（Input，Select）等是否正确渲染（就是是否按照配置一一对应渲染）
     //相同部分
@@ -131,7 +136,7 @@ describe("<FormBuilder><Input /></FormBuilder>",function(){
     }
     switch(v.type){
       case "hidden":
-        antdFormInputProps = wrapperMount.childAt(0).childAt(k).childAt(0).props(); 
+        antdFormInputProps = wrapperMount.childAt(k).childAt(0).props(); 
         //console.log(antdFormInputProps)
         it(`"${ v.type }" <Input />'s should be rendered correctly`,function(){ 
           antdFormInputExpectCommon("ant-input","hidden"); 
@@ -222,6 +227,5 @@ describe("<FormBuilder><Input /></FormBuilder>",function(){
     }
   })
 })
-
 
 

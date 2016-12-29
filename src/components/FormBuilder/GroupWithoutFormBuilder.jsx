@@ -24,7 +24,6 @@ class GroupWithoutFormBuilder extends React.Component {
 
   constructor(props){
     super(props);
-    this.config = this.configAdapter();
   }
 
   static childContextTypes = {
@@ -41,28 +40,24 @@ class GroupWithoutFormBuilder extends React.Component {
     var config = this.props.config;
     var data = [];
     config && config.forEach((v,k)=>{
-      var uniqueKey = util.getUniqueKey();
-      v.uniqueKey = uniqueKey; 
+      if(!v.uniqueKey){
+        var uniqueKey = util.getUniqueKey();
+        v.uniqueKey = uniqueKey; 
+      }
       //解决后面的SimpleFormBuilder覆盖掉uniqueKey，重新生成一个key 
-      v.uniqueKeySpecial = util.getUniqueKey();
-      v.feilds && v.feilds.forEach((v2,k2)=>{
+      if(!v.uniqueKeySpecial){
+        v.uniqueKeySpecial = util.getUniqueKey();
+      }
+      v.fields && v.fields.forEach((v2,k2)=>{
         if(!v2){
           return;
         }
         if(!v2.originalName){
           v2.originalName = v2.name;
-        }else {
-          v2.name = v2.originalName;
+          uniqueKey = util.getUniqueKey();
+          v2.name = uniqueKey + "-" + v2.name;
         }
-        uniqueKey = util.getUniqueKey();
-        v2.name = uniqueKey + "-" + v2.name
       })
-      //存储antd表单value同步信息
-      //if(!v.feilds){
-        //v.storage = {
-          //value: v.value,
-        //}
-      //}
       data.push(v);
     })
 //console.debug(data)
@@ -84,7 +79,7 @@ class GroupWithoutFormBuilder extends React.Component {
           var index_data = _.cloneDeep(data[index]);
           index_data.uniqueKey = uniqueKey;
           var temp_data = [];
-          index_data.feilds.forEach((v,k)=>{
+          index_data.fields.forEach((v,k)=>{
             uniqueKey = util.getUniqueKey();
             v.name = uniqueKey + "-" + v.originalName;
           })
@@ -103,14 +98,14 @@ class GroupWithoutFormBuilder extends React.Component {
     return this.config && this.config[0] && this.config.map((v,k)=>{
       let {
         action,
-        feilds,
+        fields,
         title,
         uniqueKey,
         //解决后面的SimpleFormBuilder覆盖掉uniqueKey，重新生成一个key 
         uniqueKeySpecial,
       } = v;
 //console.debug("--",uniqueKey)
-      if(feilds){
+      if(fields){
         return (
           <NestedItemContainer 
             index={ k } 
@@ -120,7 +115,7 @@ class GroupWithoutFormBuilder extends React.Component {
             action={ action }
           >
             <SimpleWithoutFormBuilder 
-              config={ feilds }
+              config={ fields }
             />
           </NestedItemContainer>
         )
@@ -151,6 +146,7 @@ class GroupWithoutFormBuilder extends React.Component {
       ...other 
     } = this.props;
     other.className = className + " builder-group-without-form-con";
+    this.config = this.configAdapter(this.props.config);
     return (
       <div { ...other } >
         { this.renderByNestedConfig() }

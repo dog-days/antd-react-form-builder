@@ -1,32 +1,32 @@
 import React from 'react'
 import _ from 'lodash'
 import { FormBuilder,Button } from '../lib/index'
-import feilds from "./config"
+import fields from "./config"
 
 @FormBuilder.create()
 class NestedForm extends React.Component {
   constructor(props){
     super(props);
-    var text = _.cloneDeep(feilds.text);
+    var text = _.cloneDeep(fields.text);
     text.formItemProps = {
       label: "test",
     }
-    var text2 = _.cloneDeep(feilds.text);
+    var text2 = _.cloneDeep(fields.text);
     text2.name = "dddd";
     text2.formItemProps = {
       label: "test",
     }
-    var text3 = _.cloneDeep(feilds.text);
+    var text3 = _.cloneDeep(fields.text);
     text3.name = "dddd222";
     text3.formItemProps = {
       label: "test",
     }
-    var text4 = _.cloneDeep(feilds.text);
+    var text4 = _.cloneDeep(fields.text);
     text4.name = "dddd22233";
     text4.formItemProps = {
       label: "test",
     }
-    var text_last = _.cloneDeep(feilds.text);
+    var text_last = _.cloneDeep(fields.text);
     text_last.name = "dddd22";
     text_last.action = true;
     text_last.formItemProps = {
@@ -49,15 +49,14 @@ class NestedForm extends React.Component {
                   nest: [
                     {
                       title: "1-1-1",
-                      action: true,
-                      name: "1-1-1",
-                      feilds: [
+                      action: "all",
+                      fields: [
                         _.cloneDeep(text),
                         _.cloneDeep(text2),
                         _.cloneDeep(text3),
                         _.cloneDeep(text4),
-                        _.cloneDeep(feilds.email),
-                        _.cloneDeep(feilds.singleSelect),
+                        _.cloneDeep(fields.email),
+                        _.cloneDeep(fields.singleSelect),
                       ],  
                     }
                   ],
@@ -78,20 +77,19 @@ class NestedForm extends React.Component {
                           action: true,
                           name: "1-2-1",
                           nest: [
-                            _.cloneDeep(Object.assign({},feilds.textarea,{
+                            _.cloneDeep(Object.assign({},fields.textarea,{
                               action: true,
                             })),
                             {
                               title: "1-2-1-1",
                               action: "least",
-                              name: "1-2-1-1",
-                              feilds: [
+                              fields: [
                                 _.cloneDeep(text),
                                 _.cloneDeep(text2),
                                 _.cloneDeep(text3),
                                 _.cloneDeep(text4),
-                                _.cloneDeep(feilds.email),
-                                _.cloneDeep(feilds.singleSelect),
+                                _.cloneDeep(fields.email),
+                                _.cloneDeep(fields.singleSelect),
                               ],  
                             }
                           ],
@@ -101,18 +99,18 @@ class NestedForm extends React.Component {
                           action: true,
                           name: "1-2-1",
                           nest: [
-                            _.cloneDeep(feilds.textarea),
+                            _.cloneDeep(fields.textarea),
                             {
                               title: "1-2-1-1",
                               action: true,
                               name: "1-2-1-1",
-                              feilds: [
+                              fields: [
                                 _.cloneDeep(text),
                                 _.cloneDeep(text2),
                                 _.cloneDeep(text3),
                                 _.cloneDeep(text4),
-                                _.cloneDeep(feilds.email),
-                                _.cloneDeep(feilds.singleSelect),
+                                _.cloneDeep(fields.email),
+                                _.cloneDeep(fields.singleSelect),
                               ],  
                             }
                           ],
@@ -127,35 +125,32 @@ class NestedForm extends React.Component {
         },
         {
           title: "test",
-          action: "all",
           name: "test",
           nest: [
             {
               title: "分组一",
               action: true,
-              name: "group",
-              feilds: [
+              fields: [
                 _.cloneDeep(text),
                 _.cloneDeep(text2),
                 _.cloneDeep(text3),
                 _.cloneDeep(text4),
-                _.cloneDeep(feilds.email),
-                _.cloneDeep(feilds.singleSelect),
-                _.cloneDeep(feilds.multipleSelect),
+                _.cloneDeep(fields.email),
+                _.cloneDeep(fields.singleSelect),
+                _.cloneDeep(fields.multipleSelect),
               ],  
             },
             {
               title: "分组一",
               action: true,
-              name: "group",
-              feilds: [
+              fields: [
                 _.cloneDeep(text),
                 _.cloneDeep(text2),
                 _.cloneDeep(text3),
                 _.cloneDeep(text4),
-                _.cloneDeep(feilds.email),
-                _.cloneDeep(feilds.singleSelect),
-                _.cloneDeep(feilds.multipleSelect),
+                _.cloneDeep(fields.email),
+                _.cloneDeep(fields.singleSelect),
+                _.cloneDeep(fields.multipleSelect),
               ],  
             }
           ],
@@ -165,7 +160,15 @@ class NestedForm extends React.Component {
           name: "test2",
           action: true,
           nest: [
-            _.cloneDeep(feilds.text),
+            _.cloneDeep(fields.text),
+          ],
+        },
+        {
+          title: "test2",
+          name: "test3",
+          action: true,
+          nest: [
+            _.cloneDeep(text2),
           ],
         },
         text_last,

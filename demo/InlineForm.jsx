@@ -38,7 +38,7 @@ class Container extends React.Component {
 
   handleOnsubmit(e){
     e.preventDefault();
-    this.validateFieldsAndScroll((err, values) => {
+    this.validatefieldsAndScroll((err, values) => {
       console.debug('表单值: ', values);
       if(err){
         console.debug("表单错误",err)

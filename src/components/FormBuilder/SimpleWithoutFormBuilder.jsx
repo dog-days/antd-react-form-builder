@@ -28,32 +28,33 @@ class SimpleWithoutFormBuilder extends React.Component {
 
   constructor(props){
     super(props);
-    if(this.props.config){
-      this.config = this.configAdapter();
-    }
   }
 
   //config数据适配
   configAdapter(){
-    var feilds = this.props.config;
+    var fields = this.props.config;
     var data = [];
-//console.debug(feilds)
-    feilds && feilds.forEach((v,k)=>{
+//console.debug(fields)
+    fields && fields.forEach((v,k)=>{
       if(!v){
         console.warn("SimpleFormBuilder配置数据源数组数据为undefined");
         return;
       }
-      var uniqueKey = util.getUniqueKey();
 //console.debug(v,uniqueKey)
-      v.uniqueKey = uniqueKey;
+      if(!v.uniqueKey){
+        var uniqueKey = util.getUniqueKey();
+        v.uniqueKey = uniqueKey;
+      }
       if(v.array && _.isArray(v.array)){
         v.nestedType = "InputNest";
       }else if(v.type !== "button"){
         v.fieldDecoratorName = v.name;
         //存储antd表单value同步信息
-        v.storage = {
-          value: v.value,
-        };
+        if(!v.storage){
+          v.storage = {
+            value: v.value,
+          };
+        }
       }else {
         v.storage = {};
       }
@@ -69,6 +70,7 @@ class SimpleWithoutFormBuilder extends React.Component {
       ...other 
     } = this.props;
     other.className = className + " builder-without-form-con";
+    this.config = this.configAdapter(this.props.config);
     config = this.config;
 //console.debug(config)
     return (

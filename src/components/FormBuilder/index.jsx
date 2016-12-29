@@ -58,7 +58,7 @@ class FormBuilder extends React.Component {
         }
         values[name_1] = {};
         //SimpleFormBuilder
-        if(!v.feilds && !v.nest){
+        if(!v.fields && !v.nest){
           if(!v.array){
             values[name_1] = v.storage.value;
           }else {
@@ -68,7 +68,7 @@ class FormBuilder extends React.Component {
           }
         }
         //GroupFormBuilder，也用到上面的
-        v.feilds && v.feilds[0] && v.feilds.forEach((v2,k2)=>{
+        v.fields && v.fields[0] && v.fields.forEach((v2,k2)=>{
           let name_2 = v2.name.split("-")[1];
           if(!name_2){
             name_2 = k2;
@@ -95,7 +95,7 @@ class FormBuilder extends React.Component {
           //if(!name_2){
             //name_2 = k2;
           //}
-          if(!v2.feilds){
+          if(!v2.fields){
             values[name_1][name_2] = v2.storage.value; 
           }else {
             if(!name_2){
@@ -115,7 +115,7 @@ class FormBuilder extends React.Component {
               values[name_1][name_2] = {}; 
             }
 //console.debug(name_1,name_2)
-            v2.feilds && v2.feilds[0] && v2.feilds.forEach((v3,k3)=>{
+            v2.fields && v2.fields[0] && v2.fields.forEach((v3,k3)=>{
               let name_3 = v3.name.split("-")[1];
               if(!v3.array){
 //console.debug(name_1,name_2,k2,name_3)

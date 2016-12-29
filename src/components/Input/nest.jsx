@@ -37,6 +37,11 @@ class InputNest extends React.Component {
         formItemProps = other.formItemProps;
       }
       var targetData = array[a_k];
+      //存储antd表单value同步信息
+      var storage;
+      if(!targetData.storage){
+        storage = {value: a_v.value};
+      }
       targetData = Object.assign({},other,{
         formItemProps,
       },a_v,{
@@ -45,8 +50,7 @@ class InputNest extends React.Component {
         uniqueKey,
         fieldDecoratorName: other.name + `-[${ uniqueKey }]`,
         name: other.name + `-[${ uniqueKey }]`,
-        //存储antd表单value同步信息
-        storage: {value: a_v.value},
+        storage, 
       });
 //console.debug(other,targetData,"--",a_v)
       if(targetData.formItemProps.wrapperCol  && targetData.formItemProps.labelCol){
