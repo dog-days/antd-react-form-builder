@@ -39,65 +39,14 @@ function getFormItemComponentByType(type){
     case "InputNest":
       Element = InputNest;
     break;
+    default:
+      Element = Input;
   }
   return Element;
 }
 
-function renderItemByArray(fields,Container,propsCallback){
-//console.debug(fields)
-  if(!_.isFunction(Container)){
-    propsCallback = Container;
-    Container = null;
-  }
-  return fields.map((v,k)=>{
-    let { 
-      originalName,
-      action,
-      uniqueKey,
-      ...other
-    } = v;
-    if(propsCallback){
-      other = propsCallback(other,k);
-    }
-    var Element = this.getFormItemComponentByType(v.nestedType || v.type);
-//console.debug(v.nestedType)
-    if(v.nestedType){
-      other.action = action;
-      return (
-        <Element 
-          key={uniqueKey} 
-          { ...other } 
-        />
-      )
-    }
-    if(!Element){
-      return false;
-    }
-    if(v.type === "hidden"){
-      return false;
-    }
-    if(Container && action){
-      return ( 
-        <Container 
-          action={ action }
-          key={ uniqueKey } 
-          index={ k } 
-          data={fields}
-        >
-          <Element { ...other } />
-        </Container>
-      )
-    }else {
-      return (
-        <Element key={uniqueKey} { ...other } />
-      )
-    }
-  })
-}
-
 function renderItemDecorator(component){
   component.prototype.getFormItemComponentByType = getFormItemComponentByType;
-  component.prototype.renderItemByArray = renderItemByArray;
   return component;
 }
 export default renderItemDecorator;

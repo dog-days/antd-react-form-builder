@@ -21,11 +21,10 @@ let childContextTypes = {
   hasFeedback: React.PropTypes.bool,
   labelCol: React.PropTypes.object,
   wrapperCol: React.PropTypes.object,
-  onButtonGroupClick: React.PropTypes.func,
 }
 
 let contextTypes = {
-  form: React.PropTypes.object,
+  //form: React.PropTypes.object,
 }
 
 function getChildContext(){
@@ -34,7 +33,6 @@ function getChildContext(){
     hasFeedback: this.props.hasFeedback,
     labelCol: this.props.labelCol,
     wrapperCol: this.props.wrapperCol,
-    onButtonGroupClick: this.onButtonGroupClick && this.onButtonGroupClick.bind(this),
   }
 } 
 

@@ -19,5 +19,47 @@ module.exports = {
     var uniqueKey = Math.floor(Math.random(number) * number) + "";
     return uniqueKey;
   },
+  dataType: [
+    {
+      "value": "string",
+      "text": "string"
+    },
+    {
+      "value": "number",
+      "text": "number"
+    },
+    {
+      "value": "integer",
+      "text": "integer"
+    },
+    {
+      "value": "float",
+      "text": "float"
+    },
+    {
+      "value": "boolean",
+      "text": "boolean"
+    },
+    {
+      "value": "array",
+      "text": "array"
+    },
+    {
+      "value": "object",
+      "text": "object"
+    },
+    {
+      "value": "date",
+      "text": "date"
+    },
+    {
+      "value": "url",
+      "text": "url"
+    },
+    {
+      "value": "email",
+      "text": "email"
+    },
+  ],
 }
 

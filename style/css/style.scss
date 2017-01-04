@@ -1,13 +1,31 @@
 .cp {
   cursor: pointer;
 }
+.fr {
+  float: right;
+}
+.fl {
+  float: left;
+}
+.mr10 {
+  margin-right: 10px;
+}
+.mb10 {
+  margin-bottom: 10px;
+}
 /**begin ------antd 重写**/
 .builder-con {
+  .ant-input-number {
+    width: 100%;
+  }
   .ant-select {
     min-width: 150px;
   }
   .ant-form-item {
-    margin-bottom: 24px;
+    margin-bottom: 10px;
+  }
+  .ant-form-item-label {
+    padding: 0;
   }
   .ant-btn-group > .ant-btn {
     padding: 4px 8px;
@@ -22,50 +40,16 @@
     }
   }
 }
-.builder-group-con {
-  padding: 0px 2px;
-}
 
-
-//begin-------nested item container
-.builder-group-item-con {
-  margin-bottom: 24px;
-}
-.builder-group-item-con {
-  .builder-group-btn-group {
-    margin-top: -5px;
+//begin -- configer css
+.configer {
+  .configer-add {
+    float: right;
+    margin-top: -2px;
+    font-size: 22px;
+    cursor: pointer;
   }
 }
-//end-------nested item container
-
-//begin-------simple item container
-.builder-simple-item-con {
-  align-items: flex-end;
-  -ms-flex-align: end;
-  -webkit-box-align: end; 
-  -webkit-align-items: flex-end; 
-}
-.builder-simple-item-con {
-  .builder-simple-btn-group {
-    position: relative;
-    bottom: 26px;
-    left: 0px;
-  }
-}
-.builder-flex-con {
-  display: flex;
-}
-.builder-item-left {
-  flex: 1;
-}
-.builder-item-right {
-  position: relative;
-  margin-left: 10px;
-}
-//end-------simple item container
-
-
-
-
+//end -- configer css
 
 

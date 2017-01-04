@@ -1,0 +1,15 @@
+.demo-view {
+  display: flex;
+  height: 100%;
+}
+.demo-view {
+  .config-content,.form-builder-content {
+    flex: 1;
+    margin: 2px;
+    height: calc(100vh - 100px);
+    overflow: scroll;
+  }
+  .form-builder-content {
+    margin-left: 10px;
+  }
+}

@@ -1,7 +1,7 @@
 import React from 'react'
-import BuilderDecorator from '../../decorator/Builder'
+import PureRender from "../../decorator/PureRender"
 import renderItemDecorator from "../../decorator/RenderItem"
-import ItemContainer from "../_util/NestItemContainer"
+import ItemButtonGroupDecorator from "../../decorator/ItemButtonGroup"
 import util from "../../util"
 import _ from 'lodash'
 import { 
@@ -12,6 +12,9 @@ import {
   Button,
   TimePicker,
 } from '../../FormItemBind'
+import {
+  Card,
+} from "antd"
 
 /**
  * SimpleFormBuilder 
@@ -22,67 +25,141 @@ import {
  * @prop {Boolean} hasFeedback 表单验证在FormItem是否反馈，表单子项hasFeedback优先级更高 
  * @prop {Object} config FormBuilder 配置项，表单就是从这些配置中渲染出来的 （可选） 
  */
-
+@PureRender
+@ItemButtonGroupDecorator
 @renderItemDecorator
 class SimpleWithoutFormBuilder extends React.Component {
 
   constructor(props){
     super(props);
+    this.state = {};
   }
 
-  //config数据适配
-  configAdapter(){
-    var fields = this.props.config;
-    var data = [];
-//console.debug(fields)
-    fields && fields.forEach((v,k)=>{
-      if(!v){
-        console.warn("SimpleFormBuilder配置数据源数组数据为undefined");
-        return;
-      }
-//console.debug(v,uniqueKey)
-      if(!v.uniqueKey){
-        var uniqueKey = util.getUniqueKey();
-        v.uniqueKey = uniqueKey;
-      }
-      if(v.array && _.isArray(v.array)){
-        v.nestedType = "InputNest";
-      }else if(v.type !== "button"){
-        v.fieldDecoratorName = v.name;
-        //存储antd表单value同步信息
-        if(!v.storage){
-          v.storage = {
-            value: v.value,
-          };
-        }
-      }else {
-        v.storage = {};
-      }
-      data.push(v);
+  setChangeState = ()=>{
+    var random = util.getUniqueKey();
+    this.setState({
+      random,
     })
-    return data; 
+  }
+
+  onButtonGroupClick = (data,index)=>{
+    return (btn_index)=>{
+      switch(btn_index){
+        case "plus":
+          var index_data = _.cloneDeep(data[index]);
+          //console.debug(index,data)
+          index_data.forEach((v,k)=>{
+            v.key = util.getUniqueKey();
+          })
+          data.splice(index + 1, 0, index_data);
+          break;
+        case "delete":
+          data.splice(index, 1);
+          break;
+      }
+      this.setChangeState();
+      //console.debug(index,data);
+    }
+  }
+
+  configRender(config,name){
+    return config && config.map((v,k)=>{
+      var isElement = true;
+      var Element,element_props = { };
+      var e_name;
+      if(name){
+        e_name = `${name}[${v.name}]`;
+      }else {
+        e_name = v.name;
+      }
+      switch(v.data_type){
+        case "object":
+        case "array":
+          isElement = false;
+          break;
+        default:
+          isElement = true;
+          if(!v.storage){
+            v.storage = {
+              value: v.value,
+            };
+          } 
+//console.debug(e_name);
+          element_props = {
+            name: e_name,
+            type: v.data_type,
+            key: v.key,
+            storage: v.storage,
+            formItemProps: Object.assign({},v.formItemProps || {},{
+              label: v.label,
+            }),
+            rules: Object.assign({},v.rules || {},{
+              required: !!parseInt(v.required,10),
+            }),
+          }
+          Element = this.getFormItemComponentByType(v.data_type);
+      }
+      var temp_name = e_name;
+      return (
+        <div key={ k }>
+          {
+            !isElement 
+            && v.data_type === "array" 
+            && v.children 
+            && v.children[0] 
+            && v.children[0][0] &&
+            <Card title={ v.label } className="mb10">
+              {
+                v.children.map((v2,k2)=>{
+                  var array_title;
+                  array_title = this.buttonGroupAdapter({
+                    plus_action: true,
+                    close_action: true,
+                  },k2,v.children);
+                  e_name = `${ temp_name }[${ k2 }]`; 
+                  return (
+                    <Card title={ array_title } className="mb10" key={ v2[0].key }>
+                      { this.configRender(v2,e_name) }
+                    </Card>
+                  )
+                })
+              }
+            </Card>
+          }
+          {
+            !isElement 
+            && v.data_type !== "array" 
+            && v.children 
+            && v.children[0] && 
+            <Card title={ v.label } className="mb10">
+              { 
+                v.data_type !== "array" && 
+                this.configRender(v.children,e_name) 
+              }
+            </Card>
+          }
+          {
+            isElement && !v.children &&
+            <Element { ...element_props }/>
+          }
+        </div>
+      )
+    })
   }
 
   render() {
     let { 
       className,
       config,
+      onChange,
       ...other 
     } = this.props;
     other.className = className + " builder-without-form-con";
-    this.config = this.configAdapter(this.props.config);
-    config = this.config;
-//console.debug(config)
     return (
-      <div { ...other } >
-        { 
-          config 
-          && config[0] 
-          && this.renderItemByArray(config) 
-        }
-        { this.props.children }
+      <div>
+        { this.configRender(config) }
       </div>
-    );
+    )
   }
 }
 
