@@ -1,5 +1,6 @@
 import "./polyfill"
 import FormBuilder from "./components/FormBuilder"
+import FormBuilderConfiger from "./components/FormBuilderConfiger"
 import { 
   Input,
   InputNest,
@@ -13,6 +14,7 @@ export default FormBuilder;
 
 export {
   FormBuilder,
+  FormBuilderConfiger,
   Input,
   InputNest,
   InputNumber,

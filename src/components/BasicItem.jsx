@@ -1,10 +1,10 @@
 import React from 'react'
 import AntdForm from 'antd/lib/form'
-//import PureRender from '../decorator/PureRender'
+import PureRender from '../decorator/PureRender'
 
 let FormItem = AntdForm.Item;
 
-//@PureRender
+@PureRender
 class BasicItem extends React.Component {
 
   constructor(props){
@@ -26,22 +26,6 @@ class BasicItem extends React.Component {
     wrapperCol: React.PropTypes.object,
   }
   
-  //getFieldDecorator第二参数适配
-  getFieldDecoratorSecondParam(rules) {
-    let {
-      value,
-    } = this.props;
-    var obj = {
-      rules: rules || [],
-    }
-    if(value || value == 0){
-      obj.initialValue = value; 
-    }
-    //obj.trigger = "onSubmit";
-    //obj.validateTrigger = "onSubmit";
-    return obj;
-  }
-
   getDealProp(props,index,defaultValue){
     if(props[index] === undefined){
       if(this.context[index]){
@@ -64,7 +48,7 @@ class BasicItem extends React.Component {
     return props;
   }
 
-  onBlurEvent(e){
+  onChange(e){
     var value;
     if(e && e.target){
       value = e.target.value;
@@ -74,62 +58,48 @@ class BasicItem extends React.Component {
     if(this.props.storage){
       this.props.storage.value = value;
     }
-    //console.debug(value)
-    this.props.onBlur && this.props.onBlur(e);
+//console.debug(value,this.props)
+    this.props.onChange && this.props.onChange(e);
   }
 
   render() {
     let props = this.props;
     //console.debug(this.props.storage)
     let {
-      uniqueKey,//不会使用，只是为了消除不存在的props报错
-      uniqueKeySpecial,//不会使用，只是为了消除不存在的props报错
-      uniqueKeyNestedSpecial,//不会使用，只是为了消除不存在的props报错
       storage,//存储一些信息，如同步antd的value值
-      value,
-      array,//不会使用，只是为了消除不存在的props报错
-      nestedType,//不会使用，只是为了消除不存在的props报错
-      name,
-      fieldDecoratorName,
       children,
       rules = [],
+      value,
       targetComponent,
       formItemProps={},
       ...other,
     } = props;
-    if(!fieldDecoratorName){
-      fieldDecoratorName = name;
-    }
-    const form = this.context.form;
-    if(!form){
-      console.error("请使用Antd.Form.create()(targetForm)处理目标form函数对象（类）")
-      return false;
-    }
     other = this.addOtherPropsFromFormBuilder(other);
     formItemProps = this.addFormItemPropsFromFormBuilder(formItemProps);
-    var obj = this.getFieldDecoratorSecondParam(rules);
     var FormItemComponent = targetComponent;
     var component; 
     if(!FormItemComponent){
       return false;
     }else if(children){
       //可以传子组件进来，像Select的option等
-      component = form.getFieldDecorator(fieldDecoratorName, obj)(
+      component = ( 
         <FormItemComponent 
           {...other} 
-          onBlur={
-            this.onBlurEvent.bind(this)
+          defaultValue={ value }
+          onChange={
+            this.onChange.bind(this)
           }
         >
           { children }
         </FormItemComponent>
       )
     }else {
-      component = form.getFieldDecorator(fieldDecoratorName, obj)(
+      component = (
         <FormItemComponent 
           {...other} 
-          onBlur={
-            this.onBlurEvent.bind(this)
+          defaultValue={ value }
+          onChange={
+            this.onChange.bind(this)
           }
         />
       )

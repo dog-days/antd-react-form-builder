@@ -4,50 +4,20 @@ import Icon from 'antd/lib/icon'
 import ButtonGroup from '../components/Button/ButtonGroup'
 /**
 * 获取处理后的ButtonGroup组件
+* @param { object || boolean } action 是否操作 
 * @param { int } index 当前数组中form item 索引，所有操作都是作用于当前form item
 * @param { array } data 当前form item 数据的父级数据 
 * @param { object } buttonGrouProps 
 */
-function buttonGroupAdapter(index,data,buttonGrouProps){
-  let {
-    action
-  } = this.props;
+function buttonGroupAdapter(action,index,data,buttonGroupProps){
   var buttonGroup;
   if(action){
-    if(action === "least"){
-      action = {
-        up_action: true,
-        down_action: true,
-        plus_action: false,
-        close_action: false,
-      };
-    }else if(action === "all"){
+    if(_.isBoolean(action)){
       action = {
         up_action: true,
         down_action: true,
         plus_action: true,
         close_action: true,
-      };
-    }else if(action === "plus"){
-      action = {
-        up_action: true,
-        down_action: true,
-        plus_action: true,
-        close_action: false,
-      };
-    }else if(action === "close"){
-      action = {
-        up_action: true,
-        down_action: true,
-        plus_action: false,
-        close_action: true,
-      };
-    }else {
-      action = {
-        up_action: true,
-        down_action: true,
-        plus_action: false,
-        close_action: false,
       };
     }
     var keys = [];
@@ -72,14 +42,15 @@ function buttonGroupAdapter(index,data,buttonGrouProps){
     //end--------buttonTexts
     var disableButtons = [];
     if(index === 0){
-      disableButtons.push(0); 
+      //disableButtons.push(0); 
     }
 //console.debug(index,data.length)
     if(index === data.length - 1){
-      disableButtons.push(1); 
+      //disableButtons.push(1); 
     }
     if(data.length === 1){
-      disableButtons.push(3); 
+      //disableButtons.push(3); 
+      disableButtons.push(1); 
     }
 //console.debug(this.context)
     buttonGroup = (
@@ -88,12 +59,12 @@ function buttonGroupAdapter(index,data,buttonGrouProps){
         keys={keys}
         hightButton={false}
         disableButtons={ disableButtons }
-        buttonTexts={buttonTexts}
+        buttonTexts={ buttonTexts }
         onButtonClick={ 
-          this.context.onButtonGroupClick 
-          && this.context.onButtonGroupClick(data,index) 
+          this.onButtonGroupClick 
+          && this.onButtonGroupClick(data,index) 
         }
-        { ...buttonGrouProps }
+        { ...buttonGroupProps }
       />
     );  
   }
