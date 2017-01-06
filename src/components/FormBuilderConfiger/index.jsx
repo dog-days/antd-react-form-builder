@@ -8,15 +8,15 @@ import {
   Modal,
 } from 'antd'
 import util from "../../util"
-import PureRender from "../../decorator/PureRender"
+import PureRender,{ shallowCompare } from "../../decorator/PureRender"
 import AddAndUpdateForm from "./components/AddAndUpdateForm"
 
-@PureRender
 class FormBuilderConfiger extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {};
+    this.config = _.cloneDeep(this.props.defaultConfig);
   }
 
   static formBuilderConfigAdapter(data){
@@ -38,19 +38,34 @@ class FormBuilderConfiger extends React.Component {
     return re;
   }
 
+  componentWillReceiveProps(nextProps){
+    //console.debug("wiill",nextProps);
+    this.temp_config = _.cloneDeep(nextProps.defaultConfig);
+    this.outerUpdate = true;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    var flag = shallowCompare(this, nextProps, nextState);
+    if(flag && this.outerUpdate){
+      this.config = this.temp_config;
+    }
+    //console.debug(flag)
+    return flag;
+  }
+
   componentDidUpdate(){
     let {
       onChange,
-      defaultConfig,
     } = this.props;
     if(this.random !== this.state.random){
-      onChange && onChange(_.cloneDeep(defaultConfig));
+      onChange && onChange(this.config);
     }
     this.random = this.state.random;
   }
 
   setAddFieldDialogState = (visible)=>{
     return ()=>{
+      this.outerUpdate = false;
       this.setState({
         addField: visible, 
       });
@@ -59,6 +74,7 @@ class FormBuilderConfiger extends React.Component {
 
   setChangeState = ()=>{
     var random = util.getUniqueKey();
+    this.outerUpdate = false;
     this.setState({
       random,
     })
@@ -276,16 +292,16 @@ class FormBuilderConfiger extends React.Component {
       onChange,
       title,
     } = this.props;
-    //console.debug(defaultConfig);
-    var dataSource = this.dataSourceAdapter(defaultConfig);
+    //console.debug("render",defaultConfig);
+    var dataSource = this.dataSourceAdapter(this.config);
     return (
       <div className="configer">
         { 
           this.getTableComponent(
             title || "字段管理",
-            this.getTableColumns(defaultConfig),
+            this.getTableColumns(this.config),
             dataSource,
-            defaultConfig,
+            this.config,
           ) 
         }
         <Modal 

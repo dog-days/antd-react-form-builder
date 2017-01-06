@@ -83,6 +83,7 @@ class AddAndUpdateForm extends React.Component {
         values.key = util.getUniqueKey();
         currentData.push(values);
       }
+      //console.debug(currentData)
       this.props.setChangeState();
       this.props.setAddFieldDialogState(false)();
     });

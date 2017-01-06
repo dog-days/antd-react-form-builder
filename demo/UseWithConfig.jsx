@@ -94,11 +94,11 @@ class Container extends React.Component {
   }
 
   onConfigerChange = (data)=>{
-    var config = FormBuilderConfiger.formBuilderConfigAdapter(data);
+    var config = FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(data));
     this.setState({
       formBuilderConfig: config,
     })
-    console.debug(config);
+    console.debug("change",data);
   }
 
   render() {

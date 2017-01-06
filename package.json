@@ -41,7 +41,7 @@
     "webpack-hot-middleware": "^2.13.0"
   },
   "dependencies": {
-    "antd": "^2.5.3",
+    "antd": "^2.6.0",
     "form-serialize": "^0.7.1",
     "object.assign": "^4.0.4",
     "react": "^15.4.1",

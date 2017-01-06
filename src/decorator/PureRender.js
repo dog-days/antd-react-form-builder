@@ -56,5 +56,5 @@ function pureRenderDecorator(component) {
   component.prototype.shouldComponentUpdate = shouldComponentUpdate;
   return component;
 }
-export { shallowEqual };
+export { shallowEqual,shallowCompare };
 export default pureRenderDecorator;
