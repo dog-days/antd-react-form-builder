@@ -41,6 +41,7 @@ class FormBuilderConfiger extends React.Component {
   componentWillReceiveProps(nextProps){
     //console.debug("wiill",nextProps);
     this.temp_config = _.cloneDeep(nextProps.defaultConfig);
+    //是否是父级组件更新
     this.outerUpdate = true;
   }
 

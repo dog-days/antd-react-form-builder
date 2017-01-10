@@ -29,7 +29,6 @@ let enUS = Object.assign({},AntdEnUS,FormBuilderEnUS)
 //end国际化处理
 let TabPane = Tabs.TabPane; 
 
-@FormBuilder.create()
 class Container extends React.Component {
 
   constructor(props){

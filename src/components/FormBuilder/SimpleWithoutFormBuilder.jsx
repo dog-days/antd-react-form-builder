@@ -90,6 +90,7 @@ class SimpleWithoutFormBuilder extends React.Component {
             type: v.data_type,
             key: v.key,
             storage: v.storage,
+            value: v.value,
             formItemProps: Object.assign({},v.formItemProps || {},{
               label: v.label,
             }),
@@ -97,6 +98,7 @@ class SimpleWithoutFormBuilder extends React.Component {
               required: !!parseInt(v.required,10),
             }),
           }
+//console.debug(element_props);
           Element = this.getFormItemComponentByType(v.data_type);
       }
       var temp_name = e_name;
