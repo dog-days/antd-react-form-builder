@@ -90,15 +90,18 @@ class Container extends React.Component {
   handleOnsubmit(e){
     e.preventDefault();
     var obj = serialize(e.target, { hash: true });
-    console.debug(obj)
+    //console.debug(obj)
   }
 
   onConfigerChange = (data)=>{
     var config = FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(data));
+    var formDom = document.getElementById("form-builder");
+    var formValues = serialize(formDom, { hash: true });
+    config = FormBuilder.valuesToConfig(config,formValues);
     this.setState({
       formBuilderConfig: config,
     })
-    console.debug("change",data);
+    //console.debug("change",data);
   }
 
   render() {
@@ -116,6 +119,7 @@ class Container extends React.Component {
           className="form-builder-content"
         >
           <FormBuilder 
+            id="form-builder"
             onSubmit={ this.handleOnsubmit.bind(this) }
             size="default"
             hasFeedback={ true }

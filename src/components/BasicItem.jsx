@@ -1,6 +1,7 @@
 import React from 'react'
 import AntdForm from 'antd/lib/form'
 import PureRender from '../decorator/PureRender'
+import util from '../util'
 
 let FormItem = AntdForm.Item;
 
@@ -9,6 +10,7 @@ class BasicItem extends React.Component {
 
   constructor(props){
     super(props);
+    this.state = { };
   }
 
   static PropTypes = {
@@ -55,6 +57,9 @@ class BasicItem extends React.Component {
     }else {
       value = e;
     }
+    this.setState({
+       random: util.getUniqueKey(),
+    })
     if(this.props.storage){
       this.props.storage.value = value;
     }
@@ -74,6 +79,7 @@ class BasicItem extends React.Component {
       formItemProps={},
       ...other,
     } = props;
+    //console.debug(value)
     other = this.addOtherPropsFromFormBuilder(other);
     formItemProps = this.addFormItemPropsFromFormBuilder(formItemProps);
     var FormItemComponent = targetComponent;
@@ -85,7 +91,7 @@ class BasicItem extends React.Component {
       component = ( 
         <FormItemComponent 
           {...other} 
-          defaultValue={ value }
+          value={ storage.value }
           onChange={
             this.onChange.bind(this)
           }
@@ -97,7 +103,7 @@ class BasicItem extends React.Component {
       component = (
         <FormItemComponent 
           {...other} 
-          defaultValue={ value }
+          value={ storage.value }
           onChange={
             this.onChange.bind(this)
           }

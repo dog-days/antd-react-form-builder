@@ -10,6 +10,7 @@ import {
   TimePicker,
 } from '../../FormItemBind'
 import SimpleFormBuilder from './SimpleFormBuilder'
+import util from '../../util'
 
 /**
  * FormBuilder 
@@ -25,141 +26,37 @@ class FormBuilder extends React.Component {
   constructor(props){
     super(props);
   }
-
-  static create(options){
-    
-    function getDealValue(values){
-      var new_values = { };
-      for(var k in values){
-        var name_split = k.split("-[");
-        if(!new_values[name_split[0]] && name_split[1]) {
-          new_values[name_split[0]] = [];
-          new_values[name_split[0]].push(values[k]);
-        }else if(name_split[1]){
-          new_values[name_split[0]].push(values[k]);
-        }else {
-          new_values[name_split[0]] = values[k];
+  /**
+  * formBuilderConfig value赋值 
+  */
+  static valuesToConfig(formBuilderConfig,data){
+    formBuilderConfig.forEach((v,k)=>{
+      if(!v.key){
+        v.key = util.getUniqueKey();
+      }
+      if(!v.children){
+        if(data[v.name]){
+          v.value = data[v.name];
+        }
+      }else if(v.data_type === "object" && v.children){
+        if(data[v.name]){
+          FormBuilder.valuesToConfig(v.children,data[v.name]);
+        }
+      }else if(v.data_type === "array" && v.children){
+        if(data[v.name]){
+          var arr = [];
+          var temp_data = data[v.name];
+          temp_data.forEach((v2,k2)=>{
+            var temp = _.cloneDeep(v.children[0]);
+            FormBuilder.valuesToConfig(temp,v2);
+            arr.push(temp)
+          //console.debug(v)
+          })
+          v.children = arr;
         }
       }
-      return new_values; 
-    }
-
-    function getValues(antValues,data){
-      var values = {};
-      if(!data){
-        return getDealValue(antValues)
-      }
-      data && data.forEach((v,k)=>{
-        let name_1 = v.name;
-        if(!name_1){
-          name_1 = k;
-        }
-        values[name_1] = {};
-        //SimpleFormBuilder
-        if(!v.fields && !v.nest){
-          if(!v.array){
-            values[name_1] = v.storage.value;
-          }else {
-            v.array.forEach((v2,k2)=>{
-              values[name_1][k2] = v2.storage.value;
-            })
-          }
-        }
-        //GroupFormBuilder，也用到上面的
-        v.fields && v.fields[0] && v.fields.forEach((v2,k2)=>{
-          let name_2 = v2.name.split("-")[1];
-          if(!name_2){
-            name_2 = k2;
-          }
-          if(v2.array){
-            values[name_1][name_2] = [];
-            v2.array.forEach((v3,k3)=>{
-              values[name_1][name_2][k3] = v3.storage.value;
-            })
-          }else {
-            values[name_1][name_2] = v2.storage.value;
-          }
-        })
-        //NestedFormBuilder
-        v.nest && v.nest[0] && v.nest.forEach((v2,k2)=>{
-          //递归取值处
-          if(v2.recursion){
-            var recursion_value = getValues(antValues,v2.recursion)
-            values[name_1] = recursion_value;
-            //console.debug(temp_value)
-            return;
-          }
-          let name_2 = v2.name;
-          //if(!name_2){
-            //name_2 = k2;
-          //}
-          if(!v2.fields){
-            values[name_1][name_2] = v2.storage.value; 
-          }else {
-            if(!name_2){
-              if(!_.isArray(values[name_1])){
-                values[name_1] = [];
-              }
-            }else {
-              if(!values[name_1][name_2]){
-                values[name_1][name_2] = []; 
-              }
-            }
-            //console.debug(v2.action)
-            //处理混合的表单数据，根据是否可以动态添加表单
-            if(!name_2){
-              values[name_1][k2] = {}; 
-            }else {
-              values[name_1][name_2] = {}; 
-            }
-//console.debug(name_1,name_2)
-            v2.fields && v2.fields[0] && v2.fields.forEach((v3,k3)=>{
-              let name_3 = v3.name.split("-")[1];
-              if(!v3.array){
-//console.debug(name_1,name_2,k2,name_3)
-                if(!name_2){
-                  values[name_1][k2][name_3] = v3.storage.value;
-                }else {
-                  values[name_1][name_2][name_3] = v3.storage.value;
-                }
-              }else {
-                values[name_1][name_2][k2][name_3] = [];
-                v3.array && v3.array[0] && v3.array.forEach((v4,k4)=>{
-                  values[name_1][name_2][k2][name_3][k4] = v4.storage.value;
-                })
-              }
-            })
-          }
-        })
-      })
-//console.debug(values)
-      return values;
-    }
-    
-    return function(Component){
-      Component.prototype.validateFieldsAndScroll = function(data,callback){
-        if(!callback){
-          callback = data;
-          data = null;
-        }
-        this.props.form.validateFieldsAndScroll((err, values) => {
-          var new_values = getValues(values,data);
-          callback(err,new_values);
-        });
-      }
-      Component.prototype.validateFields = function(data,callback){
-        if(!callback){
-          callback = data;
-          data = null;
-        }
-        this.props.form.validateFields((err, values) => {
-          var new_values = getValues(values,data);
-          callback(err,new_values);
-        });
-      }
-      var FormComponent = AntdForm.create(options)(Component);
-      return FormComponent;
-    }
+    })
+    return formBuilderConfig;
   }
 
   render() {

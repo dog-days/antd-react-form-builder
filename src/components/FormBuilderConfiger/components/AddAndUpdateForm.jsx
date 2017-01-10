@@ -95,7 +95,8 @@ class AddAndUpdateForm extends React.Component {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     };
-
+    var data_type = this.props.form.getFieldValue("data_type");
+    //console.debug(data_type);
     return (
       <Form
         onSubmit={ this.submitEvent }
@@ -179,6 +180,23 @@ class AddAndUpdateForm extends React.Component {
             )
           }
         </FormItem>
+        {
+          (data_type !== "object" && data_type !== "array") &&
+          <FormItem {...formItemLayout}
+            label="默认值"
+            hasFeedback
+          >
+            {
+              getFieldDecorator(
+                'value'
+              )(
+                <Input 
+                  placeholder="请填写默认值"
+                />
+              )
+            }
+          </FormItem>
+        }
         <FormItem {...formItemLayout}
           label="是否必填"
           hasFeedback
