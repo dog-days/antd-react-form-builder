@@ -56,7 +56,7 @@ class AddAndUpdateForm extends React.Component {
   submitEvent = (e)=>{
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      console.debug(values);
+      //console.debug(values);
       if (err) {
         console.log(err);
         return;

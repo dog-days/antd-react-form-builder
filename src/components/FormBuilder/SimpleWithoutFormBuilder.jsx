@@ -47,9 +47,16 @@ class SimpleWithoutFormBuilder extends React.Component {
       switch(btn_index){
         case "plus":
           var index_data = _.cloneDeep(data[index]);
-          //console.debug(index,data)
           index_data.forEach((v,k)=>{
+            //改变key值
             v.key = util.getUniqueKey();
+            //还原name
+            v.name = v.origin_name;
+            //还原repeat_count
+            v.repeat_count = null;
+            v.storage = {
+              value: v.value,
+            }
           })
           data.splice(index + 1, 0, index_data);
           break;
@@ -67,7 +74,9 @@ class SimpleWithoutFormBuilder extends React.Component {
       var isElement = true;
       var Element,element_props = { };
       var e_name;
-      if(name){
+      if(name && !v.repeat_count){
+        v.origin_name = v.name;
+        //第一次渲染处理
         e_name = `${name}[${v.name}]`;
       }else {
         e_name = v.name;
@@ -84,21 +93,42 @@ class SimpleWithoutFormBuilder extends React.Component {
               value: v.value,
             };
           } 
+          var type = v.data_type;
+          switch(v.data_type){
+            case "string":
+              type = "text";
+            break;
+            case "integer":
+            case "float":
+              type = "number";
+            break;
+          }
 //console.debug(e_name);
           element_props = {
             name: e_name,
-            type: v.data_type,
+            type: type,
             key: v.key,
             storage: v.storage,
             value: v.value,
             formItemProps: Object.assign({},v.formItemProps || {},{
               label: v.label,
             }),
-            rules: Object.assign({},v.rules || {},{
-              required: !!parseInt(v.required,10),
-            }),
+            rules: Object.assign([],[
+              {
+                required: !!parseInt(v.required,10),
+                message: "请不要留空"
+              }
+            ],v.rules || []),
+            validateAll: this.props.validateAll,
           }
-//console.debug(element_props);
+          v.rules = element_props.rules; 
+          v.name = element_props.name; 
+          //重复渲染次数
+          if(!v.repeat_count){
+            v.repeat_count = 0;
+          }
+          v.repeat_count++; 
+//console.debug(v);
           Element = this.getFormItemComponentByType(v.data_type);
       }
       var temp_name = e_name;
