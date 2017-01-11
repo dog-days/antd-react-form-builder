@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import _ from 'lodash'
 import AntdForm from 'antd/lib/form'
 import { 
@@ -26,8 +26,49 @@ class FormBuilder extends React.Component {
   constructor(props){
     super(props);
   }
+
+  static create(){
+    class Decorator extends React.Component {
+
+      constructor(props){
+        super(props);
+        this.formBuilder = {};
+      }
+
+      static childContextTypes = {
+        formBuilder: PropTypes.object.isRequired,
+      }
+
+      getChildContext() {
+        return {
+          formBuilder: this.formBuilder,
+        };
+      }
+
+      render(){
+        var WrapperComponent = this.getWrapperComponent(); 
+        return (
+          <WrapperComponent 
+            { ...this.props }
+            formBuilder={ this.formBuilder }
+          />
+        )
+      }
+    }
+    return (WrappedComponent)=>{
+      function getDisplayName(WrappedComponent) {
+        return WrappedComponent.displayName || WrappedComponent.name || 'WrappedComponent';
+      }
+      Decorator.displayName = `FormBuilder(${getDisplayName(WrappedComponent)})`;
+      Decorator.prototype.getWrapperComponent = ()=>WrappedComponent; 
+      return Decorator;
+    }
+  }
+
   /**
-  * formBuilderConfig value赋值 
+  * formBuilderConfig value赋值（根据FormBuilder的表单结构所存储的值来赋值） 
+  * @param { array } formBuilderConfig FormBuilder组件的props.config
+  * @param { object } data  FormBuilder的表单结构所存储的值
   */
   static valuesToConfig(formBuilderConfig,data){
     formBuilderConfig.forEach((v,k)=>{
@@ -35,15 +76,15 @@ class FormBuilder extends React.Component {
         v.key = util.getUniqueKey();
       }
       if(!v.children){
-        if(data[v.name]){
+        if(data[v.name] !== undefined){
           v.value = data[v.name];
         }
       }else if(v.data_type === "object" && v.children){
-        if(data[v.name]){
+        if(data[v.name] !== undefined){
           FormBuilder.valuesToConfig(v.children,data[v.name]);
         }
       }else if(v.data_type === "array" && v.children){
-        if(data[v.name]){
+        if(data[v.name] !== undefined){
           var arr = [];
           var temp_data = data[v.name];
           temp_data.forEach((v2,k2)=>{

@@ -24,7 +24,7 @@ let childContextTypes = {
 }
 
 let contextTypes = {
-  //form: React.PropTypes.object,
+  formBuilder: React.PropTypes.object,
 }
 
 function getChildContext(){

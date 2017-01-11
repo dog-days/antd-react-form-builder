@@ -1,5 +1,8 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
+import schema from "async-validator"
 import _ from 'lodash'
+import serialize from "form-serialize" 
 import BuilderDecorator from '../../decorator/Builder'
 import ItemContainer from "../_util/NestItemContainer"
 import util from "../../util"
@@ -22,6 +25,54 @@ class SimpleFormBuilder extends React.Component {
 
   constructor(props){
     super(props);
+    this.state = {};
+    //表单错误信息存放
+    this.errors = [];
+    //是否验证全部表单（提交表单时用到）
+    this.validateAll = false;
+  }
+
+  componentDidMount(){
+    var formDom = ReactDOM.findDOMNode(this.refs.formBuilder);
+    this.context.formBuilder.validateFields = (callback)=>{
+      var values = serialize(formDom, { hash: true });
+      this.errors = [];
+      this.validate(this.props.config);
+//console.debug("aa",this.errors);
+      if(this.errors[0]){
+        this.setState({
+          random: util.getUniqueKey(),
+          validateAll: true,
+        })
+        callback(this.errors,values);
+      }else {
+        callback(null,values);
+      }
+    }
+  }
+
+  validate(config){
+    config && config.forEach((v,k)=>{
+      if(!v.children && v.data_type !== "object" && v.data_type !== "array"){
+        var descriptor = {};
+        descriptor[v.name] = v.rules; 
+        var validator = new schema(descriptor);
+        var obj = { };
+        obj[v.name] = v.storage.value;
+        validator.validate(obj, (errors, fields) => {
+          //console.debug("dd",errors)
+          if(errors){
+            this.errors.push(errors);
+          }
+        });
+      }else if(v.data_type === "object"){
+        this.validate(v.children);
+      }else if(v.data_type === "array"){
+        v.children.forEach((v2,k2)=>{
+          this.validate(v2);
+        })
+      }
+    })
   }
   
   render() {
@@ -35,12 +86,14 @@ class SimpleFormBuilder extends React.Component {
       className,
       ...other 
     } = this.props;
-//console.debug(this.props.children)
     other.className = className + " builder-con";
-//console.debug(this.config)
     return (
-      <Form { ...other } >
-        <SimpleWithoutFormBuilder config={ config }/>
+      <Form { ...other } ref="formBuilder">
+        <SimpleWithoutFormBuilder 
+          config={ config }
+          random={ this.state.random }
+          validateAll={ this.state.validateAll }
+        />
         { this.props.children }
       </Form>
     );

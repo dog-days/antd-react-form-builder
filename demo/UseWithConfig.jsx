@@ -15,6 +15,7 @@ import feilds from "./config"
 import util from "../src/util"
 import "../style/css/demo.scss"
 
+@FormBuilder.create()
 class Container extends React.Component {
   constructor(props){
     super(props);
@@ -89,14 +90,20 @@ class Container extends React.Component {
 
   handleOnsubmit(e){
     e.preventDefault();
-    var obj = serialize(e.target, { hash: true });
-    //console.debug(obj)
+    this.props.formBuilder.validateFields((err,values)=>{
+      if(err){
+        console.debug("handleOnsubmit",err)
+      }else {
+        console.debug("handleOnsubmit",values)
+      }
+    }) 
   }
 
   onConfigerChange = (data)=>{
     var config = FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(data));
     var formDom = document.getElementById("form-builder");
-    var formValues = serialize(formDom, { hash: true });
+    var formValues = serialize(formDom, { hash: true, });
+    //console.debug(formValues)
     config = FormBuilder.valuesToConfig(config,formValues);
     this.setState({
       formBuilderConfig: config,
