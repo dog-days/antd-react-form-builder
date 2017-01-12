@@ -14,6 +14,16 @@ function component(BasicItemComponent){
         ...other, 
       } = this.props;
       other.targetComponent = Select;
+      if(!other.storage){
+        if(this.storage){
+          other.storage = this.storage;
+        }else {
+          other.storage = {
+            value: other.value,
+          }
+          this.storage = other.storage; 
+        }
+      }
       if(group){
         return (
           //这里的BasicItemComponent相当于

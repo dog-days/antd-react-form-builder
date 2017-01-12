@@ -24,12 +24,23 @@ function component(BasicItemComponent){
       Array.prototype.push.apply(temp_rules,rules)
       Array.prototype.push.apply(temp_rules,this.getRules())
       other.rules = temp_rules;
+      other.type = "number";
       other.value = parseInt(other.value,10);
       other.targetComponent = AntdInput;
       if(isNaN(other.value)){
         other.value = undefined;
       }
-      //console.debug(other)
+      if(!other.storage){
+        if(this.storage){
+          other.storage = this.storage;
+        }else {
+          other.storage = {
+            value: other.value,
+          }
+          this.storage = other.storage; 
+        }
+      }
+      console.debug(other)
       return (
         <BasicItemComponent { ...other }/>
       )
