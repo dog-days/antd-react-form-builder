@@ -26,6 +26,9 @@ class SimpleFormBuilder extends React.Component {
   constructor(props){
     super(props);
     this.state = {};
+    //表单各个输入组件验证方法存储
+    this.itemsValidateFnc = {};
+    this.errors = [];
     //表单错误信息存放
     this.errors = [];
     //是否验证全部表单（提交表单时用到）
@@ -35,10 +38,30 @@ class SimpleFormBuilder extends React.Component {
   componentDidMount(){
     var formDom = ReactDOM.findDOMNode(this.refs.formBuilder);
     this.context.formBuilder.validateFields = (callback)=>{
-      var values = serialize(formDom, { hash: true });
       this.errors = [];
-      this.validate(this.props.config);
-//console.debug("aa",this.errors);
+      //表单验证
+      for(var k in this.itemsValidateFnc){
+        this.itemsValidateFnc[k]((errors,currentFormItem)=>{
+          this.errors.push(errors);
+          //使用jsx style组件，特殊处理
+          if(!this.props.config){
+            var message = "";
+            errors.forEach((v,k)=>{
+              if(k !== 0){
+                message += "，" + v.message;
+              }else {
+                message += v.message;
+              }
+            })
+            var obj = {
+              errors_type: "error",
+              errors_message: message,
+            };
+            currentFormItem.setState(obj)
+          }
+        });
+      }
+      var values = serialize(formDom, { hash: true });
       if(this.errors[0]){
         this.setState({
           random: util.getUniqueKey(),
@@ -51,29 +74,28 @@ class SimpleFormBuilder extends React.Component {
     }
   }
 
-  validate(config){
-    config && config.forEach((v,k)=>{
-      if(!v.children && v.data_type !== "object" && v.data_type !== "array"){
-        var descriptor = {};
-        descriptor[v.name] = v.rules; 
-        var validator = new schema(descriptor);
-        var obj = { };
-        obj[v.name] = v.storage.value;
-        validator.validate(obj, (errors, fields) => {
-          //console.debug("dd",errors)
-          if(errors){
-            this.errors.push(errors);
-          }
-        });
-      }else if(v.data_type === "object"){
-        this.validate(v.children);
-      }else if(v.data_type === "array"){
-        v.children.forEach((v2,k2)=>{
-          this.validate(v2);
-        })
-      }
-    })
-  }
+  //validateByConfig(config){
+    //config && config.forEach((v,k)=>{
+      //if(!v.children && v.data_type !== "object" && v.data_type !== "array"){
+        //var descriptor = {};
+        //descriptor[v.name] = v.rules; 
+        //var validator = new schema(descriptor);
+        //var obj = { };
+        //obj[v.name] = v.storage.value;
+        //validator.validate(obj, (errors, fields) => {
+          //if(errors){
+            //this.errors.push(errors);
+          //}
+        //});
+      //}else if(v.data_type === "object"){
+        //this.validateByConfig(v.children);
+      //}else if(v.data_type === "array"){
+        //v.children.forEach((v2,k2)=>{
+          //this.validateByConfig(v2);
+        //})
+      //}
+    //})
+  //}
   
   render() {
     let { 
@@ -89,11 +111,14 @@ class SimpleFormBuilder extends React.Component {
     other.className = className + " builder-con";
     return (
       <Form { ...other } ref="formBuilder">
-        <SimpleWithoutFormBuilder 
-          config={ config }
-          random={ this.state.random }
-          validateAll={ this.state.validateAll }
-        />
+        {
+          config &&
+          <SimpleWithoutFormBuilder 
+            config={ config }
+            random={ this.state.random }
+            validateAll={ this.state.validateAll }
+          />
+        }
         { this.props.children }
       </Form>
     );

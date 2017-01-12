@@ -52,6 +52,10 @@ function component(BasicItemComponent){
       }
       var rules = Input.getRules(locale); 
       switch(type){
+        case "number":
+          return {
+            type: "number",
+          }
         case "email":
           return {
             rules: rules.email,
@@ -87,6 +91,16 @@ function component(BasicItemComponent){
       other.rules = temp_rules;
       other.type = infoObject.type;
       other.targetComponent = AntdInput;
+      if(!other.storage){
+        if(this.storage){
+          other.storage = this.storage;
+        }else {
+          other.storage = {
+            value: other.value,
+          }
+          this.storage = other.storage; 
+        }
+      }
       return (
         <BasicItemComponent { ...other }/>
       )
