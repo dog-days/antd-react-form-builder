@@ -1,6 +1,7 @@
 import React from 'react'
 import schema from "async-validator"
 import AntdForm from 'antd/lib/form'
+import AntdInput from 'antd/lib/input'
 import PureRender from '../decorator/PureRender'
 import util from '../util'
 
@@ -11,19 +12,12 @@ class BasicItem extends React.Component {
 
   constructor(props){
     super(props);
-    let {
-      name,
-      value,
-      storage,
-      rules,
-      validateAll,
-    } = this.props;
     this.state = {
       errors_type: "",
       errors_message: "",
     };
     //console.debug(this.context)
-    this.validate(validateAll,true);
+    this.validate(this.props,true);
   }
 
   static PropTypes = {
@@ -42,35 +36,41 @@ class BasicItem extends React.Component {
     itemsValidateFnc: React.PropTypes.object,
   }
 
-  componentDidMount(){
+  bindValidate(props){
     let {
       name,
-      storage,
-      rules,
-    } = this.props;
-    var key = name + "-" + util.getUniqueKey();
-    this.context.itemsValidateFnc[key] = this.commonValidate(name,storage,rules);
+    } = props;
+    if(!this.key){
+      this.key = name + "-" + util.getUniqueKey();
+    }
+    this.context.itemsValidateFnc[this.key] = this.commonValidate(props);
     //console.debug(this.context)
   }
-  
+
+  componentDidMount(){
+    this.bindValidate(this.props);  
+  }
+
   componentWillReceiveProps(nextProps){
-    let {
-      name,
-      storage,
-      rules,
-      validateAll,
-    } = nextProps;
-    this.validate(validateAll);
+    this.bindValidate(nextProps);  
+    this.validate(nextProps);
   }
   /**
   * 公共验证方法
-  * @param { string } name 表单项name
-  * @param { object } name 表单项组件props之storage
-  * @param { array } rules 表单项组件验证规则（asyc-validate ）
+  * @param { object } props 当前组件props或结构差不多的object对象 
   */
-  commonValidate = (name,storage,rules)=>{
+  commonValidate = (props)=>{
+    let {
+      name,
+      storage,
+      rules,
+    } = props;
+    //console.debug("dddd",name,storage)
     var _this = this;
     return function(errorCallback,successCallback){
+      if(!rules || (rules && !rules[0])){
+        return false;
+      }
       var descriptor = {};
       descriptor[name] = rules; 
       var validator = new schema(descriptor);
@@ -110,20 +110,22 @@ class BasicItem extends React.Component {
   }
   /**
   * 当前表单组件验证，并提示
-  * @param { boolean } validateAll 是否是整个表单验证（提交的时候）
+  * @param { object } props 当前组件props 
   * @param { boolean } isConstructor 是否是当类构造器（构造函数实例化后只运行一次） 
   */
-  validate(validateAll,isConstructor){
+  validate(props,isConstructor){
     let {
       name,
       storage,
+      value,
       rules,
-    } = this.props;
-    var value = storage.value;
-    if((value === undefined || value === null) && !validateAll ){
+      //是否是整个表单验证（提交的时候）
+      validateAll,
+    } = props;
+    if((storage.value === undefined || storage.value === null) && !validateAll ){
       return;
     }
-    this.commonValidate(name,storage,rules)((errors)=>{
+    this.commonValidate(props)((errors)=>{
       //验证失败
       var message = "";
       errors.forEach((v,k)=>{
@@ -173,7 +175,7 @@ class BasicItem extends React.Component {
       }
       //console.debug(rules)
       if(rules[0]){
-        this.validate(name,value,rules);
+        this.validate(this.props);
       }
   //console.debug(value,this.props)
       this.props.onChange && this.props.onChange(e);
@@ -232,16 +234,49 @@ class BasicItem extends React.Component {
         required = true;
       }
     })
-    //console.debug(this.state)
+    //console.debug(storage.value)
     return (
-      <FormItem 
-        {...formItemProps}
-        required={ required }
-        validateStatus={this.state.errors_type}
-        help={this.state.errors_message}
-      >
-        { component }
-      </FormItem>
+      <span>
+        {
+          (
+            other.type === "radiogroup" ||
+            other.type === "timepicker" ||
+            other.type === "monthpicker" ||
+            other.type === "datepicker"
+          ) &&
+          //处理timepicker这种，无法设置name的表单组件
+          <AntdInput 
+            type="hidden" 
+            name={ other.name }
+            value={ storage.value }
+          />
+        }
+        {
+          (
+            other.type === "rangepicker" || 
+            other.type === "checkboxgroup" 
+          ) && 
+          storage.value && storage.value.map((v,k)=>{
+            return (
+              <span key={ k }>
+                <AntdInput 
+                  type="hidden" 
+                  name={ other.name }
+                  value={ v }
+                />
+              </span>
+            )
+          })
+        }
+        <FormItem 
+          {...formItemProps}
+          required={ required }
+          validateStatus={this.state.errors_type}
+          help={this.state.errors_message}
+        >
+          { component }
+        </FormItem>
+      </span>
     ) 
   }
 }

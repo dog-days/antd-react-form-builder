@@ -42,6 +42,7 @@ class SimpleFormBuilder extends React.Component {
       //表单验证
       for(var k in this.itemsValidateFnc){
         this.itemsValidateFnc[k]((errors,currentFormItem)=>{
+          //console.debug(k)
           this.errors.push(errors);
           //使用jsx style组件，特殊处理
           if(!this.props.config){
