@@ -59,16 +59,19 @@
   .array-item-right {
     width: 88px;
   }
-  .array-item-right > div{
-    position: absolute;
-    bottom: 12px;
-    right: 0;
-  }
   .array-item-add-btn {
     float: right;
     width: 88px;
   }
+  .array-item-has-label {
+    .array-item-right > div{
+      margin-top: 21px;
+    }
+  }
   .array-item-none-label {
+    .array-item-right > div{
+      margin-top: 2px;
+    }
     .ant-form-item-label {
       display: none;
     }

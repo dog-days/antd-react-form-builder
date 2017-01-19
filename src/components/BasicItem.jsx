@@ -98,9 +98,15 @@ class BasicItem extends React.Component {
   bindValidate(props){
     let {
       name,
+      uniqueKey,
     } = props;
-    if(!this.key){
-      this.key = name + "-" + util.getUniqueKey();
+    if(this.key){
+      delete this.context.itemsValidateFunc[this.key];
+    }
+    if(uniqueKey){
+      this.key = name + "-" + uniqueKey;
+    }else {
+      this.key = name;
     }
     this.context.itemsValidateFunc[this.key] = this.commonValidate(props);
     //console.debug(this.context)
@@ -243,22 +249,12 @@ class BasicItem extends React.Component {
     }
   }
 
-  render() { 
-    let props = this.props;
+  renderArrayItem(){
     let {
-      storage,//存储一些信息，如同步antd的value值
-      validateAll,//在这只是为了解决原生html表单props多余报错问题
-      array,//在这只是为了解决原生html表单props多余报错问题
-      children,
-      rules = [],
-      value,
-      targetComponent,
-      formItemProps={},
-      ...other,
-    } = props;
-    other = this.addOtherPropsFromFormBuilder(other);
-    formItemProps = this.addFormItemPropsFromFormBuilder(formItemProps);
-    if(this.props.array && other.type !== "select" && other.type !== "multiple-select"){
+      storage,
+      type,
+    } = this.props;
+    if(this.props.array && type !== "select" && type !== "multiple-select"){
       if(!storage.arrayProps){
         var obj;
         storage.arrayProps = [];
@@ -281,7 +277,7 @@ class BasicItem extends React.Component {
           {
             storage.arrayProps.map((v,k)=>{
               //v.storage.value = undefined;
-              var className = "";
+              var className = "array-item-has-label";
               if(k !== 0){
                 className = "array-item-none-label";
               }
@@ -322,6 +318,29 @@ class BasicItem extends React.Component {
           }
         </span>
       ) 
+    }
+  }
+
+  render() { 
+    let props = this.props;
+    let {
+      storage,//存储一些信息，如同步antd的value值
+      validateAll,//在这只是为了解决原生html表单props多余报错问题
+      array,//在这只是为了解决原生html表单props多余报错问题
+      uniqueKey,//在这只是为了解决原生html表单props多余报错问题
+      children,
+      rules = [],
+      value,
+      targetComponent,
+      formItemProps={},
+      ...other,
+    } = props;
+    other = this.addOtherPropsFromFormBuilder(other);
+    formItemProps = this.addFormItemPropsFromFormBuilder(formItemProps);
+    //渲染array类型的Item
+    var arrayItem = this.renderArrayItem(); 
+    if(arrayItem){
+      return arrayItem;
     }
     var FormItemComponent = targetComponent;
     var component; 

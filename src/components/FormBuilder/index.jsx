@@ -113,6 +113,10 @@ class FormBuilder extends React.Component {
           var temp_data = data[v.name];
           temp_data.forEach((v2,k2)=>{
             var temp = _.cloneDeep(v.children[0]);
+            //处理key值
+            temp.forEach((v3,k3)=>{
+              v3.key = util.getUniqueKey();
+            })
             FormBuilder.valuesToConfig(temp,v2);
             arr.push(temp)
           //console.debug(v)

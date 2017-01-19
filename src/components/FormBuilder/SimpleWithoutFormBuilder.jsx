@@ -114,6 +114,7 @@ class SimpleWithoutFormBuilder extends React.Component {
             name: e_name,
             type: type,
             key: v.key,
+            uniqueKey: v.key,
             storage: v.storage,
             value: v.value,
             formItemProps: Object.assign({},v.formItemProps || {},{

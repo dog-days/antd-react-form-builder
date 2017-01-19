@@ -1,4 +1,7 @@
 module.exports = {
+  isEmptyObject(obj) {
+    return Object.keys(obj).length === 0;
+  },
   /**
    * 交换数组指定的的两个键值位置,repalceIndex > index 下移，相反上移
    * @param {Array} arr 需要处理的数组
