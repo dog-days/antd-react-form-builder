@@ -7,64 +7,63 @@ import ButtonGroup from '../components/Button/ButtonGroup'
 * @param { object || boolean } action 是否操作 
 * @param { int } index 当前数组中form item 索引，所有操作都是作用于当前form item
 * @param { array } data 当前form item 数据的父级数据 
-* @param { object } buttonGrouProps 
 */
-function buttonGroupAdapter(action,index,data,buttonGroupProps){
+function buttonGroupAdapter(action,index,data){
   var buttonGroup;
   if(action){
     if(_.isBoolean(action)){
       action = {
         up_action: true,
         down_action: true,
-        plus_action: true,
-        close_action: true,
+        add_action: true,
+        delete_action: true,
       };
     }
-    var keys = [];
-    //begin------buttonTexts
-    var buttonTexts = [];
+    var options = [];
+    var obj;
     if(action.up_action){
-      keys.push("up");
-      buttonTexts.push(<Icon type="arrow-up"/>);
+      obj = {
+        value: "up",
+        label: <Icon type="arrow-up"/>,
+      }
+      if(index === 0){
+        obj.disabled = true; 
+      }
+      options.push(obj);
     }
-    if(action.down_action){
-      keys.push("down");
-      buttonTexts.push(<Icon type="arrow-down"/>);
+    if(action.up_action){
+      obj = {
+        value: "down",
+        label: <Icon type="arrow-down"/>,
+      }
+      if(index === data.length - 1){
+        obj.disabled = true;
+      }
+      options.push(obj);
     }
-    if(action.plus_action){
-      keys.push("plus");
-      buttonTexts.push(<Icon type="plus"/>);
+    if(action.add_action){
+      obj = {
+        value: "add",
+        label: <Icon type="plus"/>,
+      }
+      options.push(obj);
     }
-    if(action.close_action){
-      keys.push("delete");
-      buttonTexts.push(<Icon type="close"/>);
-    }
-    //end--------buttonTexts
-    var disableButtons = [];
-    if(index === 0){
-      //disableButtons.push(0); 
-    }
-//console.debug(index,data.length)
-    if(index === data.length - 1){
-      //disableButtons.push(1); 
-    }
-    if(data.length === 1){
-      //disableButtons.push(3); 
-      disableButtons.push(1); 
+    if(action.delete_action){
+      obj = {
+        value: "delete",
+        label: <Icon type="close"/>,
+      }
+      if((data.length - 1) === 0){
+        obj.disabled = true; 
+      }
+      options.push(obj);
     }
 //console.debug(this.context)
     buttonGroup = (
       <ButtonGroup 
-        size="default"
-        keys={keys}
-        hightButton={false}
-        disableButtons={ disableButtons }
-        buttonTexts={ buttonTexts }
-        onButtonClick={ 
-          this.onButtonGroupClick 
-          && this.onButtonGroupClick(data,index) 
-        }
-        { ...buttonGroupProps }
+        options={ options }
+        onChange={ this.onButtonChange && this.onButtonChange(data,index) }
+        value={ [] }
       />
     );  
   }

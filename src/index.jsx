@@ -8,6 +8,11 @@ import {
   Select,
   Button,
   TimePicker,
+  DatePicker,
+  MonthPicker,
+  RangePicker,
+  CheckboxGroup,
+  RadioGroup,
 } from './FormItemBind'
 
 export default FormBuilder;
@@ -21,6 +26,11 @@ export {
   Select,
   Button,
   TimePicker,
+  DatePicker,
+  MonthPicker,
+  RangePicker,
+  CheckboxGroup,
+  RadioGroup,
 }
 
 

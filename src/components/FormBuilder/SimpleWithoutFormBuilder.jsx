@@ -4,17 +4,9 @@ import renderItemDecorator from "../../decorator/RenderItem"
 import ItemButtonGroupDecorator from "../../decorator/ItemButtonGroup"
 import util from "../../util"
 import _ from 'lodash'
-import { 
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  Button,
-  TimePicker,
-} from '../../FormItemBind'
-import {
-  Card,
-} from "antd"
+import Button from 'antd/lib/button'
+import Icon from 'antd/lib/icon'
+import Card from 'antd/lib/card'
 
 /**
  * SimpleFormBuilder 
@@ -42,30 +34,48 @@ class SimpleWithoutFormBuilder extends React.Component {
     })
   }
 
-  onButtonGroupClick = (data,index)=>{
+  onButtonChange = (data,index)=>{
     return (btn_index)=>{
-      switch(btn_index){
-        case "plus":
-          var index_data = _.cloneDeep(data[index]);
-          index_data.forEach((v,k)=>{
-            //改变key值
-            v.key = util.getUniqueKey();
-            //还原name
-            v.name = v.origin_name;
-            //还原repeat_count
-            v.repeat_count = null;
-            v.storage = {
-              value: v.value,
-            }
-          })
-          data.splice(index + 1, 0, index_data);
+      switch(btn_index){ 
+        case "up":
+          util.swapArrayItem(data,index,index - 1);
+          break;
+        case "down":
+          util.swapArrayItem(data,index ,index + 1);
           break;
         case "delete":
           data.splice(index, 1);
           break;
       }
+      //重置name，和repeat_count值
+      data.forEach((v,k)=>{
+        v.forEach((v2,k2)=>{
+          v2.name = v2.origin_name;
+          delete v2.origin_name;
+          delete v2.repeat_count;
+        })
+      })
       this.setChangeState();
       //console.debug(index,data);
+    }
+  }
+
+  onAddClick = (data,index)=>{
+    return (e)=>{
+      var index_data = _.cloneDeep(data[index]);
+      index_data.forEach((v,k)=>{
+        //改变key值
+        v.key = util.getUniqueKey();
+        //还原name
+        v.name = v.origin_name;
+        //还原repeat_count
+        v.repeat_count = null;
+        v.storage = {
+          value: v.value,
+        }
+      })
+      data.splice(index + 1, 0, index_data);
+      this.setChangeState();
     }
   }
 
@@ -97,10 +107,6 @@ class SimpleWithoutFormBuilder extends React.Component {
           switch(v.data_type){
             case "string":
               type = "text";
-            break;
-            case "integer":
-            case "float":
-              type = "number";
             break;
           }
 //console.debug(e_name);
@@ -145,14 +151,29 @@ class SimpleWithoutFormBuilder extends React.Component {
                 v.children.map((v2,k2)=>{
                   var array_title;
                   array_title = this.buttonGroupAdapter({
-                    plus_action: true,
-                    close_action: true,
+                    up_action: true,
+                    down_action: true,
+                    delete_action: true,
                   },k2,v.children);
                   e_name = `${ temp_name }[${ k2 }]`; 
                   return (
-                    <Card title={ array_title } className="mb10" key={ v2[0].key }>
-                      { this.configRender(v2,e_name) }
-                    </Card>
+                    <div key={ v2[0].key }>
+                      <Card title={ array_title } className="mb10">
+                        { this.configRender(v2,e_name) }
+                      </Card>
+                      {
+                        k2 === (v.children.length -1) &&
+                        <Button 
+                          className="builder-add-btn"
+                          type="primary"
+                          onClick={
+                            this.onAddClick(v.children,k2)
+                          }
+                        >
+                          <Icon type="plus"/>
+                        </Button>
+                      }
+                    </div>
                   )
                 })
               }

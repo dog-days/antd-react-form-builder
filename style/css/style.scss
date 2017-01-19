@@ -15,6 +15,9 @@
 }
 /**begin ------antd 重写**/
 .builder-con {
+  .ant-time-picker,.ant-calendar-picker {
+    width: 100%;
+  }
   .ant-input-number {
     width: 100%;
   }
@@ -37,6 +40,37 @@
   .none-label-con {
     .ant-form-item-label {
       visibility: hidden;
+    }
+  }
+  .builder-form-item-hidden .ant-form-item-label{
+    display: none;
+  }
+  .builder-add-btn {
+    width: 100%;
+  }
+  .array-item-con {
+    display: flex;
+    position: relative;
+  }
+  .array-item-left {
+    flex: 1;
+    margin-right: 10px;
+  }
+  .array-item-right {
+    width: 88px;
+  }
+  .array-item-right > div{
+    position: absolute;
+    bottom: 12px;
+    right: 0;
+  }
+  .array-item-add-btn {
+    float: right;
+    width: 88px;
+  }
+  .array-item-none-label {
+    .ant-form-item-label {
+      display: none;
     }
   }
 }

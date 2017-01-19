@@ -1,13 +1,17 @@
 import React from 'react'
 import schema from "async-validator"
 import AntdForm from 'antd/lib/form'
+import Button from 'antd/lib/button'
+import Icon from 'antd/lib/icon'
 import AntdInput from 'antd/lib/input'
 import PureRender from '../decorator/PureRender'
+import ItemButtonGroupDecorator from '../decorator/ItemButtonGroup'
 import util from '../util'
 
 let FormItem = AntdForm.Item;
 
 @PureRender
+@ItemButtonGroupDecorator
 class BasicItem extends React.Component {
 
   constructor(props){
@@ -33,26 +37,19 @@ class BasicItem extends React.Component {
     hasFeedback: React.PropTypes.bool,
     labelCol: React.PropTypes.object,
     wrapperCol: React.PropTypes.object,
-    itemsValidateFnc: React.PropTypes.object,
-  }
-
-  bindValidate(props){
-    let {
-      name,
-    } = props;
-    if(!this.key){
-      this.key = name + "-" + util.getUniqueKey();
-    }
-    this.context.itemsValidateFnc[this.key] = this.commonValidate(props);
-    //console.debug(this.context)
+    inline: React.PropTypes.bool,
+    itemsValidateFunc: React.PropTypes.object,
+    setFieldValueFunc: React.PropTypes.object,
   }
 
   componentDidMount(){
     this.bindValidate(this.props);  
+    this.bindSetFieldValue(this.props);
   }
 
   componentWillReceiveProps(nextProps){
     this.bindValidate(nextProps);  
+    this.bindSetFieldValue(nextProps);
     this.validate(nextProps);
   }
   /**
@@ -64,8 +61,9 @@ class BasicItem extends React.Component {
       name,
       storage,
       rules,
+      type,
     } = props;
-    //console.debug("dddd",name,storage)
+//console.debug("dddd",name,storage)
     var _this = this;
     return function(errorCallback,successCallback){
       if(!rules || (rules && !rules[0])){
@@ -75,7 +73,18 @@ class BasicItem extends React.Component {
       descriptor[name] = rules; 
       var validator = new schema(descriptor);
       var obj = { };
-      obj[name] = storage.value;
+      switch(type){
+        case "number":
+        case "float":
+        case "integer":
+          if(storage.value){
+            obj[name] = Number(storage.value);
+          }
+        break;
+        default:
+          obj[name] = storage.value;
+      }
+//console.debug(obj[name])
       validator.validate(obj, (errors, fields) => {
         if(errors){
           errorCallback && errorCallback(errors,_this);
@@ -86,28 +95,24 @@ class BasicItem extends React.Component {
     }
   }
 
-  
-  getDealProp(props,index,defaultValue){
-    if(props[index] === undefined){
-      if(this.context[index]){
-        props[index] = this.context[index];
-      }else {
-        props[index] = defaultValue;
-      }
+  bindValidate(props){
+    let {
+      name,
+    } = props;
+    if(!this.key){
+      this.key = name + "-" + util.getUniqueKey();
     }
+    this.context.itemsValidateFunc[this.key] = this.commonValidate(props);
+    //console.debug(this.context)
   }
 
-  addOtherPropsFromFormBuilder(props){
-    this.getDealProp(props,"size","default");
-    return props;
+  bindSetFieldValue(props){
+    this.context.setFieldValueFunc[props.name] = (value)=>{
+      props.storage.value = value;
+      this.validate(props);
+    };
   }
 
-  addFormItemPropsFromFormBuilder(props){
-    this.getDealProp(props,"hasFeedback",false);
-    this.getDealProp(props,"labelCol",null);
-    this.getDealProp(props,"wrapperCol",null);
-    return props;
-  }
   /**
   * 当前表单组件验证，并提示
   * @param { object } props 当前组件props 
@@ -158,6 +163,30 @@ class BasicItem extends React.Component {
     });
   }
 
+  
+
+  getDealProp(props,index,defaultValue){
+    if(props[index] === undefined){
+      if(this.context[index]){
+        props[index] = this.context[index];
+      }else {
+        props[index] = defaultValue;
+      }
+    }
+  }
+
+  addOtherPropsFromFormBuilder(props){
+    this.getDealProp(props,"size","default");
+    return props;
+  }
+
+  addFormItemPropsFromFormBuilder(props){
+    this.getDealProp(props,"hasFeedback",false);
+    this.getDealProp(props,"labelCol",null);
+    this.getDealProp(props,"wrapperCol",null);
+    return props;
+  }
+
   onChange = (name,rules)=>{
     return (e)=>{
       var value;
@@ -182,11 +211,44 @@ class BasicItem extends React.Component {
     }
   }
 
-  render() {
+  onButtonChange = (data,index)=>{
+    return (btn_index)=>{
+      switch(btn_index){ 
+        case "up":
+          util.swapArrayItem(data,index,index - 1);
+          break;
+        case "down":
+          util.swapArrayItem(data,index ,index + 1);
+          break;
+        case "delete":
+          //console.debug(data,index)
+          data.splice(index, 1);
+          break;
+      }
+      this.setState({
+        random: util.getUniqueKey(),
+      })
+    }
+  }
+
+  onAddClick = (data,index)=>{
+    return (e)=>{
+      var index_data = _.cloneDeep(data[index]);
+      index_data.key = util.getUniqueKey();
+      index_data.storage = { };
+      data.splice(index + 1, 0, index_data);
+      this.setState({
+        random: util.getUniqueKey(),
+      })
+    }
+  }
+
+  render() { 
     let props = this.props;
     let {
       storage,//存储一些信息，如同步antd的value值
       validateAll,//在这只是为了解决原生html表单props多余报错问题
+      array,//在这只是为了解决原生html表单props多余报错问题
       children,
       rules = [],
       value,
@@ -196,6 +258,71 @@ class BasicItem extends React.Component {
     } = props;
     other = this.addOtherPropsFromFormBuilder(other);
     formItemProps = this.addFormItemPropsFromFormBuilder(formItemProps);
+    if(this.props.array && other.type !== "select" && other.type !== "multiple-select"){
+      if(!storage.arrayProps){
+        var obj;
+        storage.arrayProps = [];
+        if(_.isString(this.props.value) || !this.props.value){
+          obj = _.cloneDeep(this.props);
+          obj.key = util.getUniqueKey();
+          storage.arrayProps = [obj];
+        }else if(_.isArray(this.props.value)){
+          this.props.value.forEach((v,k)=>{
+            obj = _.cloneDeep(this.props);
+            obj.key = util.getUniqueKey();
+            obj.value = v;
+            obj.storage.value = v;
+            storage.arrayProps.push(obj);
+          })
+        }
+      }
+      return (
+        <span>
+          {
+            storage.arrayProps.map((v,k)=>{
+              //v.storage.value = undefined;
+              var className = "";
+              if(k !== 0){
+                className = "array-item-none-label";
+              }
+              return (
+                <div key={ v.key } className={className + " clearfix"}>
+                  <div className="array-item-con">
+                    <div className="array-item-left">
+                      <BasicItem 
+                        { ...v } 
+                        array={ false }
+                      />
+                    </div>
+                    <div className="array-item-right">
+                      <div>
+                        {
+                          this.buttonGroupAdapter({
+                            up_action: true,
+                            down_action: true,
+                            delete_action: true,
+                          },k,storage.arrayProps)
+                        }
+                      </div>
+                    </div>
+                  </div>
+                  {
+                    k === storage.arrayProps.length - 1 &&
+                    <Button 
+                      type="primary" 
+                      className="array-item-add-btn fr"
+                      onClick={ this.onAddClick(storage.arrayProps,k) }
+                    >
+                      <Icon type="plus"/>
+                    </Button>
+                  }
+                </div>
+              )
+            })
+          }
+        </span>
+      ) 
+    }
     var FormItemComponent = targetComponent;
     var component; 
     if(!FormItemComponent){
@@ -240,6 +367,7 @@ class BasicItem extends React.Component {
         {
           (
             other.type === "radiogroup" ||
+            other.type === "select" ||
             other.type === "timepicker" ||
             other.type === "monthpicker" ||
             other.type === "datepicker"
@@ -253,6 +381,7 @@ class BasicItem extends React.Component {
         }
         {
           (
+            other.type === "multiple-select" || 
             other.type === "rangepicker" || 
             other.type === "checkboxgroup" 
           ) && 

@@ -33,6 +33,7 @@ class Container extends React.Component {
             data_type: "number",
             required: "1",
             label: "电源个数",
+            value: "10",
             read_only: "1",
             can_not_delete: "1",
           },
@@ -86,6 +87,8 @@ class Container extends React.Component {
         //},
       ]
     }
+
+    this.state.formBuilderConfig = FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(this.state.table));
   }
 
   handleOnsubmit(e){
@@ -101,28 +104,28 @@ class Container extends React.Component {
 
   onConfigerChange = (data)=>{
     var config = FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(data));
-    var formDom = document.getElementById("form-builder");
-    var formValues = serialize(formDom, { hash: true, });
-    //console.debug(formValues)
-    config = FormBuilder.valuesToConfig(config,formValues);
     this.setState({
       formBuilderConfig: config,
     })
-    //console.debug("change",data);
   }
 
   render() {
     return (
       <div className="demo-view">
-        <Card className="config-content">
+        <Card 
+          title="表格字段配置"
+          className="config-content"
+        >
           <FormBuilderConfiger 
             onChange={ this.onConfigerChange }
             defaultConfig={
               this.state.table
             }
+            title="表格字段配置"
           />
         </Card>
         <Card
+          title="FromBuilder"
           className="form-builder-content"
         >
           <FormBuilder 
