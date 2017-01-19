@@ -1,10 +1,12 @@
 import React from 'react'
 import AntdInput from 'antd/lib/input'
+import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 import BasicItem from '../BasicItem'
 import localeText from './zh_CN'
 
 function component(BasicItemComponent){
-  return class Input extends React.Component {
+  @FormItemComponentDecorator
+  class Input extends React.Component {
 
     constructor(props){
       super(props);
@@ -27,7 +29,6 @@ function component(BasicItemComponent){
       if(!locale.FormBuilderUrlInput){
         locale.FormBuilderUrlInput = localeText.FormBuilderUrlInput;
       }
-      //这里运行了多次，没想到更好办法，目前先这样处理
       return {
         email: [
           { 
@@ -91,22 +92,14 @@ function component(BasicItemComponent){
       other.rules = temp_rules;
       other.type = infoObject.type;
       other.targetComponent = AntdInput;
-      if(!other.storage){
-        if(this.storage){
-          other.storage = this.storage;
-        }else {
-          other.storage = {
-            value: other.value,
-          }
-          this.storage = other.storage; 
-        }
-      }
+      this.propsAdapter(other);
       return (
         <BasicItemComponent { ...other }/>
       )
     }
     
   }
+  return Input;
 }
 
 const Item = component(BasicItem); 

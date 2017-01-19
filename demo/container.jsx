@@ -9,6 +9,7 @@ import {
   TimePicker,
 } from '../lib/index'
 import UseWithConfig from "./UseWithConfig"
+import JSXStyle from "./JSXStyle"
 import { 
   LocaleProvider,
   Tabs 
@@ -43,18 +44,18 @@ class Container extends React.Component {
       <div>
         <div style={ { padding: "20px" } }>
           <Tabs defaultActiveKey="1">
-            <TabPane tab="配置生成表单" key="1">
+            <TabPane tab="JSX风格（简单的）" key="1">
+              <JSXStyle />   
+            </TabPane>
+            <TabPane tab="配置生成表单" key="2">
+              <UseWithConfig />   
+            </TabPane>
+            <TabPane tab="国际化" key="3">
               <LocaleProvider
                 locale={ this.state.locale }
               >
-                <UseWithConfig />   
+                <JSXStyle />   
               </LocaleProvider>
-            </TabPane>
-            <TabPane tab="直接使用JSX" key="2">
-            </TabPane>
-            <TabPane tab="分组表单" key="3">
-            </TabPane>
-            <TabPane tab="Nested表单" key="4">
             </TabPane>
           </Tabs>
         </div>

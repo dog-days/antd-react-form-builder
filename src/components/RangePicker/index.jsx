@@ -2,21 +2,26 @@ import React from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
-import AntdTimePicker from 'antd/lib/time-picker'
+import AntdDatePicker from 'antd/lib/date-picker'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
+
+const { MonthPicker, RangePicker } = AntdDatePicker;
 
 function component(BasicItemComponent){
   @FormItemComponentDecorator
-  class TimePicker extends React.Component {
+  class FRangePicker extends React.Component {
 
     render(){
       let { ...other } = this.props;
-
-      other.targetComponent = AntdTimePicker;
-      if(_.isString(other.value)){
-        other.value = new moment(other.value,"HH:mm:ss")
+      other.targetComponent = RangePicker;
+      other.type = "rangepicker";
+      if(_.isArray(other.value)){
+        other.value.forEach((v,k)=>{
+          if(_.isString(v)){
+            other.value[k] = new moment(v,other.format || "YYYY-MM-DD")
+          }
+        })
       }
-      other.type = "timepicker";
       this.propsAdapter(other);
       return (
         <BasicItemComponent { ...other }/>
@@ -24,7 +29,7 @@ function component(BasicItemComponent){
     }
     
   }
-  return TimePicker;
+  return FRangePicker;
 }
 
 export default component(BasicItem) 

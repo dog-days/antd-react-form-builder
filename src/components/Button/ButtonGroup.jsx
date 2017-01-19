@@ -1,76 +1,138 @@
 import React from 'react'
-import Antd from 'antd'
+import _ from 'lodash'
 import Button from 'antd/lib/button'
+import PureRender from '../../decorator/PureRender'
 
 /**
  *  ButtonGroup 
  * @prop {string} size size跟ant button group一致 
- * @prop {string} defaultType 默认按钮类型，跟ant button type一致
- * @prop {string} hightlightType 高亮按钮类型，跟ant button type一致
- * @prop {number} hightButton 高亮按钮索引（数字或自定义索引），跟下面buttonTexts其中一个索引或者keys某个value一致 
- * @prop {array} buttonTexts 按钮文案数组 
- * @prop {array} disableButtons 禁用的按钮组,索引数组 
- * @prop {array} keys 每个button的key，按顺序一一对应  
- * @prop {function} onButtonClick(index) 所有按钮点击时间回调函数，参数为当前按钮索引值 
+ * @prop { string } type radio or checkbox 
+ * @prop { array } options 选项 
+ * @prop { array || string || number } defaultValue 默认值 
+ * @prop { array || string || number } value 默认值 
+ * @prop {function} onChange 所有按钮选项变化回调函数
  */
+@PureRender
 class ButtonGroup extends React.Component {
   constructor(props){
     super(props)  
+    this.state = { }
   }
 
   static propTypes = {
     size: React.PropTypes.string,
-    defaultType: React.PropTypes.string,
-    onButtonClick: React.PropTypes.func,
-    hightButton: React.PropTypes.oneOfType([
+    type: React.PropTypes.string,
+    options: React.PropTypes.array,
+    defaultValue: React.PropTypes.oneOfType([
+      React.PropTypes.array,
       React.PropTypes.string,
       React.PropTypes.number,
-      React.PropTypes.bool,
     ]),
-    buttonTexts: React.PropTypes.array,
-    disableButtons: React.PropTypes.array,
-    keys: React.PropTypes.array,
+    value: React.PropTypes.oneOfType([
+      React.PropTypes.array,
+      React.PropTypes.string,
+      React.PropTypes.number,
+    ]),
+    onChange: React.PropTypes.func,
+    hightlightType: React.PropTypes.string,
   }
 
-  onButtonClick = (index,callback)=>{
+  onChange = (value)=>{
     return (e)=>{
-      callback && callback(index,e);
+      if(this.props.type === "checkbox"){
+        if(this.checkboxButtonValue && this.checkboxButtonValue[value]){
+          this.checkboxButtonValue[value] = false;
+        }else {
+          this.checkboxButtonValue[value] = true;
+        }
+        var values = [];
+        for(var k in this.checkboxButtonValue){
+          if(this.checkboxButtonValue[k]){
+            values.push(k);
+          }
+        }
+        this.setState({
+          currentValue: values,
+        });
+        this.props.onChange && this.props.onChange(values,e);
+      }else {
+        this.setState({
+          currentValue: value,
+        });
+        this.props.onChange && this.props.onChange(value,e);
+      }
     }
   }
 
   render(){
     let { 
-      size,
-      defaultType="ghost",
+      size="default",
+      type="radio",
       hightlightType="primary",
-      hightButton=0,
-      buttonTexts,
-      onButtonClick,
-      disableButtons,
-      keys,
+      options,
+      defaultValue,
+      value,
       ...otherProps
     } = this.props;
     return (
       <div { ...otherProps }>
-        <Button.Group size={ size || undefined }>
+        <Button.Group size={ size }>
           {
-            buttonTexts.map((v,k)=>{
-              var type = defaultType;
-              var disabled = false;
-              if(disableButtons && disableButtons.indexOf(k) != -1){
-                disabled = true;
+            options && options.map((v,k)=>{
+              var btn_props = {};
+              btn_props.type = "ghost";
+              btn_props.size = size;
+              if(v.disabled){
+                btn_props.disabled = true;
               }
-              if((hightButton == k || (keys && keys[k] == hightButton)) && hightButton !== false){
-                type = hightlightType;
+              if(type === "radio"){
+                if(value){
+                  if(v.value === value){
+                    btn_props.type = hightlightType;
+                  }
+                }else if(this.state.currentValue){
+                  if(v.value === this.state.currentValue){
+                    btn_props.type = hightlightType;
+                  }
+                }else if(defaultValue){
+                  if(v.value === defaultValue){
+                    btn_props.type = hightlightType;
+                  }
+                }
+              }else if(this.props.type === "checkbox"){
+                if(!this.checkboxButtonValue){
+                  this.checkboxButtonValue = {};
+                }
+                if(value && _.isArray(value)){
+                  value.forEach((v,k)=>{
+                    this.checkboxButtonValue[v] = true;
+                  })
+                  if(value.indexOf(v.value) !== -1){
+                    btn_props.type = hightlightType;
+                  }
+                }else if(this.state.currentValue){
+                  if(this.state.currentValue.indexOf(v.value) !== -1){
+                    btn_props.type = hightlightType;
+                  }
+                }else if(defaultValue && _.isArray(defaultValue)){
+                  defaultValue.forEach((v,k)=>{
+                    this.checkboxButtonValue[v] = true;
+                  })
+                  if(defaultValue.indexOf(v.value) !== -1){
+                    btn_props.type = hightlightType;
+                  }
+                }else {
+                  console.error("value 或 defaultValue 不是数组类型！");
+                  return false;
+                }
               }
               return (
                 <Button 
-                  key={k} 
-                  type={type} 
-                  onClick={ this.onButtonClick((keys && keys[k]) || k,onButtonClick) } 
-                  disabled={disabled}
+                  { ...btn_props }
+                  key={ k } 
+                  onClick={ this.onChange(v.value) }
                 >
-                  { v }
+                  { v.label }
                 </Button>
               )
             })

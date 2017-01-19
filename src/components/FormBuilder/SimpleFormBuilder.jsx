@@ -27,7 +27,7 @@ class SimpleFormBuilder extends React.Component {
     super(props);
     this.state = {};
     //表单各个输入组件验证方法存储
-    this.itemsValidateFnc = {};
+    this.itemsValidateFunc = {};
     this.errors = [];
     //表单错误信息存放
     this.errors = [];
@@ -40,8 +40,8 @@ class SimpleFormBuilder extends React.Component {
     this.context.formBuilder.validateFields = (callback)=>{
       this.errors = [];
       //表单验证
-      for(var k in this.itemsValidateFnc){
-        this.itemsValidateFnc[k]((errors,currentFormItem)=>{
+      for(var k in this.itemsValidateFunc){
+        this.itemsValidateFunc[k]((errors,currentFormItem)=>{
           //console.debug(k)
           this.errors.push(errors);
           //使用jsx style组件，特殊处理

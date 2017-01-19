@@ -21,7 +21,8 @@ let childContextTypes = {
   hasFeedback: React.PropTypes.bool,
   labelCol: React.PropTypes.object,
   wrapperCol: React.PropTypes.object,
-  itemsValidateFnc: React.PropTypes.object,
+  inline: React.PropTypes.bool,
+  itemsValidateFunc: React.PropTypes.object,
 }
 
 let contextTypes = {
@@ -34,7 +35,8 @@ function getChildContext(){
     hasFeedback: this.props.hasFeedback,
     labelCol: this.props.labelCol,
     wrapperCol: this.props.wrapperCol,
-    itemsValidateFnc: this.itemsValidateFnc,
+    inline: this.props.inline,
+    itemsValidateFunc: this.itemsValidateFunc,
   }
 } 
 

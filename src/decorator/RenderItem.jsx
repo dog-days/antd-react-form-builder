@@ -1,13 +1,17 @@
 import React from 'react'
 import _ from 'lodash'
 import { 
-  Form,
   Input,
   InputNest,
   InputNumber,
   Select,
   Button,
   TimePicker,
+  DatePicker,
+  MonthPicker,
+  RangePicker,
+  CheckboxGroup,
+  RadioGroup,
 } from '../FormItemBind'
 
 function getFormItemComponentByType(type){
@@ -16,14 +20,16 @@ function getFormItemComponentByType(type){
     case "hidden":
     case "text":
     case "email":
+    case "textarea":
     case "url":
       Element = Input;
     break;
     case "number":
+    case "float":
+    case "integer":
       Element = InputNumber;
     break;
     case "password":
-    case "textarea":
       Element = Input;
     break;
     case "select":
@@ -34,6 +40,20 @@ function getFormItemComponentByType(type){
     break;
     case "time":
       Element = TimePicker;
+    case "time-picker":
+      Element = TimePicker;
+    break;
+    case "date":
+    case "date-picker":
+      Element = DatePicker;
+    break;
+    case "month-picker":
+    case "month":
+      Element = MonthPicker;
+    break;
+    case "range":
+    case "range-picker":
+      Element = RangePicker;
     break;
     //nested item 
     case "InputNest":

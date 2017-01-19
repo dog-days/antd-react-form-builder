@@ -25,7 +25,25 @@ class FormBuilder extends React.Component {
 
   constructor(props){
     super(props);
+    //存放各个表单项设置value的方法
+    this.setFieldValueFunc = { };
   }
+
+  componentDidMount(){
+    this.context.formBuilder.setFieldsValue = (values)=>{
+      for(var k in values){
+        this.setFieldValueFunc[k](values[k]);
+      }
+    }
+  }
+
+  static contextTypes = {
+    formBuilder: React.PropTypes.object,
+  }
+
+  static childContextTypes = {
+    setFieldValueFunc: React.PropTypes.object,
+  } 
 
   static create(){
     class Decorator extends React.Component {
@@ -64,6 +82,12 @@ class FormBuilder extends React.Component {
       return Decorator;
     }
   }
+
+  getChildContext(){
+    return {
+      setFieldValueFunc: this.setFieldValueFunc,
+    }
+  } 
 
   /**
   * formBuilderConfig value赋值（根据FormBuilder的表单结构所存储的值来赋值） 

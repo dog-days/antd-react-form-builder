@@ -1,12 +1,11 @@
 import React from 'react'
 import BasicItem from '../BasicItem'
 import Select from 'antd/lib/select'
-
-//const Option = AntdSelect.Option;
-//const OptGroup = AntdSelect.OptGroup;
+import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 
 function component(BasicItemComponent){
-  return class FSelect extends React.Component {
+  @FormItemComponentDecorator
+  class FSelect extends React.Component {
     render(){
       let {
         options,
@@ -14,16 +13,11 @@ function component(BasicItemComponent){
         ...other, 
       } = this.props;
       other.targetComponent = Select;
-      if(!other.storage){
-        if(this.storage){
-          other.storage = this.storage;
-        }else {
-          other.storage = {
-            value: other.value,
-          }
-          this.storage = other.storage; 
-        }
+      other.type = "select";
+      if(other.multiple){
+        other.type = "multiple-select";
       }
+      this.propsAdapter(other);
       if(group){
         return (
           //这里的BasicItemComponent相当于
@@ -69,5 +63,6 @@ function component(BasicItemComponent){
       }
     }
   }
+  return FSelect;
 }
 export default component(BasicItem) 

@@ -6,6 +6,11 @@ import InputNumber from './components/InputNumber'
 import Select from './components/Select'
 import Button from './components/Button'
 import TimePicker from './components/TimePicker'
+import DatePicker from './components/DatePicker'
+import MonthPicker from './components/MonthPicker'
+import RangePicker from './components/RangePicker'
+import CheckboxGroup from './components/CheckboxGroup'
+import RadioGroup from './components/RadioGroup'
 
 export {
   Form,
@@ -15,4 +20,9 @@ export {
   Select,
   Button,
   TimePicker,
+  DatePicker,
+  MonthPicker,
+  RangePicker,
+  CheckboxGroup,
+  RadioGroup,
 }
