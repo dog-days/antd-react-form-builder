@@ -287,6 +287,9 @@ class BasicItem extends React.Component {
                     <div className="array-item-left">
                       <BasicItem 
                         { ...v } 
+                        name={
+                          `${ v.name }[${ k }]` 
+                        }
                         array={ false }
                       />
                     </div>
