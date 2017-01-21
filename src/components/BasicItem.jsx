@@ -52,6 +52,11 @@ class BasicItem extends React.Component {
     this.bindSetFieldValue(nextProps);
     this.validate(nextProps);
   }
+  componentWillUnmount(){
+    //销毁时，删除验证函数
+    delete this.context.itemsValidateFunc[this.key];
+  }
+
   /**
   * 公共验证方法
   * @param { object } props 当前组件props或结构差不多的object对象 
