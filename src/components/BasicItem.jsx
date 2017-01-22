@@ -120,6 +120,10 @@ class BasicItem extends React.Component {
   bindSetFieldValue(props){
     this.context.setFieldValueFunc[props.name] = (value)=>{
       props.storage.value = value;
+      this.setState({
+        random: util.getUniqueKey(),
+      })
+      this.setArrayValue = true;
       this.validate(props);
     };
   }
@@ -263,18 +267,28 @@ class BasicItem extends React.Component {
       if(!storage.arrayProps){
         var obj;
         storage.arrayProps = [];
-        if(_.isString(this.props.value) || !this.props.value){
+        if(_.isString(this.props.storage.value) || !this.props.storage.value){
           obj = _.cloneDeep(this.props);
           obj.key = util.getUniqueKey();
           storage.arrayProps = [obj];
-        }else if(_.isArray(this.props.value)){
-          this.props.value.forEach((v,k)=>{
+        }else if(_.isArray(this.props.storage.value)){
+          storage.value.forEach((v,k)=>{
             obj = _.cloneDeep(this.props);
             obj.key = util.getUniqueKey();
             obj.value = v;
-            obj.storage.value = v;
+            obj.storage = {
+              value: v,
+            }
             storage.arrayProps.push(obj);
           })
+        }
+      }else {
+        if(this.setArrayValue){
+          storage.arrayProps.forEach((v,k)=>{
+            v.value = storage.value[k];
+            v.storage.value = storage.value[k];
+          })
+          this.setArrayValue = false;
         }
       }
       return (

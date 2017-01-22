@@ -10,13 +10,18 @@ import {
 import util from "../../util"
 import PureRender,{ shallowCompare } from "../../decorator/PureRender"
 import AddAndUpdateForm from "./components/AddAndUpdateForm"
-
+/**
+ * FormBuilder config 配置器 
+ *@prop { title } 第一级table的title
+ *@prop { config } 配置数据，只要config改变了都会以新的config重新渲染（父组件传进来） 
+ *@prop { onChange } 配置数据变化时触发的回调函数（这里的配置数据与父组件传进来的是相互独立的） 
+ */
 class FormBuilderConfiger extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {};
-    this.config = _.cloneDeep(this.props.defaultConfig);
+    this.config = _.cloneDeep(this.props.config);
   }
 
   static formBuilderConfigAdapter(data){
@@ -40,7 +45,7 @@ class FormBuilderConfiger extends React.Component {
 
   componentWillReceiveProps(nextProps){
     //console.debug("wiill",nextProps);
-    this.temp_config = _.cloneDeep(nextProps.defaultConfig);
+    this.temp_config = _.cloneDeep(nextProps.config);
     //是否是父级组件更新
     this.outerUpdate = true;
   }
@@ -289,11 +294,11 @@ class FormBuilderConfiger extends React.Component {
 
   render() {
     let {
-      defaultConfig,
+      config,
       onChange,
       title,
     } = this.props;
-    //console.debug("render",defaultConfig);
+    //console.debug("render",config);
     var dataSource = this.dataSourceAdapter(this.config);
     return (
       <div className="configer">

@@ -75,29 +75,6 @@ class SimpleFormBuilder extends React.Component {
     }
   }
 
-  //validateByConfig(config){
-    //config && config.forEach((v,k)=>{
-      //if(!v.children && v.data_type !== "object" && v.data_type !== "array"){
-        //var descriptor = {};
-        //descriptor[v.name] = v.rules; 
-        //var validator = new schema(descriptor);
-        //var obj = { };
-        //obj[v.name] = v.storage.value;
-        //validator.validate(obj, (errors, fields) => {
-          //if(errors){
-            //this.errors.push(errors);
-          //}
-        //});
-      //}else if(v.data_type === "object"){
-        //this.validateByConfig(v.children);
-      //}else if(v.data_type === "array"){
-        //v.children.forEach((v2,k2)=>{
-          //this.validateByConfig(v2);
-        //})
-      //}
-    //})
-  //}
-  
   render() {
     let { 
       form,
