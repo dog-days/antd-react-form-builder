@@ -1,7 +1,6 @@
 import React from 'react'
 import Form from './components/Form'
 import Input from './components/Input'
-import InputNest from './components/Input/nest'
 import InputNumber from './components/InputNumber'
 import Select from './components/Select'
 import Button from './components/Button'
@@ -11,11 +10,11 @@ import MonthPicker from './components/MonthPicker'
 import RangePicker from './components/RangePicker'
 import CheckboxGroup from './components/CheckboxGroup'
 import RadioGroup from './components/RadioGroup'
+import Password from './components/Password'
 
 export {
   Form,
   Input,
-  InputNest,
   InputNumber,
   Select,
   Button,
@@ -25,4 +24,5 @@ export {
   RangePicker,
   CheckboxGroup,
   RadioGroup,
+  Password,
 }

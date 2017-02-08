@@ -12,6 +12,7 @@ import {
   RangePicker,
   CheckboxGroup,
   RadioGroup,
+  Password,
 } from '../FormItemBind'
 
 function getFormItemComponentByType(type){
@@ -55,9 +56,14 @@ function getFormItemComponentByType(type){
     case "range-picker":
       Element = RangePicker;
     break;
-    //nested item 
-    case "InputNest":
-      Element = InputNest;
+    case "checkbox-group":
+      Element = CheckboxGroup;
+    break;
+    case "radio-group":
+      Element = RadioGroup;
+    break;
+    case "password":
+      Element = Password;
     break;
     default:
       Element = Input;

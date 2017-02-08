@@ -5,6 +5,9 @@ module.exports = {
   FormBuilderUrlInput: {
     "formatErrorMsg": "The url format is error",
   },
+  FormBuilderPhoneInput: {
+    "formatErrorMsg": "Please enter the correct phone number",
+  },
 }
 
 

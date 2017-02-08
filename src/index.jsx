@@ -13,6 +13,7 @@ import {
   RangePicker,
   CheckboxGroup,
   RadioGroup,
+  Password,
 } from './FormItemBind'
 
 export default FormBuilder;
@@ -31,6 +32,7 @@ export {
   RangePicker,
   CheckboxGroup,
   RadioGroup,
+  Password,
 }
 
 
