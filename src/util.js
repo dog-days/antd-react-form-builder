@@ -1,3 +1,5 @@
+import localeText from "./locale-provider/zh_CN"
+
 module.exports = {
   isEmptyObject(obj) {
     return Object.keys(obj).length === 0;

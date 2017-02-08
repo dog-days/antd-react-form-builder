@@ -6,10 +6,19 @@ function propsAdapter(props){
     label,
     formItemProps={},
     value,
+    required,
+    rules=[],
   } = props;
   if(!formItemProps.label){
     formItemProps.label = label;
   }
+  if(required){
+    rules.unshift({
+      required: true,
+      message: (label || props.name) + "是必填项",
+    });
+  }
+  props.rules = rules;
   props.formItemProps = formItemProps;
   if(!props.storage){
     if(this.storage){
