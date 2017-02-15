@@ -92,8 +92,8 @@ class AddAndUpdateForm extends React.Component {
   render(){ 
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 14 },
+      labelCol: { span: 5 },
+      wrapperCol: { span: 17 },
     };
     var data_type = this.props.form.getFieldValue("data_type");
     //console.debug(data_type);
@@ -102,7 +102,7 @@ class AddAndUpdateForm extends React.Component {
         onSubmit={ this.submitEvent }
       >
         <FormItem {...formItemLayout}
-          label="字段名"
+          label="字段"
           hasFeedback
         >
           {
@@ -112,19 +112,19 @@ class AddAndUpdateForm extends React.Component {
                 rules: [
                   {
                     required: true, 
-                    message: '请填写字段名',
+                    message: '请填写字段',
                   }
                 ],
               }
             )(
               <Input 
-                placeholder="请填写字段名"
+                placeholder="请填写字段"
               />
             )
           }
         </FormItem>
         <FormItem {...formItemLayout}
-          label="标注"
+          label="配置名"
           hasFeedback
         >
           {
@@ -134,13 +134,13 @@ class AddAndUpdateForm extends React.Component {
                 rules: [
                   {
                     required: true, 
-                    message: '请填写字段标注',
+                    message: '请填写字段配置名',
                   }
                 ],
               }
             )(
               <Input 
-                placeholder="请填写字段标注"
+                placeholder="请填写字段配置名"
               />
             )
           }
@@ -288,31 +288,25 @@ class AddAndUpdateForm extends React.Component {
           }
         </FormItem>
         <FormItem {...formItemLayout}
+          className="none-label-con mt20"
           label=" "
           hasFeedback
         >
-          {
-            this.isEdited &&
-            <AntdButton 
-              className="fr"
-              type="primary"
-              size="default"
-              htmlType="submit"
-            >
-              修改
-            </AntdButton>
-          }
-          {
-            !this.isEdited &&
-            <AntdButton 
-              className="fr"
-              type="primary"
-              size="default"
-              htmlType="submit"
-            >
-              添加 
-            </AntdButton>
-          }
+          <AntdButton 
+            className="fr"
+            type="default"
+            size="large"
+          >
+            取消
+          </AntdButton>
+          <AntdButton 
+            className="fr mr10"
+            type="primary"
+            size="large"
+            htmlType="submit"
+          >
+            确定 
+          </AntdButton>
         </FormItem>
       </Form>
     )

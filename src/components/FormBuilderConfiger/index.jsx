@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import _ from 'lodash'
 import {
   Button as AntdButton,
@@ -22,6 +22,51 @@ class FormBuilderConfiger extends React.Component {
     super(props);
     this.state = {};
     this.config = _.cloneDeep(this.props.config);
+  }
+
+  static contextTypes = {
+    formBuilderConfiger: React.PropTypes.object,
+  }
+
+  static create(){
+    class Decorator extends React.Component {
+
+      constructor(props){
+        super(props);
+        this.formBuilderConfiger = {};
+      }
+
+      static childContextTypes = {
+        formBuilderConfiger: PropTypes.object.isRequired,
+      }
+
+      getChildContext() {
+        return {
+          formBuilderConfiger: this.formBuilderConfiger,
+        };
+      }
+
+      render(){
+        this.formBuilderConfiger.openAddFieldDialogEvent = (e)=>{
+          this.formBuilderConfiger.openAddFieldDialogEvent(e);
+        }
+        var WrapperComponent = this.getWrapperComponent(); 
+        return (
+          <WrapperComponent 
+            { ...this.props }
+            formBuilderConfiger={ this.formBuilderConfiger }
+          />
+        )
+      }
+    }
+    return (WrappedComponent)=>{
+      function getDisplayName(WrappedComponent) {
+        return WrappedComponent.displayName || WrappedComponent.name || 'WrappedComponent';
+      }
+      Decorator.displayName = `FormBuilderConfiger(${getDisplayName(WrappedComponent)})`;
+      Decorator.prototype.getWrapperComponent = ()=>WrappedComponent; 
+      return Decorator;
+    }
   }
 
   static formBuilderConfigAdapter(data){
@@ -94,7 +139,7 @@ class FormBuilderConfiger extends React.Component {
         key: 'name',
       },
       {
-        title: "说明",
+        title: "配置名",
         dataIndex: 'label',
         key: 'label',
       },
@@ -126,47 +171,74 @@ class FormBuilderConfiger extends React.Component {
         return (
           <div>
             {
-              id !== 0 &&
-              <a href="javascript:void(0)" className="mr10">
-                <Icon 
-                  type="arrow-up" 
-                  onClick={
-                    this.dataUpEvent(currentData,id)
-                  }
-                />
-              </a>
-            }
-            {
-              id !== currentData.length - 1 &&
-              <a href="javascript:void(0)" className="mr10">
-                <Icon 
-                  type="arrow-down"
-                  onClick={
-                    this.dataDownEvent(currentData,id)
-                  }
-                />
-              </a>
-            }
-            {
               currentData[id].read_only != "1" &&
-              <a href="javascript:void(0)" className="mr10">
+              <a 
+                href="javascript:void(0)" 
+                className="mr10"
+                onClick={
+                  this.openAddFieldDialogEvent(currentData,id)
+                }
+              >
                 <Icon 
                   type="edit" 
-                  onClick={
-                    this.openAddFieldDialogEvent(currentData,id)
-                  }
                 />
               </a>
             }
             {
               currentData[id].can_not_delete != "1" &&
-              <a href="javascript:void(0)" >
+              <a 
+                href="javascript:void(0)" 
+                className="mr10"
+                onClick={ 
+                  this.dataDeleteEvent(currentData,id) 
+                }
+              >
                 <Icon 
                   type="delete"
-                  onClick={ 
-                    this.dataDeleteEvent(currentData,id) 
-                  }
                 />
+              </a>
+            }
+            {
+              id !== 0 &&
+              <a 
+                href="javascript:void(0)" 
+                className="mr10"
+                onClick={
+                  this.dataUpEvent(currentData,id)
+                }
+              >
+                <Icon 
+                  type="arrow-up" 
+                />
+              </a>
+            }
+            {
+              id !== currentData.length - 1 &&
+              <a 
+                href="javascript:void(0)" 
+                className="mr10"
+                onClick={
+                  this.dataDownEvent(currentData,id)
+                }
+              >
+                <Icon 
+                  type="arrow-down"
+                />
+              </a>
+            }
+            {
+              this.props.hasNoneTableTitle && 
+              currentData[id].children && 
+              <a 
+                href="javascript:void(0)" 
+                className="mr10"
+                onClick={
+                  this.openAddFieldDialogEvent(currentData[id].children)
+                }
+              >
+                <span>
+                  +CI
+                </span>
               </a>
             }
           </div>
@@ -176,7 +248,13 @@ class FormBuilderConfiger extends React.Component {
     return columns;
   }
 
-  getTitle(title,currentData){
+  /**
+  * 获取Table title
+  * @param { string } title 标题 
+  * @param { object } currentData 当前列数据   
+  * @param { boolean } first 是否是最外层table的标题 
+  */
+  getTitle(title,currentData,first){
     return ()=>{
       return (
         <div>
@@ -203,12 +281,16 @@ class FormBuilderConfiger extends React.Component {
   * @param { array } currentData 当前表格源数据 
   */
   getTableComponent(title,columns,dataSource,currentData){
+    var obj = { }; 
+    if(!this.props.hasNoneTableTitle){
+      obj.title = this.getTitle(title,currentData); 
+    }
     return (
       <Table 
+        { ...obj }
         bordered
         pagination={ false }
         size="middle"
-        title={ this.getTitle(title,currentData) }
         columns={ columns }
         defaultExpandAllRows={ true }
         expandedRowRender={
@@ -300,6 +382,8 @@ class FormBuilderConfiger extends React.Component {
     } = this.props;
     //console.debug("render",config);
     var dataSource = this.dataSourceAdapter(this.config);
+    //对外提供最外层添加窗口
+    this.context.formBuilderConfiger.openAddFieldDialogEvent = this.openAddFieldDialogEvent(this.config);
     return (
       <div className="configer">
         { 
