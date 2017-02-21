@@ -48,7 +48,7 @@ class FormBuilderConfiger extends React.Component {
 
       render(){
         this.formBuilderConfiger.openAddFieldDialogEvent = (e)=>{
-          this.formBuilderConfiger.openAddFieldDialogEvent(e);
+          this.formBuilderConfiger.openAddFieldDialog(e);
         }
         var WrapperComponent = this.getWrapperComponent(); 
         return (
@@ -383,7 +383,7 @@ class FormBuilderConfiger extends React.Component {
     //console.debug("render",config);
     var dataSource = this.dataSourceAdapter(this.config);
     //对外提供最外层添加窗口
-    this.context.formBuilderConfiger.openAddFieldDialogEvent = this.openAddFieldDialogEvent(this.config);
+    this.context.formBuilderConfiger.openAddFieldDialog = this.openAddFieldDialogEvent(this.config);
     return (
       <div className="configer">
         { 

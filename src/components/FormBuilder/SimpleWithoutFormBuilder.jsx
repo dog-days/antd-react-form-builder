@@ -147,19 +147,34 @@ class SimpleWithoutFormBuilder extends React.Component {
             && v.children 
             && v.children[0] 
             && v.children[0][0] &&
-            <Card title={ v.label } className="mb10">
+            <Card title={ v.label } className="mb10 array-card-con">
               {
                 v.children.map((v2,k2)=>{
                   var array_title;
-                  array_title = this.buttonGroupAdapter({
-                    up_action: true,
-                    down_action: true,
-                    delete_action: true,
-                  },k2,v.children);
+                  var otherProps = { }
+                  if(v.children.length !== 1){
+                    array_title = (
+                      <div>
+                        {
+                          this.iconGroupAdater({
+                            up_action: true,
+                            down_action: true,
+                            delete_action: true,
+                          },k2,v.children)
+                        }
+                      </div>
+                    )
+                    otherProps.title = array_title; 
+                  }
                   e_name = `${ temp_name }[${ k2 }]`; 
                   return (
-                    <div key={ v2[0].key }>
-                      <Card title={ array_title } className="mb10">
+                    <div 
+                      key={ v2[0].key }
+                    >
+                      <Card 
+                        { ...otherProps }
+                        className="array-card mb10"
+                      >
                         { this.configRender(v2,e_name) }
                       </Card>
                       {
@@ -185,7 +200,7 @@ class SimpleWithoutFormBuilder extends React.Component {
             && v.data_type !== "array" 
             && v.children 
             && v.children[0] && 
-            <Card title={ v.label } className="mb10">
+            <Card title={ v.label } className="mb10 not-array-card-con">
               { 
                 v.data_type !== "array" && 
                 this.configRender(v.children,e_name) 
