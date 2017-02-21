@@ -51,7 +51,7 @@ function buttonGroupAdapter(action,index,data){
     if(action.delete_action){
       obj = {
         value: "delete",
-        label: <Icon type="close"/>,
+        label: <Icon type="delete"/>,
       }
       if((data.length - 1) === 0){
         obj.disabled = true; 
@@ -70,7 +70,64 @@ function buttonGroupAdapter(action,index,data){
   return buttonGroup;
 }
 
+function iconGroupAdater(action,index,data){
+  var group;
+  if(action){
+    var upIcon = (
+      <Icon 
+        className="mr10"
+        type="arrow-up"
+        onClick={
+          (e)=>{
+            this.onButtonChange(data,index)("up");
+          }
+        }
+      />
+    )
+    var downIcon = (
+      <Icon 
+        className="mr10"
+        type="arrow-down"
+        onClick={
+          (e)=>{
+            this.onButtonChange(data,index)("down");
+          }
+        }
+      />
+    )
+    var deleteIcon = (
+      <Icon 
+        className="mr10"
+        type="delete"
+        onClick={
+          (e)=>{
+            this.onButtonChange(data,index)("delete");
+          }
+        }
+      />
+    )
+    if(index === 0){
+      upIcon = false;
+    }
+    if(index === data.length - 1){
+      downIcon = false;
+    }
+    if((data.length - 1) === 0){
+      deleteIcon = false;
+    }
+    group = (
+      <span className="icon-group-con">
+        { upIcon }
+        { downIcon }
+        { deleteIcon }
+      </span>
+    )
+  }
+  return group;
+}
+
 function ItemButtonGroupDecorator(component){
   component.prototype.buttonGroupAdapter = buttonGroupAdapter;
+  component.prototype.iconGroupAdater = iconGroupAdater;
 }
 export default ItemButtonGroupDecorator;
