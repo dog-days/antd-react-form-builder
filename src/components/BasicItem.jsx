@@ -364,6 +364,8 @@ class BasicItem extends React.Component {
     if(arrayItem){
       return arrayItem;
     }
+    //消除原生表单required属性的影响
+    delete other.required;
     var FormItemComponent = targetComponent;
     var component; 
     if(!FormItemComponent){
