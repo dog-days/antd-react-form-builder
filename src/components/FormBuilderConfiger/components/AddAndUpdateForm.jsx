@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import {
   Form,
+  Radio,
   Button as AntdButton,
   Icon,
   Table,
@@ -13,14 +14,19 @@ import {
 import util from "../../../util"
 
 const FormItem = Form.Item;
+const RadioGroup = Radio.Group;
 
 @Form.create()
 class AddAndUpdateForm extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = { }; 
-    if(this.props.index !== undefined){
+    let {
+      currentData,
+      index,
+    } = props;
+    this.state = { };
+    if(index !== undefined){
       //index不为undefined，说明是编辑，否则是添加
       this.isEdited = true;
     }else {
@@ -39,7 +45,10 @@ class AddAndUpdateForm extends React.Component {
         name: data.name,
         label: data.label,
         data_type: data.data_type,
+        value: data.value,
+        select_target: data.select_target,
       }
+      console.debug(obj)
       if(data.required){
         obj.required = data.required + "";
       }
@@ -49,8 +58,14 @@ class AddAndUpdateForm extends React.Component {
       if(data.can_not_delete){
         obj.can_not_delete = data.can_not_delete + "";
       }
-      this.props.form.setFieldsValue(currentData[index]);
+      this.props.form.setFieldsValue(obj); 
     }
+  }
+
+  onRadioChangeEvent = (e)=>{
+    this.setState({
+      radioValue: e.target.value,
+    })
   }
 
   submitEvent = (e)=>{
@@ -90,13 +105,26 @@ class AddAndUpdateForm extends React.Component {
   }
 
   render(){ 
-    const { getFieldDecorator } = this.props.form;
+    let {
+      selectSourceDataMap, 
+      currentData,
+      index,
+    } = this.props;
+    const { 
+      getFieldDecorator, 
+    } = this.props.form;
     const formItemLayout = {
       labelCol: { span: 5 },
       wrapperCol: { span: 17 },
     };
-    var data_type = this.props.form.getFieldValue("data_type");
+    var data_type = this.props.form.getFieldValue("data_type") 
+      || (currentData[index] && currentData[index].data_type);
     //console.debug(data_type);
+    const radioStyle = {
+      display: 'block',
+      height: '35px',
+      lineHeight: '35px',
+    };
     return (
       <Form
         onSubmit={ this.submitEvent }
@@ -166,6 +194,9 @@ class AddAndUpdateForm extends React.Component {
               >
                 {
                   util.dataType.map((v,k)=>{
+                    if(!selectSourceDataMap && v.value === "list") {
+                      return false; 
+                    }
                     return (
                       <Select.Option 
                         value={v.value}
@@ -181,18 +212,49 @@ class AddAndUpdateForm extends React.Component {
           }
         </FormItem>
         {
-          (data_type !== "object" && data_type !== "array") &&
-          <FormItem {...formItemLayout}
+          (data_type !== "object" && data_type !== "array" && (data_type != undefined || currentData[index])) &&
+          data_type !== "list" &&
+          <FormItem 
             label="默认值"
-            hasFeedback
+            {...formItemLayout}
           >
             {
-              getFieldDecorator(
-                'value'
-              )(
+              getFieldDecorator('value')(
                 <Input 
                   placeholder="请填写默认值"
                 />
+              )
+            }
+          </FormItem>
+        }
+        {
+          (data_type === "list") &&
+          <FormItem 
+            label="下拉选择"
+            {...formItemLayout}
+          >
+            {
+              getFieldDecorator('select_target',
+                {
+                  rules: [
+                    {
+                      required: true, 
+                      message: '请选择',
+                    }
+                  ],
+                }                 
+              )(
+                <Select placeholder="请选择" >
+                  {
+                    selectSourceDataMap.map((v,k)=>{
+                      return (
+                        <Select.Option value={v.value} key={ k }>
+                          { v.text }
+                        </Select.Option>
+                      )
+                    })
+                  }
+                </Select>
               )
             }
           </FormItem>
@@ -294,18 +356,23 @@ class AddAndUpdateForm extends React.Component {
         >
           <AntdButton 
             className="fr"
-            type="default"
-            size="large"
-          >
-            取消
-          </AntdButton>
-          <AntdButton 
-            className="fr mr10"
             type="primary"
             size="large"
             htmlType="submit"
           >
             确定 
+          </AntdButton>
+          <AntdButton 
+            className="fr mr10"
+            type="default"
+            size="large"
+            onClick={
+              (e)=>{
+                this.props.setAddFieldDialogState(false)(e);
+              }
+            }
+          >
+            取消
           </AntdButton>
         </FormItem>
       </Form>

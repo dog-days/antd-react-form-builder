@@ -1,8 +1,8 @@
 import React from 'react'
+import util from '../src/util'
 import {
   FormBuilder,
   Input,
-  InputNest,
   InputNumber,
   Select,
   Button,
@@ -12,8 +12,8 @@ import {
   RangePicker,
   CheckboxGroup,
   RadioGroup,
+  Password,
 } from '../lib/index'
-import fields from "./config"
 
 @FormBuilder.create()
 class Container extends React.Component {
@@ -24,12 +24,13 @@ class Container extends React.Component {
 
   componentDidMount(){
     //console.debug(this.props.formBuilder)
-    this.props.formBuilder.setFieldsValue({
+    var obj = {
       number: 1,
       integer: 1.1,
       textarea: "dddddd",
       city: "shenzhen",
-    }); 
+    };
+    this.props.formBuilder.setFieldsValue(obj); 
   }
 
   handleOnsubmit(e){
@@ -58,50 +59,27 @@ class Container extends React.Component {
         horizontal 
       >
         <Input 
+          required
+          array={ true }
           type="text"
           name="text"
-          value={
-            ["text","text2"]
-          }
-          array={ true }
+          value={ "text" }
           label="text类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请不要留空"
-              },
-            ]
-          }
           placeholder="请输入"
         />
         <InputNumber
+          required
           type="number"
           name="number"
           step={0.1}
           label="number类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请不要留空"
-              }
-            ]
-          }
           placeholder="请输入"
         />
         <InputNumber
           type="integer"
           name="integer"
           label="integer类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请不要留空"
-              }
-            ]
-          }
+          required
           placeholder="请输入"
         />
         <InputNumber
@@ -109,56 +87,35 @@ class Container extends React.Component {
           name="float"
           step={0.1}
           label="float类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请不要留空"
-              }
-            ]
-          }
+          required
+          placeholder="请输入"
+        />
+        <Input 
+          type="phone"
+          name="text"
+          label="phone类型"
+          required
           placeholder="请输入"
         />
         <Input
           type="email"
           name="email"
           label="email类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请不要留空"
-              }
-            ]
-          }
+          required
           placeholder="请输入邮箱"
         />
         <Input
           type="url"
           name="url"
           label="url类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请不要留空"
-              }
-            ]
-          }
+          required
           placeholder="请输入网址"
         />
         <Input
           type="textarea"
           name="textarea"
           label="textarea类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请不要留空"
-              }
-            ]
-          }
+          required
           placeholder="请输入"
         />
         <Select 
@@ -166,24 +123,17 @@ class Container extends React.Component {
           options={
             [
               {
-                text: "深圳",
                 value: "shenzhen",
+                text: "深圳"
               },
               {
-                text: "上海",
-                value: "shanghai",
+                value: "beijing",
+                text: "北京"
               },
             ]
           }
           label="单选select类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请选择城市"
-              }
-            ]
-          }
+          required
           placeholder="请选择城市"
         />
         <Select 
@@ -202,14 +152,7 @@ class Container extends React.Component {
             ]
           }
           label="分组select类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请选择城市"
-              }
-            ]
-          }
+          required
           placeholder="请选择城市"
         />
         <Select 
@@ -228,14 +171,7 @@ class Container extends React.Component {
             ]
           }
           label="多选select类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请选择城市"
-              }
-            ]
-          }
+          required
           placeholder="请选择城市"
         />
         <TimePicker
@@ -254,28 +190,14 @@ class Container extends React.Component {
         <DatePicker
           name="datepicker"
           label="DatePicker类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请选择日期"
-              }
-            ]
-          }
+          required
           placeholder="请选择日期"
         />
         <MonthPicker
           name="monthpicker"
           value="2017-05"
           label="MonthPicker类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请选择月份"
-              }
-            ]
-          }
+          required
           placeholder="请选择月份"
         />
         <RangePicker
@@ -300,14 +222,7 @@ class Container extends React.Component {
             ]
           }
           label="CheckboxGroup类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请选择"
-              }
-            ]
-          }
+          required
         />
         <RadioGroup
           name="radiogroup"
@@ -319,14 +234,13 @@ class Container extends React.Component {
             ]
           }
           label="RadioGroup类型"
-          rules={
-            [
-              {
-                required: true,
-                message: "请选择"
-              }
-            ]
-          }
+          required
+        />
+        <Password
+          name="password"
+          rePassword={ true }
+          label="密码"
+          required
         />
         <Button 
           htmlType="submit"

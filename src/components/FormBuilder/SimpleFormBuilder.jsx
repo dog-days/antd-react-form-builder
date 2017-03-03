@@ -84,6 +84,7 @@ class SimpleFormBuilder extends React.Component {
       labelCol,
       wrapperCol,
       className,
+      selectSourceData,
       ...other 
     } = this.props;
     other.className = className + " builder-con";

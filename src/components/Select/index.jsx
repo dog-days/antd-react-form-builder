@@ -6,10 +6,26 @@ import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 function component(BasicItemComponent){
   @FormItemComponentDecorator
   class FSelect extends React.Component {
+
+    static contextTypes = {
+      selectSourceData: React.PropTypes.object,
+    }
+
+    renderOptions(options){
+      return options && options.map && options.map((v,k)=>{
+        return (
+          <Select.Option key={ k } value={ v.value+"" }>
+            { v.text }
+          </Select.Option>
+        )
+      })
+    }
+
     render(){
       let {
         options,
         group,
+        select_target,
         ...other, 
       } = this.props;
       other.targetComponent = Select;
@@ -26,20 +42,12 @@ function component(BasicItemComponent){
           //    { children }
           //  </Select>
           //</FormItem>
-          <BasicItemComponent { ...other }>
+          <BasicItemComponent placeholder="请选择" { ...other }>
             {
               group && group[0] && group.map((g_v,g_k)=>{
                 return (
                   <Select.OptGroup key={ g_k } label={ g_v.label || "" }>
-                    {
-                      g_v.options && g_v.options[0] && g_v.options.map((o_v,o_k)=>{
-                        return (
-                          <Select.Option key={ o_k } value={ o_v.value + "" }>
-                            { o_v.text }
-                          </Select.Option>
-                        )
-                      })
-                    }
+                    { this.renderOptions(g_v.options) }
                   </Select.OptGroup>
                 )
               })
@@ -48,16 +56,21 @@ function component(BasicItemComponent){
         )
       }else if(options){
         return (
-          <BasicItemComponent { ...other }>
-            {
-              options && options[0] && options.map((o_v,o_k)=>{
-                return (
-                  <Select.Option key={ o_k } value={ o_v.value+"" }>
-                    { o_v.text }
-                  </Select.Option>
-                )
-              })
-            }
+          <BasicItemComponent placeholder="请选择" { ...other }>
+            { this.renderOptions(options) }
+          </BasicItemComponent>
+        )
+      }else if(select_target){
+        //console.debug(this.context.selectSourceData);
+        options = this.context.selectSourceData[select_target]; 
+        return (
+          <BasicItemComponent placeholder="请选择" { ...other } >
+            { this.renderOptions(options) }
+          </BasicItemComponent>
+        ) 
+      }else {
+        return (
+          <BasicItemComponent placeholder="暂无数据" { ...other } >
           </BasicItemComponent>
         )
       }

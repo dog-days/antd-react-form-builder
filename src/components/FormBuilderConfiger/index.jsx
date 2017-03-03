@@ -12,9 +12,11 @@ import PureRender,{ shallowCompare } from "../../decorator/PureRender"
 import AddAndUpdateForm from "./components/AddAndUpdateForm"
 /**
  * FormBuilder config 配置器 
- *@prop { title } 第一级table的title
- *@prop { config } 配置数据，只要config改变了都会以新的config重新渲染（父组件传进来） 
- *@prop { onChange } 配置数据变化时触发的回调函数（这里的配置数据与父组件传进来的是相互独立的） 
+ *@prop { string } title 第一级table的title
+ *@prop { boolean } hasNoneTableTitle table title是否显示 
+ *@prop { object } config 配置数据，只要config改变了都会以新的config重新渲染（父组件传进来） 
+ *@prop { selectSourceDataMap } 拉选择数据源 
+ *@prop { function } onChange 配置数据变化时触发的回调函数（这里的配置数据与父组件传进来的是相互独立的） 
  */
 class FormBuilderConfiger extends React.Component {
 
@@ -379,6 +381,7 @@ class FormBuilderConfiger extends React.Component {
       config,
       onChange,
       title,
+      selectSourceDataMap,
     } = this.props;
     //console.debug("render",config);
     var dataSource = this.dataSourceAdapter(this.config);
@@ -406,7 +409,8 @@ class FormBuilderConfiger extends React.Component {
               currentData={ this.state.currentData }
               index={ this.state.index }
               setChangeState={ this.setChangeState }
-              setAddFieldDialogState={ this.setAddFieldDialogState }
+              setAddFieldDialogState={ this.setAddFieldDialogState.bind(this) }
+              selectSourceDataMap={ selectSourceDataMap }
             />
           }
         </Modal>

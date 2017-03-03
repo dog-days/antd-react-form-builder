@@ -1,7 +1,7 @@
 import React from 'react'
 import PureRender from "../../decorator/PureRender"
 import renderItemDecorator from "../../decorator/RenderItem"
-import ItemButtonGroupDecorator from "../../decorator/ItemButtonGroup"
+import IconGroup from "../../components/_util/IconGroup"
 import util from "../../util"
 import _ from 'lodash'
 import Button from 'antd/lib/button'
@@ -18,7 +18,6 @@ import Card from 'antd/lib/card'
  * @prop {Object} config FormBuilder 配置项，表单就是从这些配置中渲染出来的 （可选） 
  */
 @PureRender
-@ItemButtonGroupDecorator
 @renderItemDecorator
 class SimpleWithoutFormBuilder extends React.Component {
 
@@ -34,7 +33,7 @@ class SimpleWithoutFormBuilder extends React.Component {
     })
   }
 
-  onButtonChange = (data,index)=>{
+  onIconClick = (data,index)=>{
     return (btn_index)=>{
       switch(btn_index){ 
         case "up":
@@ -104,11 +103,6 @@ class SimpleWithoutFormBuilder extends React.Component {
             };
           } 
           var type = v.data_type;
-          switch(v.data_type){
-            case "string":
-              type = "text";
-            break;
-          }
 //console.debug(e_name);
           element_props = {
             name: e_name,
@@ -135,8 +129,18 @@ class SimpleWithoutFormBuilder extends React.Component {
             v.repeat_count = 0;
           }
           v.repeat_count++; 
-//console.debug(v);
-          Element = this.getFormItemComponentByType(v.data_type);
+          switch(v.data_type){
+            case "string":
+              type = "text";
+            break;
+            case "list":
+              type = "select";
+              //字段配置时选择的select数据源
+              element_props.select_target = v.select_target;
+            break;
+          }
+  //console.debug(v);
+          Element = this.getFormItemComponentByType(type);
       }
       var temp_name = e_name;
       return (
@@ -154,15 +158,20 @@ class SimpleWithoutFormBuilder extends React.Component {
                   var otherProps = { }
                   if(v.children.length !== 1){
                     array_title = (
-                      <div>
-                        {
-                          this.iconGroupAdater({
+                      <IconGroup 
+                        action={
+                          {
                             up_action: true,
                             down_action: true,
                             delete_action: true,
-                          },k2,v.children)
+                          }
                         }
-                      </div>
+                        index={ k2 }
+                        data={ v.children }
+                        onIconClick={
+                          this.onIconClick(v.children,k2)
+                        }
+                      />
                     )
                     otherProps.title = array_title; 
                   }
