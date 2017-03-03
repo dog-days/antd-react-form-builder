@@ -73,6 +73,14 @@ function buttonGroupAdapter(action,index,data){
 function iconGroupAdater(action,index,data){
   var group;
   if(action){
+    if(_.isBoolean(action)){
+      action = {
+        up_action: true,
+        down_action: true,
+        add_action: true,
+        delete_action: true,
+      };
+    }
     var upIcon = (
       <Icon 
         className="mr10"
@@ -95,6 +103,17 @@ function iconGroupAdater(action,index,data){
         }
       />
     )
+    var addIcon = (
+      <Icon 
+        className="mr10"
+        type="plus"
+        onClick={
+          (e)=>{
+            this.onButtonChange(data,index)("add");
+          }
+        }
+      />
+    )
     var deleteIcon = (
       <Icon 
         className="mr10"
@@ -106,6 +125,7 @@ function iconGroupAdater(action,index,data){
         }
       />
     )
+    
     if(index === 0){
       upIcon = false;
     }
@@ -119,6 +139,7 @@ function iconGroupAdater(action,index,data){
       <span className="icon-group-con">
         { upIcon }
         { downIcon }
+        { addIcon }
         { deleteIcon }
       </span>
     )

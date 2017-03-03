@@ -23,6 +23,7 @@ let childContextTypes = {
   wrapperCol: React.PropTypes.object,
   inline: React.PropTypes.bool,
   itemsValidateFunc: React.PropTypes.object,
+  selectSourceData: React.PropTypes.object,
 }
 
 let contextTypes = {
@@ -37,6 +38,7 @@ function getChildContext(){
     wrapperCol: this.props.wrapperCol,
     inline: this.props.inline,
     itemsValidateFunc: this.itemsValidateFunc,
+    selectSourceData: this.props.selectSourceData,
   }
 } 
 

@@ -26,6 +26,18 @@ module.exports = {
   },
   dataType: [
     {
+      "value": "object",
+      "text": "object"
+    },
+    {
+      "value": "array",
+      "text": "array"
+    },
+    {
+      "value": "list",
+      "text": "list（下拉选择）"
+    },
+    {
       "value": "string",
       "text": "string"
     },
@@ -44,14 +56,6 @@ module.exports = {
     {
       "value": "boolean",
       "text": "boolean"
-    },
-    {
-      "value": "array",
-      "text": "array"
-    },
-    {
-      "value": "object",
-      "text": "object"
     },
     {
       "value": "date",

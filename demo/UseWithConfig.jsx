@@ -5,16 +5,61 @@ import {
   InputNest,
   InputNumber,
   Select,
-  Button,
   TimePicker,
 } from '../lib/index'
 import serialize from "form-serialize" 
 import FormBuilderConfiger from "../src/components/FormBuilderConfiger" 
-import { Card } from 'antd'
+import { 
+  Card, 
+  Button, 
+  Icon, 
+} from 'antd'
 import feilds from "./config"
 import util from "../src/util"
 import "../style/css/demo.scss"
 
+let selectSourceDataMap = [
+  {
+    text: "选择一",
+    value: "one",
+  },
+  {
+    text: "选择二",
+    value: "two",
+  },
+];
+let selectSourceData = {
+  one: [
+    {
+      value: 1,
+      text: "1",
+    },
+    {
+      value: 2,
+      text: "2",
+    },
+    {
+      value: 3,
+      text: "3",
+    },
+  ],
+  two: [
+    {
+      value: 4,
+      text: "4",
+    },
+    {
+      value: 5,
+      text: "5",
+    },
+    {
+      value: 6,
+      text: "6",
+    },
+  ],
+}
+
+@FormBuilderConfiger.create()
 @FormBuilder.create()
 class Container extends React.Component {
   constructor(props){
@@ -107,21 +152,36 @@ class Container extends React.Component {
     this.setState({
       formBuilderConfig: config,
     })
+    //console.debug(config)
   }
 
   render() {
+    //console.debug(this.props)
     return (
       <div className="demo-view">
         <Card 
           title="表格字段配置"
           className="config-content"
+          extra={
+            <Button
+              onClick={
+                this.props.formBuilderConfiger.openAddFieldDialogEvent
+              }
+            >
+              <Icon type="plus"/>
+            </Button>
+          }
         >
           <FormBuilderConfiger 
+            hasNoneTableTitle={ true }
             onChange={ this.onConfigerChange }
-            defaultConfig={
+            config={
               this.state.table
             }
             title="表格字段配置"
+            selectSourceDataMap={
+              selectSourceDataMap
+            }
           />
         </Card>
         <Card
@@ -129,17 +189,27 @@ class Container extends React.Component {
           className="form-builder-content"
         >
           <FormBuilder 
-            id="form-builder"
+            selectSourceData={ selectSourceData }
             onSubmit={ this.handleOnsubmit.bind(this) }
             size="default"
             hasFeedback={ true }
             horizontal
             config={ this.state.formBuilderConfig }
+            labelCol={
+              {
+                span: 4,
+              }
+            }
+            wrapperCol={
+              {
+                span: 20,
+              }
+            }
           >    
             {
               this.state.formBuilderConfig &&
               <Button
-                buttonType="primary"
+                type="primary"
                 htmlType="submit"
               >
                 提交
