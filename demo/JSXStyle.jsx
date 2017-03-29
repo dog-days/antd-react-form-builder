@@ -30,11 +30,13 @@ class Container extends React.Component {
       textarea: "dddddd",
       city: "shenzhen",
     };
+    this.props.formBuilder &&
     this.props.formBuilder.setFieldsValue(obj); 
   }
 
   handleOnsubmit(e){
     e.preventDefault();
+    this.props.formBuilder &&
     this.props.formBuilder.validateFields((err, values) => {
       console.debug('values: ', values);
       if(err){
@@ -241,6 +243,13 @@ class Container extends React.Component {
           rePassword={ true }
           label="密码"
           required
+          locale={
+            {
+              FormBuilderRepasswordInput: {
+                label: "再次输入密码",
+              }
+            }
+          }
         />
         <Button 
           htmlType="submit"

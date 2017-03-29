@@ -26,12 +26,12 @@ function component(BasicItemComponent){
       other.targetComponent = Input;
       other.type = "password";
       this.propsAdapter(other);
-      //console.debug(other)
+      console.debug(other)
       if(rePassword){
         var reProps = _.cloneDeep(other);
         reProps.formItemProps.label = locale.FormBuilderRepasswordInput.label;
         reProps.name = "re-" + reProps.name;
-        reProps.rules = [
+        reProps.rules.push(
           {
             validator(rule, value, callback, source, options) {
               var errors = [];
@@ -45,14 +45,14 @@ function component(BasicItemComponent){
               callback(errors);
             }
           }
-        ]
+        )
       }
       return (
         <div key={ key } className="password-con">
           <BasicItemComponent { ...other }/>
           {
             rePassword &&
-            <BasicItemComponent { ...reProps }/>
+            <BasicItemComponent { ...reProps } required/>
           }
         </div>
       )

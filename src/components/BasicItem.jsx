@@ -24,7 +24,7 @@ class BasicItem extends React.Component {
     this.validate(this.props,true);
   }
 
-  static PropTypes = {
+  static propTypes = {
     rules: React.PropTypes.array,
     type: React.PropTypes.string,
     name: React.PropTypes.string,
