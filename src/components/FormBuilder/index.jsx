@@ -30,6 +30,9 @@ class FormBuilder extends React.Component {
   }
 
   componentDidMount(){
+    if(!this.context.formBuilder){
+      return;
+    }
     this.context.formBuilder.setFieldsValue = (values)=>{
       for(var k in values){
         this.setFieldValueFunc[k](values[k]);

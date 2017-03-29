@@ -37,6 +37,9 @@ class SimpleFormBuilder extends React.Component {
 
   componentDidMount(){
     var formDom = ReactDOM.findDOMNode(this.refs.formBuilder);
+    if(!this.context.formBuilder){
+      return;
+    }
     this.context.formBuilder.validateFields = (callback)=>{
       this.errors = [];
       //表单验证

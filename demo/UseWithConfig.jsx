@@ -195,16 +195,6 @@ class Container extends React.Component {
             hasFeedback={ true }
             horizontal
             config={ this.state.formBuilderConfig }
-            labelCol={
-              {
-                span: 4,
-              }
-            }
-            wrapperCol={
-              {
-                span: 20,
-              }
-            }
           >    
             {
               this.state.formBuilderConfig &&
