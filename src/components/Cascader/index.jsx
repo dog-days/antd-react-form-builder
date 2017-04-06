@@ -2,21 +2,18 @@ import React from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
-import AntdTimePicker from 'antd/lib/time-picker'
+import AntdCascader from 'antd/lib/cascader'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 
 function component(BasicItemComponent){
   @FormItemComponentDecorator
-  class TimePicker extends React.Component {
+  class Cascader extends React.Component {
 
     render(){
       let { ...other } = this.props;
 
-      other.targetComponent = AntdTimePicker;
-      if(_.isString(other.value)){
-        other.value = new moment(other.value,"HH:mm:ss")
-      }
-      other.type = "timepicker";
+      other.targetComponent = AntdCascader;
+      other.type = "cascader";
       this.propsAdapter(other);
       return (
         <BasicItemComponent { ...other }/>
@@ -24,7 +21,7 @@ function component(BasicItemComponent){
     }
     
   }
-  return TimePicker;
+  return Cascader;
 }
 
 export default component(BasicItem) 

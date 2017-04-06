@@ -2,21 +2,19 @@ import React from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
-import AntdTimePicker from 'antd/lib/time-picker'
+import AntdCheckbox from 'antd/lib/checkbox'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
+
+const CheckboxGroup = AntdCheckbox.Group;
 
 function component(BasicItemComponent){
   @FormItemComponentDecorator
-  class TimePicker extends React.Component {
+  class FCheckboxGroup extends React.Component {
 
     render(){
       let { ...other } = this.props;
-
-      other.targetComponent = AntdTimePicker;
-      if(_.isString(other.value)){
-        other.value = new moment(other.value,"HH:mm:ss")
-      }
-      other.type = "timepicker";
+      other.targetComponent = CheckboxGroup;
+      other.type = "checkboxgroup";
       this.propsAdapter(other);
       return (
         <BasicItemComponent { ...other }/>
@@ -24,7 +22,7 @@ function component(BasicItemComponent){
     }
     
   }
-  return TimePicker;
+  return FCheckboxGroup;
 }
 
 export default component(BasicItem) 

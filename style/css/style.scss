@@ -1,0 +1,112 @@
+.cp {
+  cursor: pointer;
+}
+.fr {
+  float: right;
+}
+.fl {
+  float: left;
+}
+.ml10 {
+  margin-left: 10px;
+}
+.mr10 {
+  margin-right: 10px;
+}
+.mb10 {
+  margin-bottom: 10px;
+}
+.mt15 {
+  margin-top: 15px;
+}
+.mt20 {
+  margin-top: 20px;
+}
+/**begin ------antd 重写**/
+.none-label-con {
+  .ant-form-item-label {
+    visibility: hidden;
+  }
+}
+.ant-form-item {
+  margin-bottom: 8px;
+}
+.builder-con {
+  .ant-time-picker,.ant-calendar-picker {
+    width: 100%;
+  }
+  .ant-input-number {
+    width: 100%;
+  }
+  .ant-select {
+    min-width: 150px;
+  }
+  .ant-form-item {
+    margin-bottom: 10px;
+  }
+  .ant-btn-group > .ant-btn {
+    padding: 4px 8px;
+  }
+  .array-card .ant-card-body {
+    padding-bottom: 13px;
+  }
+}
+/**end -----antd 重写**/
+//common
+.builder-con { 
+  .builder-form-item-hidden .ant-form-item-label{
+    display: none;
+  }
+  .builder-add-btn {
+    width: 100%;
+  }
+  .array-item-con {
+    display: flex;
+    position: relative;
+  }
+  .array-item-left {
+    flex: 1;
+    margin-right: 10px;
+  }
+  .array-item-right {
+    width: 88px;
+  }
+  .array-item-add-btn {
+    float: right;
+    width: 88px;
+  }
+  .array-item-has-label {
+    .array-item-right > div{
+      position: absolute;
+      top: 33px;
+    }
+  }
+  .array-item-none-label {
+    .array-item-right > div{
+      margin-top: 2px;
+    }
+    .ant-form-item-label {
+      display: none;
+    }
+  }
+  .icon-group-con > i {
+    cursor: pointer;
+  }
+}
+
+//begin -- configer css
+.configer {
+  //重写
+  .ant-spin-nested-loading {
+    background: #fff;
+  }
+  .configer-add {
+    float: right;
+    margin-top: -2px;
+    font-size: 22px;
+    cursor: pointer;
+  }
+}
+//end -- configer css
+
+

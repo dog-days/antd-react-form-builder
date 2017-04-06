@@ -7,7 +7,7 @@ import FormBuilderConfiger from '../components/FormBuilderConfiger/en_US'
 export default Object.assign(
   {
     FormBuilderCommon: {
-      required: " is required",
+      required: "是必填项",
     }
   },
   Input,
@@ -16,5 +16,6 @@ export default Object.assign(
   Select,
   FormBuilderConfiger,
 ) 
+
 
 
