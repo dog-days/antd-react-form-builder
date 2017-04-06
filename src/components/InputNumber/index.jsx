@@ -1,9 +1,9 @@
 import React from 'react'
-import BasicItem from '../BasicItem'
 import AntdInputNumber from 'antd/lib/input-number'
 import AntdInput from 'antd/lib/input'
-import localeText from './zh_CN'
+import BasicItem from '../BasicItem'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
+import localeText from './zh_CN'
 
 function component(BasicItemComponent){
   @FormItemComponentDecorator

@@ -13,7 +13,7 @@ import {
   CheckboxGroup,
   RadioGroup,
   Password,
-} from 'src/index'
+} from '../index'
 
 function getFormItemComponentByType(type){
   var Element;
