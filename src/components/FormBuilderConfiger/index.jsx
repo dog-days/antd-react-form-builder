@@ -4,9 +4,9 @@ import AntdButton from 'antd/lib/button'
 import Icon from 'antd/lib/icon'
 import Table from 'antd/lib/table'
 import Modal from 'antd/lib/modal'
-import util from "src/util"
-import PureRender,{ shallowCompare } from "src/decorator/PureRender"
-import localeDecorator from "src/decorator/Locale"
+import util from "../../util"
+import PureRender,{ shallowCompare } from "../../decorator/PureRender"
+import localeDecorator from "../../decorator/Locale"
 import AddAndUpdateForm from "./components/AddAndUpdateForm"
 import localeText from './zh_CN'
 /**

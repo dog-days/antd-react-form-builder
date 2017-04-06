@@ -87,7 +87,7 @@ var config = {
       "node_modules",
     ],
     alias: {
-      src: path.resolve(__dirname,"src"),
+      //src: path.resolve(__dirname,"src"),
     }, 
     //不可留空字符串
     extensions: ['.js', '.jsx']

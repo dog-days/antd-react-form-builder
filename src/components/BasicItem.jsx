@@ -4,9 +4,9 @@ import AntdForm from 'antd/lib/form'
 import Button from 'antd/lib/button'
 import Icon from 'antd/lib/icon'
 import AntdInput from 'antd/lib/input'
-import PureRender from 'src/decorator/PureRender'
-import ItemButtonGroupDecorator from 'src/decorator/ItemButtonGroup'
-import util from 'src/util'
+import PureRender from '../decorator/PureRender'
+import ItemButtonGroupDecorator from '../decorator/ItemButtonGroup'
+import util from '../util'
 
 let FormItem = AntdForm.Item;
 

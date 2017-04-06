@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import localeText from 'src/locale-provider/zh_CN'
+import localeText from '../locale-provider/zh_CN'
 
 
 let contextTypes = {
