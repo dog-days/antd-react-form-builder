@@ -13,6 +13,7 @@ import {
   CheckboxGroup,
   RadioGroup,
   Password,
+  Cascader,
 } from '../lib/index'
 
 @FormBuilder.create()
@@ -48,50 +49,34 @@ class Container extends React.Component {
     });
   }
 
-  onButtonChange = (value,e)=>{
-    console.debug(value)
-  }
-
   render() {
+    console.debug(1)
     return (
       <FormBuilder 
         onSubmit={ this.handleOnsubmit.bind(this) }
         size="default"
         hasFeedback={ true }
-        horizontal 
       >
         <Input 
           required
-          array={ true }
           type="text"
           name="text"
           value={ "text" }
           label="text类型"
           placeholder="请输入"
+          onlyLetter={ true }
+          maxLength={ 10 }
+          minLength={ 10 }
         />
-        <InputNumber
+        <Input 
           required
-          type="number"
-          name="number"
-          step={0.1}
-          label="number类型"
+          array={ true }
+          type="text"
+          name="text-arrray"
+          value={ "text" }
+          label="text array 类型"
           placeholder="请输入"
-        />
-        <InputNumber
-          type="integer"
-          name="integer"
-          label="integer类型"
-          required
-          placeholder="请输入"
-        />
-        <InputNumber
-          type="float"
-          name="float"
-          step={0.1}
-          label="float类型"
-          required
-          placeholder="请输入"
-        />
+        /> 
         <Input 
           type="phone"
           name="text"
@@ -120,23 +105,51 @@ class Container extends React.Component {
           required
           placeholder="请输入"
         />
+        <InputNumber
+          required
+          type="number"
+          name="number"
+          step={0.1}
+          label="number类型"
+          placeholder="请输入"
+        />
+        <InputNumber
+          type="integer"
+          name="integer"
+          label="integer类型"
+          required
+          placeholder="请输入"
+        />
+        <InputNumber
+          type="float"
+          name="float"
+          step={0.1}
+          label="float类型"
+          required
+        />
+        <Select 
+          name="boolean"
+          boolean={ true }
+          label="boolean select类型"
+          required
+          value={ true }
+        />
         <Select 
           name="city"
           options={
             [
               {
                 value: "shenzhen",
-                text: "深圳"
+                label: "深圳"
               },
               {
                 value: "beijing",
-                text: "北京"
+                label: "北京"
               },
             ]
           }
           label="单选select类型"
           required
-          placeholder="请选择城市"
         />
         <Select 
           name="city2"
@@ -147,7 +160,7 @@ class Container extends React.Component {
                 options: [
                   {
                     value: "shenzen",
-                    text: "深圳"
+                    label: "深圳"
                   }
                 ] 
               }
@@ -155,7 +168,6 @@ class Container extends React.Component {
           }
           label="分组select类型"
           required
-          placeholder="请选择城市"
         />
         <Select 
           name="city3"
@@ -163,18 +175,17 @@ class Container extends React.Component {
           options={
             [
               {
-                text: "深圳",
+                label: "深圳",
                 value: "shenzhen",
               },
               {
-                text: "上海",
+                label: "上海",
                 value: "shanghai",
               },
             ]
           }
           label="多选select类型"
           required
-          placeholder="请选择城市"
         />
         <TimePicker
           name="timepicker"
@@ -243,13 +254,39 @@ class Container extends React.Component {
           rePassword={ true }
           label="密码"
           required
-          locale={
-            {
-              FormBuilderRepasswordInput: {
-                label: "再次输入密码",
+        />
+        <Cascader
+          name="cascader"
+          label="省市级联动"
+          options={
+            [
+              {
+                value: 'zhejiang',
+                label: 'Zhejiang',
+                children: [{
+                  value: 'hangzhou',
+                  label: 'Hangzhou',
+                  children: [{
+                    value: 'xihu',
+                    label: 'West Lake',
+                  }],
+                }],
+              }, 
+              {
+                value: 'jiangsu',
+                label: 'Jiangsu',
+                children: [{
+                  value: 'nanjing',
+                  label: 'Nanjing',
+                  children: [{
+                    value: 'zhonghuamen',
+                    label: 'Zhong Hua Men',
+                  }],
+                }],
               }
-            }
+            ]
           }
+          required
         />
         <Button 
           htmlType="submit"

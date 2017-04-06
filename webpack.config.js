@@ -34,6 +34,7 @@ var config = {
   devtool: isProduction ? "source-map":"eval-source-map",
   entry: {
     app: entry,
+    //libs : ['react','recharts','moment','redux','immutable','d3','./src/libs/d3-geo/china.json','antd'], 
   }, 
   output: {
     filename: 'bundle.js?hash=[hash]',
@@ -52,7 +53,7 @@ var config = {
       { 
         test: /\.css$/, 
         loader: isProduction ? ExtractTextPlugin.extract({
-          fallbackLoader: "style-loader",
+          fallback: "style-loader",
           loader: "css-loader",
         }) : ["style-loader","css-loader"], 
       },
@@ -86,12 +87,13 @@ var config = {
       "node_modules",
     ],
     alias: {
+      src: path.resolve(__dirname,"src"),
     }, 
     //不可留空字符串
     extensions: ['.js', '.jsx']
   },
   plugins: [
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV), 
       'useImmutable': JSON.stringify(useImmutable), 
@@ -110,7 +112,7 @@ if(useSass) {
     { 
       test: /\.scss$/, 
       loader: isProduction ? ExtractTextPlugin.extract({
-        fallbackLoader: "style-loader",
+        fallback: "style-loader",
         loader: ["css-loader","sass-loader"],
       }) : ["style-loader","css-loader","sass-loader"], 
     }

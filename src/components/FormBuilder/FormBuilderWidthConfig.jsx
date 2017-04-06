@@ -1,25 +1,28 @@
-import React from 'react'
-import PureRender from "../../decorator/PureRender"
+import React, { PropTypes } from 'react'
+import PureRender from "src/decorator/PureRender"
+//import renderItemDecorator from "src/decorator/RenderItem"
 import renderItemDecorator from "../../decorator/RenderItem"
-import IconGroup from "../../components/_util/IconGroup"
-import util from "../../util"
+import IconGroup from "src/components/_util/IconGroup"
+import util from "src/util"
 import _ from 'lodash'
 import Button from 'antd/lib/button'
 import Icon from 'antd/lib/icon'
 import Card from 'antd/lib/card'
 
 /**
- * SimpleFormBuilder 
- * @prop {String} size size 设置表单子项（包括antd Input、Select等和FormItem）size，表单子项size优先级更高
- * @prop {function} onSubmit 类似于antd Form中的onSumbit，不过多了两个输入参数
- *                          （源自于antd this.props.form.validateFields），
- *                           只有通过此方法才可获得FormBuilder的所有表单值 
- * @prop {Boolean} hasFeedback 表单验证在FormItem是否反馈，表单子项hasFeedback优先级更高 
- * @prop {Object} config FormBuilder 配置项，表单就是从这些配置中渲染出来的 （可选） 
+ * FormBuilderWidthConfig 
+ * 通过配置生成各种表单项，包括嵌套的，理论上可以无限嵌套。
+ * @prop { array } config 配置数据
+ * @prop { boolean } validateAll 是否验证全部表单项
  */
 @PureRender
 @renderItemDecorator
-class SimpleWithoutFormBuilder extends React.Component {
+class FormBuilderWidthConfig extends React.Component {
+
+  static propTypes = {
+    config: React.PropTypes.array.isRequired,
+    validateAll: React.PropTypes.bool,
+  }
 
   constructor(props){
     super(props);
@@ -90,7 +93,13 @@ class SimpleWithoutFormBuilder extends React.Component {
       }else {
         e_name = v.name;
       }
-      switch(v.data_type){
+      //兼容处理
+      if(v.data_type && !v.type){
+        v.type = v.data_type;
+      }
+      var required = util.convertStringOfTrueAndFalseToBollean(v.required);
+      var rules = v.rules || [];
+      switch(v.type){
         case "object":
         case "array":
           isElement = false;
@@ -102,24 +111,18 @@ class SimpleWithoutFormBuilder extends React.Component {
               value: v.value,
             };
           } 
-          var type = v.data_type;
-//console.debug(e_name);
+          var type = v.type;
           element_props = {
+            required,
             name: e_name,
             type: type,
             key: v.key,
             uniqueKey: v.key,
             storage: v.storage,
             value: v.value,
-            formItemProps: Object.assign({},v.formItemProps || {},{
-              label: v.label,
-            }),
-            rules: Object.assign([],[
-              {
-                required: !!parseInt(v.required,10),
-                message: "请不要留空"
-              }
-            ],v.rules || []),
+            label: v.label,
+            formItemProps: v.formItemProps || {},
+            rules: rules,
             validateAll: this.props.validateAll,
           }
           v.rules = element_props.rules; 
@@ -129,7 +132,7 @@ class SimpleWithoutFormBuilder extends React.Component {
             v.repeat_count = 0;
           }
           v.repeat_count++; 
-          switch(v.data_type){
+          switch(v.type){
             case "string":
               type = "text";
             break;
@@ -137,6 +140,10 @@ class SimpleWithoutFormBuilder extends React.Component {
               type = "select";
               //字段配置时选择的select数据源
               element_props.select_target = v.select_target;
+            break;
+            case "boolean":
+              element_props.boolean = true;
+              type = "select";
             break;
           }
   //console.debug(v);
@@ -147,7 +154,7 @@ class SimpleWithoutFormBuilder extends React.Component {
         <div key={ k }>
           {
             !isElement 
-            && v.data_type === "array" 
+            && v.type === "array" 
             && v.children 
             && v.children[0] 
             && v.children[0][0] &&
@@ -206,12 +213,12 @@ class SimpleWithoutFormBuilder extends React.Component {
           }
           {
             !isElement 
-            && v.data_type !== "array" 
+            && v.type !== "array" 
             && v.children 
             && v.children[0] && 
             <Card title={ v.label } className="mb10 not-array-card-con">
               { 
-                v.data_type !== "array" && 
+                v.type !== "array" && 
                 this.configRender(v.children,e_name) 
               }
             </Card>
@@ -241,6 +248,6 @@ class SimpleWithoutFormBuilder extends React.Component {
   }
 }
 
-export default SimpleWithoutFormBuilder;
+export default FormBuilderWidthConfig;
 
 

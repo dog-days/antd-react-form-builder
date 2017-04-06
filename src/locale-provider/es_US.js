@@ -1,14 +1,20 @@
-import InputEnUS from '../components/Input/en_US'
-import InputNumberEnUS from '../components/InputNumber/en_US'
-import PasswordEnUS from '../components/Password/en_US'
+import Input from '../components/Input/en_US'
+import InputNumber from '../components/InputNumber/en_US'
+import Password from '../components/Password/en_US'
+import Select from '../components/Select/en_US'
+import FormBuilderConfiger from '../components/FormBuilderConfiger/en_US'
 
-window.FormBuilderLocale = true;
-
-module.exports = Object.assign(
-  {},
-  InputEnUS,
-  InputNumberEnUS,
-  PasswordEnUS,
+export default Object.assign(
+  {
+    FormBuilderCommon: {
+      required: " is required",
+    }
+  },
+  Input,
+  InputNumber,
+  Password,
+  Select,
+  FormBuilderConfiger,
 ) 
 
 

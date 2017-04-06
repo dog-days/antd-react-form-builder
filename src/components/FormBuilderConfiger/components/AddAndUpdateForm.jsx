@@ -1,22 +1,19 @@
 import React from 'react'
 import _ from 'lodash'
-import {
-  Form,
-  Radio,
-  Button as AntdButton,
-  Icon,
-  Table,
-  Tooltip,
-  Modal,
-  Input,
-  Select,
-} from 'antd'
-import util from "../../../util"
+import Icon from 'antd/lib/icon'
+import AntdForm from 'antd/lib/form'
+import AntdButton from 'antd/lib/button'
+import FormBuilder from "src/components/FormBuilder"
+import Input from "src/components/Input"
+import Select from "src/components/Select"
+import util from "src/util"
+import localeText from '../zh_CN'
+import localeDecorator from "src/decorator/Locale"
 
-const FormItem = Form.Item;
-const RadioGroup = Radio.Group;
+const FormItem = AntdForm.Item;
 
-@Form.create()
+@FormBuilder.create()
+@localeDecorator
 class AddAndUpdateForm extends React.Component {
 
   constructor(props){
@@ -44,33 +41,40 @@ class AddAndUpdateForm extends React.Component {
       var obj = {
         name: data.name,
         label: data.label,
-        data_type: data.data_type,
-        value: data.value,
-        select_target: data.select_target,
+        type: data.type,
       }
-      console.debug(obj)
-      if(data.required){
-        obj.required = data.required + "";
+      if(data.type === "boolean"){
+        obj.value  = !!util.convertStringOfTrueAndFalseToBollean(data.value) + "";
+      }else if(data.value){
+        obj.value = data.value;
       }
-      if(data.read_only){
-        obj.read_only = data.read_only + "";
+      if(data.select_target){
+        obj.select_target = data.select_target;
       }
-      if(data.can_not_delete){
-        obj.can_not_delete = data.can_not_delete + "";
+      if(data.required !== undefined){
+        obj.required = !!util.convertStringOfTrueAndFalseToBollean(data.required) + "";
       }
-      this.props.form.setFieldsValue(obj); 
+      if(data.read_only !== undefined){
+        obj.read_only = !!util.convertStringOfTrueAndFalseToBollean(data.read_only) + "";
+      }
+      if(data.can_not_delete !== undefined){
+        obj.can_not_delete = !!util.convertStringOfTrueAndFalseToBollean(data.can_not_delete) + "";
+      }
+      //console.debug(obj)
+      this.props.formBuilder &&
+      this.props.formBuilder.setFieldsValue(obj); 
     }
   }
 
-  onRadioChangeEvent = (e)=>{
+  onTypeChange = (value)=>{
     this.setState({
-      radioValue: e.target.value,
+      type: value,
     })
   }
 
   submitEvent = (e)=>{
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.formBuilder.validateFields((err, values) => {
       //console.debug(values);
       if (err) {
         console.log(err);
@@ -80,7 +84,8 @@ class AddAndUpdateForm extends React.Component {
         currentData,
         index,
       } = this.props;
-      switch(values.data_type){
+      //console.debug(values);
+      switch(values.type){
         case "object":
         case "array":
           if(!this.isEdited){
@@ -90,7 +95,7 @@ class AddAndUpdateForm extends React.Component {
       }
       if(this.isEdited){
         values.key = currentData[index].key; 
-        if(values.data_type === "array" || values.data_type === "object"){
+        if(values.type === "array" || values.type === "object"){
           values.children = currentData[index].children || []; 
         };
         currentData[index] = values;
@@ -98,7 +103,6 @@ class AddAndUpdateForm extends React.Component {
         values.key = util.getUniqueKey();
         currentData.push(values);
       }
-      //console.debug(currentData)
       this.props.setChangeState();
       this.props.setAddFieldDialogState(false)();
     });
@@ -110,246 +114,94 @@ class AddAndUpdateForm extends React.Component {
       currentData,
       index,
     } = this.props;
-    const { 
-      getFieldDecorator, 
-    } = this.props.form;
     const formItemLayout = {
       labelCol: { span: 5 },
       wrapperCol: { span: 17 },
     };
-    var data_type = this.props.form.getFieldValue("data_type") 
-      || (currentData[index] && currentData[index].data_type);
-    //console.debug(data_type);
-    const radioStyle = {
-      display: 'block',
-      height: '35px',
-      lineHeight: '35px',
-    };
+    var type = this.state.type || (currentData[index] && currentData[index].type);
+    //console.debug(type);
+    var locale = this.getLocale(localeText,"FormBuilderConfiger");
     return (
-      <Form
+      <FormBuilder
+        size="large"
         onSubmit={ this.submitEvent }
+        { ...formItemLayout }
       >
-        <FormItem {...formItemLayout}
-          label="字段"
-          hasFeedback
-        >
-          {
-            getFieldDecorator(
-              'name', 
-              {
-                rules: [
-                  {
-                    required: true, 
-                    message: '请填写字段',
-                  }
-                ],
-              }
-            )(
-              <Input 
-                placeholder="请填写字段"
-              />
-            )
-          }
-        </FormItem>
-        <FormItem {...formItemLayout}
-          label="配置名"
-          hasFeedback
-        >
-          {
-            getFieldDecorator(
-              'label', 
-              {
-                rules: [
-                  {
-                    required: true, 
-                    message: '请填写字段配置名',
-                  }
-                ],
-              }
-            )(
-              <Input 
-                placeholder="请填写字段配置名"
-              />
-            )
-          }
-        </FormItem>
-        <FormItem {...formItemLayout}
-          label="数据类型"
-          hasFeedback
-        >
-          {
-            getFieldDecorator(
-              'data_type', 
-              {
-                rules: [
-                  {
-                    required: true, 
-                    message: '请选择字段类型',
-                  }
-                ],
-              }
-            )(
-              <Select 
-                placeholder="请选择字段类型"
-              >
-                {
-                  util.dataType.map((v,k)=>{
-                    if(!selectSourceDataMap && v.value === "list") {
-                      return false; 
-                    }
-                    return (
-                      <Select.Option 
-                        value={v.value}
-                        key={v.value}
-                      >
-                        { v.text }
-                      </Select.Option>
-                    );
-                  })
-                }
-              </Select>
-            )
-          }
-        </FormItem>
+        <Input 
+          label={ locale.fieldName }
+          name="name"
+          required
+          placeholder={ locale.filedNameRequiredMessage }
+        />
+        <Input 
+          label={ locale.labelName }
+          name="label"
+          required
+          placeholder={ locale.labelNameRequiredMessage }
+        />
+        <Select 
+          label={ locale.dataType }
+          name="type"
+          required
+          options={ util.dataType  }
+          placeholder={ locale.dataTypeReqiuredMessage }
+          onChange={ this.onTypeChange }
+        />
         {
-          (data_type !== "object" && data_type !== "array" && (data_type != undefined || currentData[index])) &&
-          data_type !== "list" &&
-          <FormItem 
-            label="默认值"
-            {...formItemLayout}
-          >
-            {
-              getFieldDecorator('value')(
-                <Input 
-                  placeholder="请填写默认值"
-                />
-              )
-            }
-          </FormItem>
+          type !== "object" && 
+          type !== "array" && 
+          (type != undefined || currentData[index]) &&
+          type !== "list" &&
+          type !== "boolean" &&
+          <Input 
+            name="value"
+            label={ locale.defaultValue }
+            placeholder={ locale.defaultValuePlaceholder }
+          />
         }
         {
-          (data_type === "list") &&
-          <FormItem 
-            label="下拉选择"
-            {...formItemLayout}
-          >
-            {
-              getFieldDecorator('select_target',
-                {
-                  rules: [
-                    {
-                      required: true, 
-                      message: '请选择',
-                    }
-                  ],
-                }                 
-              )(
-                <Select placeholder="请选择" >
-                  {
-                    selectSourceDataMap.map((v,k)=>{
-                      return (
-                        <Select.Option value={v.value} key={ k }>
-                          { v.text }
-                        </Select.Option>
-                      )
-                    })
-                  }
-                </Select>
-              )
-            }
-          </FormItem>
+          type === "boolean" &&
+          <Select 
+            name="value"
+            label={ locale.defaultValue }
+            placeholder={ locale.please }
+            boolean={ true }
+          />
         }
-        <FormItem {...formItemLayout}
-          label="是否必填"
-          hasFeedback
-        >
-          {
-            getFieldDecorator(
-              'required', 
-              {
-                initialValue: "1",
-                rules: [
-                  {
-                    required: true, 
-                    message: '请选择',
-                  }
-                ],
-              }
-            )(
-              <Select 
-                placeholder="请选择"
-              >
-                <Select.Option value={"1"} >
-                  是
-                </Select.Option>
-                <Select.Option value={"0"} >
-                  否 
-                </Select.Option>
-              </Select>
-            )
-          }
-        </FormItem>
-        <FormItem {...formItemLayout}
-          label="是否只读"
-          hasFeedback
-        >
-          {
-            getFieldDecorator(
-              'read_only', 
-              {
-                initialValue: "0",
-                rules: [
-                  {
-                    required: true, 
-                    message: '请选择',
-                  }
-                ],
-              }
-            )(
-              <Select 
-                placeholder="请选择"
-              >
-                <Select.Option value={"1"} >
-                  是
-                </Select.Option>
-                <Select.Option value={"0"} >
-                  否 
-                </Select.Option>
-              </Select>
-            )
-          }
-        </FormItem>
-        <FormItem {...formItemLayout}
-          label="不可删除"
-          hasFeedback
-        >
-          {
-            getFieldDecorator(
-              'can_not_delete', 
-              {
-                initialValue: "0",
-                rules: [
-                  {
-                    required: true, 
-                    message: '请选择',
-                  }
-                ],
-              }
-            )(
-              <Select 
-                placeholder="请选择"
-              >
-                <Select.Option value={"1"} >
-                  是
-                </Select.Option>
-                <Select.Option value={"0"} >
-                  否 
-                </Select.Option>
-              </Select>
-            )
-          }
-        </FormItem>
-        <FormItem {...formItemLayout}
+        {
+          (type === "list") &&
+          <Select 
+            required
+            name="select_target"
+            label={ locale.listTargetLabel }
+            placeholder={ locale.listTargetPlease }
+            options={ selectSourceDataMap }
+          />
+        }
+        <Select 
+          required
+          name="required"
+          label={ locale.required }
+          placeholder={ locale.requiredPlease }
+          boolean={ true }
+          value={ true }
+        />
+        <Select 
+          name="read_only"
+          label={ locale.readOnly }
+          placeholder={ locale.readOnlyPlease }
+          boolean={ true }
+          value={ false }
+        />
+        <Select 
+          name="can_not_delete"
+          label={ locale.cannotDelete }
+          placeholder={ locale.cannotDeletePlease }
+          boolean={ true }
+          value={ false }
+        />
+        <FormItem 
+          {...formItemLayout}
           className="none-label-con mt20"
           label=" "
           hasFeedback
@@ -360,7 +212,7 @@ class AddAndUpdateForm extends React.Component {
             size="large"
             htmlType="submit"
           >
-            确定 
+            { locale.confirm }
           </AntdButton>
           <AntdButton 
             className="fr mr10"
@@ -372,10 +224,10 @@ class AddAndUpdateForm extends React.Component {
               }
             }
           >
-            取消
+            { locale.cancel }
           </AntdButton>
         </FormItem>
-      </Form>
+      </FormBuilder>
     )
   }
 

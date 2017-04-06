@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   FormBuilderIntegerInput: {
     "formatErrorMsg": "请输入整数",
   },

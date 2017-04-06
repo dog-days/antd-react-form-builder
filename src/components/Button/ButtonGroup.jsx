@@ -143,4 +143,4 @@ class ButtonGroup extends React.Component {
   }
 }
 
-module.exports = ButtonGroup; 
+export default ButtonGroup; 

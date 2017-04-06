@@ -4,12 +4,20 @@ import AntdForm from 'antd/lib/form'
 import Button from 'antd/lib/button'
 import Icon from 'antd/lib/icon'
 import AntdInput from 'antd/lib/input'
-import PureRender from '../decorator/PureRender'
-import ItemButtonGroupDecorator from '../decorator/ItemButtonGroup'
-import util from '../util'
+import PureRender from 'src/decorator/PureRender'
+import ItemButtonGroupDecorator from 'src/decorator/ItemButtonGroup'
+import util from 'src/util'
 
 let FormItem = AntdForm.Item;
 
+
+/**
+ * 所有表单组件的公共处理部分
+ * @prop { string } type 组件类型 
+ * @prop { string } name 跟原生的html一样，同时async-validator要用到（表单验证），取值要用到，要唯一。 
+ * @prop { array } rules 参考 async-validatord的rules。
+ * @prop { object } formItemProps 跟antd的Form.Item的props完全一致，请参考Form.Item，这个不经常使用。
+ */
 @PureRender
 @ItemButtonGroupDecorator
 class BasicItem extends React.Component {
@@ -25,8 +33,8 @@ class BasicItem extends React.Component {
   }
 
   static propTypes = {
-    rules: React.PropTypes.array,
     type: React.PropTypes.string,
+    rules: React.PropTypes.array,
     name: React.PropTypes.string,
     formItemProps: React.PropTypes.object,
   }
@@ -69,8 +77,7 @@ class BasicItem extends React.Component {
       type,
     } = props;
 //console.debug("dddd",name,storage)
-    var _this = this;
-    return function(errorCallback,successCallback){
+    return (errorCallback,successCallback)=>{
       if(!rules || (rules && !rules[0])){
         return false;
       }
@@ -92,8 +99,9 @@ class BasicItem extends React.Component {
 //console.debug(obj[name])
       validator.validate(obj, (errors, fields) => {
         if(errors){
-          errorCallback && errorCallback(errors,_this);
+          errorCallback && errorCallback(errors,this);
         }else {
+      //console.debug(fields)
           successCallback && successCallback(fields);
         }
       });
@@ -164,7 +172,7 @@ class BasicItem extends React.Component {
       }else {
         this.state = obj;
       }
-    },()=>{
+    },(fields)=>{
       //验证成功
       var obj = {
         errors_type: "success",
@@ -261,6 +269,7 @@ class BasicItem extends React.Component {
   renderArrayItem(){
     let {
       storage,
+      label,
       type,
     } = this.props;
     if(this.props.array && type !== "select" && type !== "multiple-select"){
@@ -296,7 +305,10 @@ class BasicItem extends React.Component {
           {
             storage.arrayProps.map((v,k)=>{
               //v.storage.value = undefined;
-              var className = "array-item-has-label";
+              var className = "array-item-none-label";
+              if(label){
+                className = "array-item-has-label";
+              }
               if(k !== 0){
                 className = "array-item-none-label";
               }
@@ -346,10 +358,14 @@ class BasicItem extends React.Component {
   render() { 
     let props = this.props;
     let {
-      storage,//存储一些信息，如同步antd的value值
+      onlyLetter,//在这只是为了解决原生html表单props多余报错问题
+      minLength,//在这只是为了解决原生html表单props多余报错问题
+      maxLength,//在这只是为了解决原生html表单props多余报错问题
       validateAll,//在这只是为了解决原生html表单props多余报错问题
       array,//在这只是为了解决原生html表单props多余报错问题
       uniqueKey,//在这只是为了解决原生html表单props多余报错问题
+      label,//在这只是为了解决原生html表单props多余报错问题
+      storage,//存储一些信息，如同步antd的value值
       children,
       rules = [],
       value,
@@ -404,7 +420,12 @@ class BasicItem extends React.Component {
         required = true;
       }
     })
-    //console.debug(storage.value)
+    //console.debug(other.name,this.state.errors_type)
+    //console.debug(other.name,rules)
+    var errors_type = this.state.errors_type;
+    if(!rules[0]){
+      errors_type= null;
+    }
     return (
       <span>
         {
@@ -424,6 +445,7 @@ class BasicItem extends React.Component {
         }
         {
           (
+            other.type === "cascader" ||
             other.type === "multiple-select" || 
             other.type === "rangepicker" || 
             other.type === "checkboxgroup" 
@@ -443,7 +465,7 @@ class BasicItem extends React.Component {
         <FormItem 
           {...formItemProps}
           required={ required }
-          validateStatus={this.state.errors_type}
+          validateStatus={ errors_type }
           help={this.state.errors_message}
         >
           { component }

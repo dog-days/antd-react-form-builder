@@ -1,6 +1,6 @@
 import localeText from "./locale-provider/zh_CN"
 
-module.exports = {
+export default {
   isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
   },
@@ -23,6 +23,21 @@ module.exports = {
   getUniqueKey(number = 100000000000){
     var uniqueKey = Math.floor(Math.random(number) * number) + "";
     return uniqueKey;
+  },
+  /**
+  * 字符串"true" 和 "false" 转换为boolean 
+  *@function { string }  str 值只为"true" or "false"
+  *@return { any } 传入的是"true" or "false"返回boolean，其他的返回原来的数据
+  */
+  convertStringOfTrueAndFalseToBollean(str){
+    if(str === "true"){
+      return true;
+    }else if(str === "false"){
+      return false;
+    }else {
+      //console.warn("传入的字符串不是true或false");
+      return str;
+    }
   },
   dataType: [
     {
