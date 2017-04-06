@@ -3,12 +3,12 @@ import _ from 'lodash'
 import Icon from 'antd/lib/icon'
 import AntdForm from 'antd/lib/form'
 import AntdButton from 'antd/lib/button'
-import FormBuilder from "src/components/FormBuilder"
-import Input from "src/components/Input"
-import Select from "src/components/Select"
-import util from "src/util"
+import FormBuilder from "../../FormBuilder"
+import Input from "../../Input"
+import Select from "../../Select"
+import util from "../../../util"
 import localeText from '../zh_CN'
-import localeDecorator from "src/decorator/Locale"
+import localeDecorator from "../../../decorator/Locale"
 
 const FormItem = AntdForm.Item;
 

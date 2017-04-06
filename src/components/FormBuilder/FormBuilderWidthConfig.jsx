@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react'
-import PureRender from "src/decorator/PureRender"
-//import renderItemDecorator from "src/decorator/RenderItem"
-import renderItemDecorator from "../../decorator/RenderItem"
-import IconGroup from "src/components/_util/IconGroup"
-import util from "src/util"
+import PureRender from "../../decorator/PureRender"
 import _ from 'lodash'
 import Button from 'antd/lib/button'
 import Icon from 'antd/lib/icon'
 import Card from 'antd/lib/card'
+import renderItemDecorator from "../../decorator/RenderItem"
+import IconGroup from "../_util/IconGroup"
+import util from "../../util"
 
 /**
  * FormBuilderWidthConfig 
