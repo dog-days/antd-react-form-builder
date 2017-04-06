@@ -1,21 +1,61 @@
-import React from 'react'
+import React ,{ PropTypes } from 'react'
 import BasicItem from '../BasicItem'
 import Select from 'antd/lib/select'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
+import localeDecorator from "../../decorator/Locale"
+import localeText from './zh_CN'
 
 function component(BasicItemComponent){
+  /**
+  * @prop { array } options options配置项 
+  * @prop { array } group select分组配置项，这个配置优先于props.options
+  * @prop { boolean } multiple 是否多选
+  * @prop { boolean } boolean 是否是boolean选择组件（只有”是“和”否“两个选项）
+  */
   @FormItemComponentDecorator
+  @localeDecorator
   class FSelect extends React.Component {
+ 
+    static contextTypes = Object.assign(
+      { },
+      FormItemComponentDecorator.contextTypes,
+      {
+        selectSourceData: React.PropTypes.object,
+      }
+    );
+    
+    static propTypes = {
+      options: React.PropTypes.array,
+      group: React.PropTypes.array,
+      boolean: React.PropTypes.bool,
+    }
 
-    static contextTypes = {
-      selectSourceData: React.PropTypes.object,
+    constructor(props){
+      super(props); 
+    }
+
+    getBooleanOptions(){
+      var locale = this.getLocale(localeText,"FormBuilderSelect"); 
+      return [
+        {
+          label: locale.yes,
+          value: "true",
+        },
+        {
+          label: locale.no,
+          value: "false",
+        }
+      ];
     }
 
     renderOptions(options){
       return options && options.map && options.map((v,k)=>{
         return (
-          <Select.Option key={ k } value={ v.value+"" }>
-            { v.text }
+          <Select.Option 
+            key={ k } 
+            value={ v.value+"" }
+          >
+            { v.label || v.text }
           </Select.Option>
         )
       })
@@ -26,15 +66,22 @@ function component(BasicItemComponent){
         options,
         group,
         select_target,
+        boolean,
         ...other, 
       } = this.props;
+      var locale = this.getLocale(localeText,"FormBuilderSelect"); 
+      var boolOptions = this.getBooleanOptions();
       other.targetComponent = Select;
       other.type = "select";
       if(other.multiple){
         other.type = "multiple-select";
       }
       this.propsAdapter(other);
-      if(group){
+      if(boolean){
+        other.value = other.value + "";
+        if(other.storage.value != undefined){
+          other.storage.value += "";
+        }
         return (
           //这里的BasicItemComponent相当于
           //<FormItem>
@@ -42,11 +89,28 @@ function component(BasicItemComponent){
           //    { children }
           //  </Select>
           //</FormItem>
-          <BasicItemComponent placeholder="请选择" { ...other }>
+          <BasicItemComponent 
+            placeholder={ locale.placeholder }
+            { ...other }
+          >
+            { this.renderOptions(boolOptions) }
+          </BasicItemComponent> 
+        )
+      }else if(group){
+        return (
+          <BasicItemComponent 
+            placeholder={
+              locale.placeholder 
+            }
+            { ...other }
+          >
             {
-              group && group[0] && group.map((g_v,g_k)=>{
+              group.map((g_v,g_k)=>{
                 return (
-                  <Select.OptGroup key={ g_k } label={ g_v.label || "" }>
+                  <Select.OptGroup 
+                    key={ g_k } 
+                    label={ g_v.label || "" }
+                  >
                     { this.renderOptions(g_v.options) }
                   </Select.OptGroup>
                 )
@@ -56,7 +120,12 @@ function component(BasicItemComponent){
         )
       }else if(options){
         return (
-          <BasicItemComponent placeholder="请选择" { ...other }>
+          <BasicItemComponent 
+            placeholder={
+              locale.placeholder 
+            }
+            { ...other }
+          >
             { this.renderOptions(options) }
           </BasicItemComponent>
         )
@@ -64,13 +133,23 @@ function component(BasicItemComponent){
         //console.debug(this.context.selectSourceData);
         options = this.context.selectSourceData[select_target]; 
         return (
-          <BasicItemComponent placeholder="请选择" { ...other } >
+          <BasicItemComponent 
+            placeholder={
+              locale.placeholder 
+            }
+            { ...other } 
+          >
             { this.renderOptions(options) }
           </BasicItemComponent>
         ) 
       }else {
         return (
-          <BasicItemComponent placeholder="暂无数据" { ...other } >
+          <BasicItemComponent 
+            placeholder={
+              locale.placeholder 
+            }
+            { ...other } 
+          >
           </BasicItemComponent>
         )
       }

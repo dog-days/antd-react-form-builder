@@ -34,13 +34,19 @@ function component(BasicItemComponent){
         integer: [
           { 
             type: "integer",
-            message: locale.FormBuilderIntegerInput.formatErrorMsg,
+            message: (
+              locale.FormBuilderIntegerInput.formatErrorMsg ||
+              localeText.FormBuilderIntegerInput.formatErrorMsg
+            ),
           }
         ],
         float: [
           { 
             type: "float",
-            message: locale.FormBuilderFloatInput.formatErrorMsg, 
+            message: (
+              locale.FormBuilderFloatInput.formatErrorMsg ||
+              localeText.FormBuilderFloatInput.formatErrorMsg
+            ),
           }
         ], 
       }

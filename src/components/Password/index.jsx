@@ -4,42 +4,34 @@ import moment from 'moment'
 import BasicItem from '../BasicItem'
 import Input from 'antd/lib/input'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
+import localeDecorator from "../../decorator/Locale"
 import localeText from './zh_CN'
 
 function component(BasicItemComponent){
   @FormItemComponentDecorator
+  @localeDecorator
   class Password extends React.Component {
-
-    static contextTypes = {
-      antLocale: React.PropTypes.object,
-    };
 
     render(){
       let { locale,key,rePassword,...other } = this.props;
       //console.debug(this.context)
-      if(!locale && this.context.antLocale){
-        locale = this.context.antLocale;
-      }else if(!locale) {
-        locale = localeText;
-      }
+      locale = this.getLocale(localeText,"FormBuilderPassword"); 
 
       other.targetComponent = Input;
       other.type = "password";
       this.propsAdapter(other);
-      console.debug(other)
       if(rePassword){
         var reProps = _.cloneDeep(other);
-        reProps.formItemProps.label = locale.FormBuilderRepasswordInput.label;
+        reProps.formItemProps.label = locale.label, 
         reProps.name = "re-" + reProps.name;
         reProps.rules.push(
           {
             validator(rule, value, callback, source, options) {
               var errors = [];
               var password_value = document.getElementsByName(other.name)[0].value;
-              //console.debug(password_value)
               if(password_value !== value){
                 errors.push({
-                  message: locale.FormBuilderRepasswordInput.checkErrorMsg,
+                  message: locale.checkErrorMsg,
                 })
               }
               callback(errors);
@@ -52,7 +44,7 @@ function component(BasicItemComponent){
           <BasicItemComponent { ...other }/>
           {
             rePassword &&
-            <BasicItemComponent { ...reProps } required/>
+            <BasicItemComponent { ...reProps } />
           }
         </div>
       )

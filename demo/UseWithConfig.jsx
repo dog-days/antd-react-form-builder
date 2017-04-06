@@ -2,7 +2,6 @@ import React from 'react'
 import {
   FormBuilder,
   Input,
-  InputNest,
   InputNumber,
   Select,
   TimePicker,
@@ -15,8 +14,10 @@ import {
   Icon, 
 } from 'antd'
 import feilds from "./config"
+import CodeMirror from "react-codemirror"
+import "codemirror/mode/javascript/javascript"
 import util from "../src/util"
-import "../style/css/demo.scss"
+import "codemirror/lib/codemirror.css";
 
 let selectSourceDataMap = [
   {
@@ -65,49 +66,51 @@ class Container extends React.Component {
   constructor(props){
     super(props);
     function getData(){
+
       var data = {
         key: util.getUniqueKey(),
         name: "physics",
         label: "服务器物理属性表",
-        data_type: "object",
-        required: "1",
+        type: "object",
+        required: true,
         children: [
           {
             key: util.getUniqueKey(),
             name: "power_num",
-            data_type: "number",
-            required: "1",
+            type: "number",
+            required: 'true',
             label: "电源个数",
             value: "10",
-            read_only: "1",
-            can_not_delete: "1",
+            read_only: true,
+            can_not_delete: true,
           },
           {
             key: util.getUniqueKey(),
             name: "rack_digit",
-            data_type: "number",
-            required: "1",
+            type: "boolean",
+            value: false,
+            required: true,
             label: "机架位数",
           },
           {
             key: util.getUniqueKey(),
-            name: "dist_list",
-            data_type: "array",
-            required: "1",
+            name: "disk_list",
+            type: "array",
+            required: true,
             label: "硬盘列表",
             children: [
               {
                 key: util.getUniqueKey(),
                 name: "brand",
-                data_type: "string",
-                required: "1",
+                type: "string",
+                required: true,
                 label: "硬盘品牌",
               },
               {
                 key: util.getUniqueKey(),
                 name: "model",
-                data_type: "string",
-                required: "1",
+                type: "string",
+                required: true,
                 label: "硬盘型号",
               },
             ],
@@ -120,20 +123,20 @@ class Container extends React.Component {
       config: [
         feilds.text,
       ],
-      table: [
+      formBuilderConfigerConfig: [
         getData(), 
         //{
           //key: util.getUniqueKey(),
           //name: "model",
-          //data_type: "object",
-          //required: "1",
+          //type: "object",
+          //required: true,
           //label: "硬盘型号",
           //children: []
         //},
       ]
     }
 
-    this.state.formBuilderConfig = FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(this.state.table));
+    this.state.formBuilderConfig = FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(this.state.formBuilderConfigerConfig));
   }
 
   handleOnsubmit(e){
@@ -147,16 +150,50 @@ class Container extends React.Component {
     }) 
   }
 
-  onConfigerChange = (data)=>{
-    var config = FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(data));
+  changeToConfigMode = ()=>{
+    var configeMode = !this.state.configeMode; 
     this.setState({
-      formBuilderConfig: config,
+      configeMode,
     })
-    //console.debug(config)
+  }
+
+  onConfigerChange = (formBuilderConfigerConfig,formBuilderConfig)=>{
+    //console.debug(formBuilderConfigerConfig,formBuilderConfig)
+    this.setState({
+      formBuilderConfig,
+      formBuilderConfigerConfig,
+    })
+  }
+
+  onJsonChange = (data)=>{
+    try{
+      data = JSON.parse(data);
+      var formBuilderConfigerConfig = _.cloneDeep(data);
+      var formBuilderConfig = FormBuilderConfiger.formBuilderConfigAdapter(
+        _.cloneDeep(data)
+      )
+      this.setState({
+        formBuilderConfig,
+        formBuilderConfigerConfig,
+      });
+    }catch(e){
+      console.error("json格式有误",e);
+    }
   }
 
   render() {
     //console.debug(this.props)
+    let {
+      configeMode,
+      random,
+      formBuilderConfigerConfig,
+    } = this.state;
+    var text;
+    if(!configeMode){
+      text = "Json配置模式";
+    }else {
+      text = "表格配置模式";
+    }
     return (
       <div className="demo-view">
         <Card 
@@ -164,25 +201,57 @@ class Container extends React.Component {
           className="config-content"
           extra={
             <Button
+              size="small"
               onClick={
-                this.props.formBuilderConfiger.openAddFieldDialogEvent
+                this.changeToConfigMode
               }
             >
-              <Icon type="plus"/>
-            </Button>
+              { text }
+            </Button> 
           }
         >
-          <FormBuilderConfiger 
-            hasNoneTableTitle={ true }
-            onChange={ this.onConfigerChange }
-            config={
-              this.state.table
-            }
-            title="表格字段配置"
-            selectSourceDataMap={
-              selectSourceDataMap
-            }
-          />
+          {
+            configeMode &&
+            <CodeMirror 
+              options={ {
+                mode: "javascript",
+                lineNumbers: true,
+              }}
+              autoSave={ true }
+              value={ JSON.stringify(formBuilderConfigerConfig,null,2) }
+              onChange={
+                this.onJsonChange
+              }
+            />
+          }
+          {
+            !configeMode &&
+            <div>
+              <Button
+                style={
+                  {
+                    width: "100%",
+                    marginBottom: "20px",
+                  }
+                }
+                onClick={
+                  this.props.formBuilderConfiger.openAddFieldDialogEvent
+                }
+                type="primary"
+              >
+                <Icon type="plus"/>
+              </Button>
+              <FormBuilderConfiger 
+                onChange={ this.onConfigerChange }
+                config={
+                  this.state.formBuilderConfigerConfig
+                }
+                selectSourceDataMap={
+                  selectSourceDataMap
+                }
+              />
+            </div>
+          }
         </Card>
         <Card
           title="FromBuilder"
@@ -193,7 +262,7 @@ class Container extends React.Component {
             onSubmit={ this.handleOnsubmit.bind(this) }
             size="default"
             hasFeedback={ true }
-            horizontal
+            layout="horizontal" 
             config={ this.state.formBuilderConfig }
           >    
             {

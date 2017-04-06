@@ -1,5 +1,5 @@
 import util from "../src/util"
-module.exports = {
+export default {
   text: {
     type: "text",
     name: "text",

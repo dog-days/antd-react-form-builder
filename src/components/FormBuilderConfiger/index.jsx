@@ -1,33 +1,29 @@
 import React, { PropTypes } from 'react'
 import _ from 'lodash'
-import {
-  Button as AntdButton,
-  Icon,
-  Table,
-  Tooltip,
-  Modal,
-} from 'antd'
-import util from "../../util"
-import PureRender,{ shallowCompare } from "../../decorator/PureRender"
+import AntdButton from 'antd/lib/button'
+import Icon from 'antd/lib/icon'
+import Table from 'antd/lib/table'
+import Modal from 'antd/lib/modal'
+import util from "src/util"
+import PureRender,{ shallowCompare } from "src/decorator/PureRender"
+import localeDecorator from "src/decorator/Locale"
 import AddAndUpdateForm from "./components/AddAndUpdateForm"
+import localeText from './zh_CN'
 /**
  * FormBuilder config 配置器 
  *@prop { string } title 第一级table的title
- *@prop { boolean } hasNoneTableTitle table title是否显示 
  *@prop { object } config 配置数据，只要config改变了都会以新的config重新渲染（父组件传进来） 
- *@prop { selectSourceDataMap } 拉选择数据源 
  *@prop { function } onChange 配置数据变化时触发的回调函数（这里的配置数据与父组件传进来的是相互独立的） 
+ *   function(data01,data02)，data01是formBuilderConfiger的配置数据，data02是formBuilder的配置数据
+ *@prop { boolean } hasNoneTableTitle table title是否显示,默认true 
+ *@prop { selectSourceDataMap } 拉选择数据源无 
  */
+@localeDecorator
 class FormBuilderConfiger extends React.Component {
-
-  constructor(props){
-    super(props);
-    this.state = {};
-    this.config = _.cloneDeep(this.props.config);
-  }
 
   static contextTypes = {
     formBuilderConfiger: React.PropTypes.object,
+    antLocale: React.PropTypes.object,
   }
 
   static create(){
@@ -70,18 +66,28 @@ class FormBuilderConfiger extends React.Component {
       return Decorator;
     }
   }
-
+  /**
+  * formBuilderConfiger配置转换成FormBuilder的config配置
+  * 他们的区别在于type为array类型的时候，formBuilder的children需要再包一层数组
+  * children: [] => children: [[]]
+  * @param { array } data formBuilderConfiger的配置
+  */
   static formBuilderConfigAdapter(data){
     var re = [];
     data && data[0] && data.forEach((v,k)=>{
-      if((v.data_type === "array" || v.data_type === "object") && v.children && v.children){
-        if(v.data_type === "array"){
+      //兼容处理
+      if(v.data_type && !v.type){
+        v.type = v.data_type;
+      }
+      //console.debug(v)
+      if((v.type === "array" || v.type === "object") && v.children && v.children){
+        if(v.type === "array"){
           v.children = [v.children];
           v.children.forEach((v2,k2)=>{
             FormBuilderConfiger.formBuilderConfigAdapter(v2);
           })
         }
-        if(v.data_type !== "array"){
+        if(v.type !== "array"){
           FormBuilderConfiger.formBuilderConfigAdapter(v.children);
         }
       }
@@ -90,17 +96,28 @@ class FormBuilderConfiger extends React.Component {
     return re;
   }
 
+  /**
+  * @this { boolean } outerUpdate 是否父组件更新
+  * @this { array } config 配置数据this.props.config 
+  */
+  constructor(props){
+    super(props);
+    this.state = {};
+    //this.config克隆后，跟props.config不同步，props.config还是原始的数据源
+    this.config = _.cloneDeep(this.props.config);
+  }
+
   componentWillReceiveProps(nextProps){
-    //console.debug("wiill",nextProps);
-    this.temp_config = _.cloneDeep(nextProps.config);
-    //是否是父级组件更新
+    //是否是父级组件更新，state的变化是内部更新
     this.outerUpdate = true;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     var flag = shallowCompare(this, nextProps, nextState);
+    //一般都是外部props.config改变后触发的。
+    //console.debug(flag,this.outerUpdate)
     if(flag && this.outerUpdate){
-      this.config = this.temp_config;
+      this.config = _.cloneDeep(nextProps.config);
     }
     //console.debug(flag)
     return flag;
@@ -111,7 +128,11 @@ class FormBuilderConfiger extends React.Component {
       onChange,
     } = this.props;
     if(this.random !== this.state.random){
-      onChange && onChange(this.config);
+      onChange && 
+      onChange(
+        this.config,
+        FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(this.config))
+      );
     }
     this.random = this.state.random;
   }
@@ -132,48 +153,61 @@ class FormBuilderConfiger extends React.Component {
       random,
     })
   }
-
+ 
   getTableColumns(currentData){
+    let {
+      hasNoneTableTitle = true,
+    } = this.props;
+    var locale = this.getLocale(localeText,"FormBuilderConfiger");
     var columns = [
       {
-        title: "字段名",
+        title: locale.fieldName,
         dataIndex: 'name',
         key: 'name',
       },
       {
-        title: "配置名",
+        title: locale.labelName,
         dataIndex: 'label',
         key: 'label',
       },
       {
-        title: "数据类型",
-        dataIndex: 'data_type',
-        key: 'data_type',
+        title: locale.dataType,
+        dataIndex: 'type',
+        key: 'type',
+        render: (text,row,id)=>{
+          if(!text){
+            text = row.type;
+          }
+          return text;
+        }
       },
       {
-        title: "是否必填",
+        title: locale.required,
         dataIndex: 'required',
         key: 'required',
         render: (value)=>{
-          var text = "可空";
-          if(value == "0"){
-            text = "可空";
-          }else if(value == "1") {
-            text = "必填";
+          var text = locale.requiredField;
+          value = util.convertStringOfTrueAndFalseToBollean(value);
+          if(value){
+            text = locale.requiredField;
+          }else {
+            text = locale.couldEmpty;
           }
           return text;
         }
       },
     ]; 
     columns.push({
-      title: '操作',
+      title: locale.operation,
       key: 'operation',
       //width: 55,
       render: (data,record,id) => {
+        var read_only = util.convertStringOfTrueAndFalseToBollean(currentData[id].read_only);
+        var can_not_delete = util.convertStringOfTrueAndFalseToBollean(currentData[id].can_not_delete);
         return (
           <div>
             {
-              currentData[id].read_only != "1" &&
+              !read_only &&
               <a 
                 href="javascript:void(0)" 
                 className="mr10"
@@ -187,7 +221,7 @@ class FormBuilderConfiger extends React.Component {
               </a>
             }
             {
-              currentData[id].can_not_delete != "1" &&
+              !can_not_delete &&
               <a 
                 href="javascript:void(0)" 
                 className="mr10"
@@ -229,7 +263,7 @@ class FormBuilderConfiger extends React.Component {
               </a>
             }
             {
-              this.props.hasNoneTableTitle && 
+              hasNoneTableTitle && 
               currentData[id].children && 
               <a 
                 href="javascript:void(0)" 
@@ -238,9 +272,16 @@ class FormBuilderConfiger extends React.Component {
                   this.openAddFieldDialogEvent(currentData[id].children)
                 }
               >
-                <span>
-                  +CI
-                </span>
+                {
+                  this.props.fieldAddedOfOperation &&
+                  this.props.fieldAddedOfOperation
+                }
+                {
+                  !this.props.fieldAddedOfOperation &&
+                  <Icon 
+                    type="plus"
+                  />
+                }
               </a>
             }
           </div>
@@ -284,7 +325,10 @@ class FormBuilderConfiger extends React.Component {
   */
   getTableComponent(title,columns,dataSource,currentData){
     var obj = { }; 
-    if(!this.props.hasNoneTableTitle){
+    let {
+      hasNoneTableTitle = true,
+    } = this.props;
+    if(!hasNoneTableTitle){
       obj.title = this.getTitle(title,currentData); 
     }
     return (
@@ -315,12 +359,16 @@ class FormBuilderConfiger extends React.Component {
   dataSourceAdapter(data){
     var re_data = [];
     data.forEach((v,k)=>{
+      //兼容处理
+      if(v.data_type && !v.type){
+        v.type = v.data_type;
+      }
       var description = null;
-      if(_.isArray(v.children) && (v.data_type === "object" || v.data_type === "array")){
+      if(_.isArray(v.children) && (v.type === "object" || v.type === "array")){
         var dataSource = this.dataSourceAdapter(v.children);
         description = this.getTableComponent(
-          <span>&nbsp;</span>,
-          //v.name + "：" + v.label,
+          //<span>&nbsp;</span>,
+          v.name + "：" + v.label,
           this.getTableColumns(v.children),
           dataSource,
           v.children,
@@ -331,7 +379,7 @@ class FormBuilderConfiger extends React.Component {
         key: v.key,
         name: v.name,
         label: v.label,
-        data_type: v.data_type,
+        type: v.type,
         required: v.required,
         description,
       }); 
@@ -383,10 +431,13 @@ class FormBuilderConfiger extends React.Component {
       title,
       selectSourceDataMap,
     } = this.props;
+    var locale = this.getLocale(localeText,"FormBuilderConfiger");
     //console.debug("render",config);
     var dataSource = this.dataSourceAdapter(this.config);
     //对外提供最外层添加窗口
-    this.context.formBuilderConfiger.openAddFieldDialog = this.openAddFieldDialogEvent(this.config);
+    if(this.context.formBuilderConfiger){
+      this.context.formBuilderConfiger.openAddFieldDialog = this.openAddFieldDialogEvent(this.config);
+    }
     return (
       <div className="configer">
         { 
@@ -397,14 +448,17 @@ class FormBuilderConfiger extends React.Component {
             this.config,
           ) 
         }
-        <Modal 
-          title={this.state.index !== undefined ? "修改":"添加"} 
-          visible={this.state.addField} 
-          onCancel={this.setAddFieldDialogState(false)}
-          footer={ false }
-        >
-          {
-            this.state.addField &&
+        {
+          this.state.addField &&
+          <Modal 
+            title={ 
+              this.state.index !== undefined 
+              ?  locale.edit : locale.add
+            } 
+            visible={ this.state.addField } 
+            onCancel={ this.setAddFieldDialogState(false) }
+            footer={ false }
+          >
             <AddAndUpdateForm
               currentData={ this.state.currentData }
               index={ this.state.index }
@@ -412,8 +466,8 @@ class FormBuilderConfiger extends React.Component {
               setAddFieldDialogState={ this.setAddFieldDialogState.bind(this) }
               selectSourceDataMap={ selectSourceDataMap }
             />
-          }
-        </Modal>
+          </Modal>
+        }
       </div>
     )
   }

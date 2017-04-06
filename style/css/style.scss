@@ -78,7 +78,7 @@
   .array-item-has-label {
     .array-item-right > div{
       position: absolute;
-      bottom: 12px;
+      top: 33px;
     }
   }
   .array-item-none-label {
@@ -88,6 +88,9 @@
     .ant-form-item-label {
       display: none;
     }
+  }
+  .icon-group-con > i {
+    cursor: pointer;
   }
 }
 
