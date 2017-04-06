@@ -1,6 +1,6 @@
 {
   "name": "antd-react-form-builder",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
