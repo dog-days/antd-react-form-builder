@@ -17,7 +17,7 @@
 目前只支持通过npm安装。
 
 ```sh
-npm install antd-react-form-buider --save
+npm install antd-react-form-builder --save
 ```
 
 ### 使用
@@ -25,6 +25,13 @@ npm install antd-react-form-buider --save
 `antd-react-form-builder`是基于antd form进行了一些简便封装，具体antd from用法还是要使用者自己去了解，这里就不多说。`antd-react-form-builder`的表单项都包含了antd 的`<FormItem \>`，表单验证直接通过表单组件props.rules传进来。详细的说明请看下面的**API**。
 
 可以直接参考本项目中的demo。
+
+需要而外引入css文件
+
+```js
+import "antd/dist/antd.css"
+import "antd-react-form-buider/style.css"
+```
 
 #### JSX直接使用
 
