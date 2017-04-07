@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import _ from 'lodash'
+import util from '../util'
 
 let propTypes = {
   size: React.PropTypes.string,
