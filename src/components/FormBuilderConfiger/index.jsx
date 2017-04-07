@@ -203,8 +203,13 @@ class FormBuilderConfiger extends React.Component {
       //width: 55,
       render: (data,record,id) => {
         var read_only = util.convertStringOfTrueAndFalseToBollean(currentData[id].read_only);
-        var can_not_delete = util.convertStringOfTrueAndFalseToBollean(currentData[id].can_not_delete);
-        return (
+        //兼容处理
+        if(read_only == "0"){
+          read_only = false;
+        }else if(read_only == "1") {
+          read_only = true;
+        }
+        var can_not_delete = util.convertStringOfTrueAndFalseToBollean(currentData[id].can_not_delete); return (
           <div>
             {
               !read_only &&

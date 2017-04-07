@@ -15,6 +15,9 @@ import {
   Password,
   Cascader,
 } from '../lib/index'
+import {
+  Icon,
+} from "antd"
 
 @FormBuilder.create()
 class Container extends React.Component {
@@ -67,6 +70,7 @@ class Container extends React.Component {
           onlyLetter={ true }
           maxLength={ 10 }
           minLength={ 10 }
+          
         />
         <Input 
           required

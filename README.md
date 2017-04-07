@@ -4,7 +4,7 @@
 
 之所以写了这个项目有以下几点原因：
 
-- [Antd](https://ant.design/docs/react/introduce)的表单验证是会触发整个组件渲染，（被Form.create()高阶组件或装饰器包含后）
+- [Antd](https://ant.design/docs/react/introduce)的表单验证是会触发整个组件渲染，（使用Form.create()装饰器后和getFieldDecorator后）
 - 默认的Antd表单组件是不自带验证的，需要使用配套的getFieldDecorator装饰过后才可以验证。
 - 没有嵌套的表单可用。
 
@@ -224,6 +224,22 @@ class Container extends React.Component {
 export default Container;
 ```
 
+### 国际化
+
+跟antd的国际化用法一致，请参考[https://ant.design/docs/react/i18n-cn](https://ant.design/docs/react/i18n-cn)。
+
+```jsx
+import AntdEnUS from 'antd/lib/locale-provider/en_US'
+import FormBuilderEnUS from '../lib/locale-provider/es_US'
+//整合Antd和FormBuilder的国际化语言
+let enUS = Object.assign({},AntdEnUS,FormBuilderEnUS)
+return (
+  <LocaleProvider locale={enUS}>
+    <App />
+  </LocaleProvider>
+);
+```
+
 ### FormBuilder API
 
 表单验证的API，请看[antd的表单验证](https://ant.design/components/form/#getFieldDecorator-参数)和[async-validator](https://github.com/yiminghe/async-validator)（antd 采用了这个）。
@@ -413,6 +429,43 @@ class CustomizedForm extends React.Component {}
 | setFieldsValue | 跟antd的一样，设置一组输入控件的值（注意：不要在 `componentWillReceiveProps` 内使用，否则会导致死循环） | string | setFieldsValue({xxx: value})         |
 | validateFields | 校验并获取全部表单组件的输入域的值与 Error，通常在onSubmit中使用。（跟antd不一样的地方在于不可以局部校验） | string | validateFields(function(err,values)) |
 | 其他props        | 其他props完全跟antd \<Input /\>一致             |        |                                      |
+
+#### FormBuilder.valuesToConfig
+
+formBuilderConfig value赋值（根据FormBuilder的表单结构所存储的值来赋值） 。当我们需要为嵌套的表单赋值时，使用这个方法（setFieldsValue不够用了）。
+
+| 参数                | 说明                         | 类型     | 默认值  |
+| :---------------- | :------------------------- | :----- | :--- |
+| formBuilderConfig | FormBuilder组件的props.config | array  | 无    |
+| data              | FormBuilder的嵌套表单的值         | object | 无    |
+
+```jsx
+//配置
+var config = [
+  {
+    type: "email",
+    required: true,
+    label: "说明",
+    placeholder: "请输入"
+  },
+  {
+    type: "email2",
+    required: true,
+    label: "说明",
+    placeholder: "请输入"
+  },
+]
+var values = {
+  email: "test@163.com",
+  email2: "test2@163.com",
+}
+config = FormBuilder.valuesToConfig(config,values);
+...
+return (
+  <FromBuilder config={config}/>
+)
+...
+```
 
 #### 表单组件公共部分的API
 
@@ -852,5 +905,9 @@ class CustomizedForm extends React.Component {}
 
 #### FormBuilderConfiger.formBuilderConfigAdapter
 
+formBuilderConfiger配置转换成FormBuilder的config配置，他们的区别在于type为array类型的时候，formBuilder的children需要再包一层数组，`children: [] => children: [[]]`。
 
+| 参数   | 说明                     | 类型    | 默认值  |
+| :--- | :--------------------- | :---- | :--- |
+| data | formBuilderConfiger的配置 | array | 无    |
 
