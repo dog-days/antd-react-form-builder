@@ -817,13 +817,14 @@ RadioGroup的`props.options`结构如下：
 />
 ```
 
-| props               | 说明                                       | 类型       | 默认值  |
-| ------------------- | ---------------------------------------- | -------- | ---- |
-| title               | 第一级table的title                           | string   | 字段管理 |
-| config              | 配置数据，只要config改变了都会以新的config重新渲染（父组件传进来）  | array    | []   |
-| onChange            | 配置数据变化时触发的回调函数（这里的配置数据与父组件传进来的是相互独立的）,function(data01,data02)，data01是formBuilderConfiger的配置数据，data02是formBuilder的配置数据 | function | 无    |
-| hasNoneTableTitle   | antd table title是否显示（两种添加新字段的方式）         | boolean  | true |
-| selectSourceDataMap | 拉选择数据源选项                                 | array    | 无    |
+| props               | 说明                                       | 类型       | 默认值                         |
+| ------------------- | ---------------------------------------- | -------- | --------------------------- |
+| title               | 第一级table的title                           | string   | 字段管理                        |
+| config              | 配置数据，只要config改变了都会以新的config重新渲染（父组件传进来）  | array    | []                          |
+| onChange            | 配置数据变化时触发的回调函数（这里的配置数据与父组件传进来的是相互独立的）,function(data01,data02)，data01是formBuilderConfiger的配置数据，data02是formBuilder的配置数据 | function | 无                           |
+| hasNoneTableTitle   | antd table title是否显示（两种添加新字段的方式）         | boolean  | true                        |
+| selectSourceDataMap | 拉选择数据源选项                                 | array    | 无                           |
+| fieldAddedOperation | fieldAddedOperation 添加字段的按钮或图标（react组件）  | object   | `<Antd.Icon type="plus" />` |
 
 `props.config`
 
