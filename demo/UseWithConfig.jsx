@@ -254,7 +254,7 @@ class Container extends React.Component {
           }
         </Card>
         <Card
-          title="FromBuilder"
+          title="FormBuilder"
           className="form-builder-content"
         >
           <FormBuilder 
