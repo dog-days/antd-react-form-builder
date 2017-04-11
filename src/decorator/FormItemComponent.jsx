@@ -1,7 +1,9 @@
 import React from 'react'
 import _ from 'lodash'
 import localeText from '../locale-provider/zh_CN'
+import PRINTJ from "printj"
 
+var sprintf = PRINTJ.sprintf;
 
 let contextTypes = {
   selectSourceData: React.PropTypes.object,
@@ -21,10 +23,50 @@ function propsAdapter(props){
     value,
     required,
     boolean,
+    min,
+    max,
+    onlyLetter,
     rules=[],
   } = props;
   if(!formItemProps.label){
     formItemProps.label = label;
+  }
+  //只有text类型有长度限制
+  switch(props.type){
+    case "text":
+    case "password":
+      if(onlyLetter){
+        rules.unshift({
+          validator(rule, value, callback, source, options) {
+            var errors = [];
+            var pass = new RegExp("^[A-Za-z]*$").test(value);
+            if(!pass){
+              errors.push({
+                message: locale.charactersOnlyLetter,
+              })
+            }
+            callback(errors);
+          }
+        });
+      }
+      if(min && max){
+        rules.unshift({
+          min,
+          max,
+          message: sprintf(locale.charactersBetwteen,min,max),
+        });
+      }else if(min){
+        rules.unshift({
+          min,
+          message: sprintf(locale.charactersMin,min),
+        });
+      }else if(max){
+        rules.unshift({
+          max,
+          message: sprintf(locale.charactersMax,max),
+        });
+      }
+    break;
   }
   if(required){
     rules.unshift({

@@ -68,9 +68,7 @@ class Container extends React.Component {
           label="text类型"
           placeholder="请输入"
           onlyLetter={ true }
-          maxLength={ 10 }
-          minLength={ 10 }
-          
+          max={ 10 }
         />
         <Input 
           required
