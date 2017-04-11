@@ -50,7 +50,8 @@
     "object.assign": "^4.0.4",
     "printj": "^1.0.0",
     "react": "^15.4.1",
-    "react-dom": "^15.4.1"
+    "react-dom": "^15.4.1",
+    "sprintf-js": "^1.0.3"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development node server.js",
