@@ -16,7 +16,8 @@ import localeText from './zh_CN'
  *@prop { function } onChange 配置数据变化时触发的回调函数（这里的配置数据与父组件传进来的是相互独立的） 
  *   function(data01,data02)，data01是formBuilderConfiger的配置数据，data02是formBuilder的配置数据
  *@prop { boolean } hasNoneTableTitle table title是否显示,默认true 
- *@prop { selectSourceDataMap } 拉选择数据源无 
+ *@prop { array } selectSourceDataMap 拉选择数据源 
+ *@prop { object } fieldAddedOperation 添加字段的按钮或图标（react组件） 
  */
 @localeDecorator
 class FormBuilderConfiger extends React.Component {
@@ -278,11 +279,11 @@ class FormBuilderConfiger extends React.Component {
                 }
               >
                 {
-                  this.props.fieldAddedOfOperation &&
-                  this.props.fieldAddedOfOperation
+                  this.props.fieldAddedOperation &&
+                  this.props.fieldAddedOperation
                 }
                 {
-                  !this.props.fieldAddedOfOperation &&
+                  !this.props.fieldAddedOperation &&
                   <Icon 
                     type="plus"
                   />

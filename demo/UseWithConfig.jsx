@@ -16,7 +16,7 @@ import {
 import feilds from "./config"
 import CodeMirror from "react-codemirror"
 import "codemirror/mode/javascript/javascript"
-import util from "../src/util"
+import util from "../lib/util"
 import "codemirror/lib/codemirror.css";
 
 let selectSourceDataMap = [
@@ -254,7 +254,7 @@ class Container extends React.Component {
           }
         </Card>
         <Card
-          title="FromBuilder"
+          title="FormBuilder"
           className="form-builder-content"
         >
           <FormBuilder 

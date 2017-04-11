@@ -13,16 +13,36 @@ function component(BasicItemComponent){
   class Password extends React.Component {
 
     render(){
-      let { locale,key,rePassword,...other } = this.props;
+      let { 
+        locale,
+        key,
+        rePassword,
+        onlyLetterAndNumber=true,
+        ...other 
+      } = this.props;
       //console.debug(this.context)
       locale = this.getLocale(localeText,"FormBuilderPassword"); 
 
       other.targetComponent = Input;
       other.type = "password";
       this.propsAdapter(other);
+      if(onlyLetterAndNumber){
+        other.rules.push({
+          validator(rule, value, callback, source, options) {
+            var errors = [];
+            var pass = new RegExp("^[A-Za-z]+[0-9]+[A-Za-z0-9]*|[0-9]+[A-Za-z]+[A-Za-z0-9]*$").test(value);
+            if(!pass && value != ""){
+              errors.push({
+                message: locale.formatErrorMsg,
+              })
+            }
+            callback(errors);
+          }
+        })
+      }
       if(rePassword){
         var reProps = _.cloneDeep(other);
-        reProps.formItemProps.label = locale.label, 
+        reProps.formItemProps.label = locale.reLabel, 
         reProps.name = "re-" + reProps.name;
         reProps.rules.push(
           {

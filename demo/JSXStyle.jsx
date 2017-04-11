@@ -1,5 +1,5 @@
 import React from 'react'
-import util from '../src/util'
+import util from '../lib/util'
 import {
   FormBuilder,
   Input,
@@ -64,13 +64,12 @@ class Container extends React.Component {
           required
           type="text"
           name="text"
-          value={ "text" }
+          value="类型"
           label="text类型"
           placeholder="请输入"
           onlyLetter={ true }
-          maxLength={ 10 }
-          minLength={ 10 }
-          
+          max={ 10 }
+          min={ 5 }
         />
         <Input 
           required
@@ -258,6 +257,8 @@ class Container extends React.Component {
           rePassword={ true }
           label="密码"
           required
+          min={ 12 }
+          min={ 6 }
         />
         <Cascader
           name="cascader"

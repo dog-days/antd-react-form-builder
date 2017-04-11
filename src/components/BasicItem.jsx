@@ -359,8 +359,6 @@ class BasicItem extends React.Component {
     let props = this.props;
     let {
       onlyLetter,//在这只是为了解决原生html表单props多余报错问题
-      minLength,//在这只是为了解决原生html表单props多余报错问题
-      maxLength,//在这只是为了解决原生html表单props多余报错问题
       validateAll,//在这只是为了解决原生html表单props多余报错问题
       array,//在这只是为了解决原生html表单props多余报错问题
       uniqueKey,//在这只是为了解决原生html表单props多余报错问题

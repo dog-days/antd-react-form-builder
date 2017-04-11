@@ -8,6 +8,10 @@ export default Object.assign(
   {
     FormBuilderCommon: {
       required: " is required",
+      charactersBetwteen: "characters text must be between %d and %d",
+      charactersMin: "characters must be at least %d",
+      charactersMax: "characters cannot be longer than %d",
+      charactersOnlyLetter: "characters must be english letter",
     }
   },
   Input,
