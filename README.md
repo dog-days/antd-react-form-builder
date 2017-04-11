@@ -20,6 +20,10 @@
 npm install antd-react-form-builder --save
 ```
 
+### 兼容
+
+兼容IE10以上，兼容谷歌、Safari、火狐等浏览器最新版本。
+
 ### 使用
 
 `antd-react-form-builder`是基于antd form进行了一些简便封装，具体antd from用法还是要使用者自己去了解，这里就不多说。`antd-react-form-builder`的表单项都包含了antd 的`<FormItem \>`，表单验证直接通过表单组件props.rules传进来。详细的说明请看下面的**API**。
@@ -512,9 +516,12 @@ return (
 }]
 ```
 
-| props | 说明     | 类型     | 必填   | 默认值  |
-| ----- | ------ | ------ | ---- | ---- |
-| type  | 表单子项类型 | string | 否    | text |
+| props      | 说明          | 类型      | 必填   | 默认值   |
+| ---------- | ----------- | ------- | ---- | ----- |
+| type       | 表单子项类型      | string  | 否    | text  |
+| onlyLetter | 是否只允许输入英文字母 | boolean | 否    | false |
+| min        | 输入字符最小长度    | number  | 否    | 无     |
+| max        | 输入字符最大长度    | number  | 否    | 无     |
 
 参考[Antd.Input](https://ant.design/components/input-cn/)。
 
@@ -770,10 +777,13 @@ RadioGroup的`props.options`结构如下：
 }]
 ````
 
-| props      | 说明                                       | 类型      | 默认值      |
-| ---------- | ---------------------------------------- | ------- | -------- |
-| type       | 使用配置时**必填**，直接使用JSX可选。type取值`password`，只有一种值。 | string  | password |
-| rePassword | 是否重复验证密码                                 | boolean | false    |
+| props               | 说明                                       | 类型      | 默认值      |
+| ------------------- | ---------------------------------------- | ------- | -------- |
+| type                | 使用配置时**必填**，直接使用JSX可选。type取值`password`，只有一种值。 | string  | password |
+| rePassword          | 是否重复验证密码                                 | boolean | false    |
+| onlyLetterAndNumber | 只允许输入英文字母和数字结合的密码                        | boolean | true     |
+| min                 | 输入字符最小长度                                 | number  | 否        |
+| max                 | 输入字符最大长度                                 | number  | 无        |
 
 参考[Antd.Input](https://ant.design/components/input-cn/)。
 公共部分的props请参考，**表单组件公共部分的API**。
@@ -819,7 +829,7 @@ RadioGroup的`props.options`结构如下：
 
 | props               | 说明                                       | 类型       | 默认值                         |
 | ------------------- | ---------------------------------------- | -------- | --------------------------- |
-| title               | 第一级table的title                           | string   | 字段管理                        |
+| title               | 第一级table的title，hasNoneTableTitle为true时隐藏 | string   | 字段管理                        |
 | config              | 配置数据，只要config改变了都会以新的config重新渲染（父组件传进来）  | array    | []                          |
 | onChange            | 配置数据变化时触发的回调函数（这里的配置数据与父组件传进来的是相互独立的）,function(data01,data02)，data01是formBuilderConfiger的配置数据，data02是formBuilder的配置数据 | function | 无                           |
 | hasNoneTableTitle   | antd table title是否显示（两种添加新字段的方式）         | boolean  | true                        |
