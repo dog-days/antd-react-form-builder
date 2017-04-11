@@ -11,7 +11,7 @@ export default Object.assign(
       charactersBetwteen: "characters text must be between %d and %d",
       charactersMin: "characters must be at least %d",
       charactersMax: "characters cannot be longer than %d",
-      charactersOnlyLetter: "characters must be english letters",
+      charactersOnlyLetter: "characters must be english letter",
     }
   },
   Input,

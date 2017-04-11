@@ -11,7 +11,7 @@ export default Object.assign(
       charactersBetwteen: "字符个数必须介于%d和%d",
       charactersMin: "字符至少要%d个",
       charactersMax: "字符不能超过%d个",
-      charactersOnlyLetter: "字字符串只能是英文字母",
+      charactersOnlyLetter: "字符只能是英文字母",
     }
   },
   Input,
