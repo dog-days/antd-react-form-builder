@@ -22,6 +22,7 @@ export default {
     labelNameRequiredMessage: "Please enter label name",
     dataTypeReqiuredMessage: "Plese select data type",
     requiredReqiuredMessage: please,
+    isArray: "array or not",
     defaultValue: "default value",
     defaultValuePlaceholder: "please enter default value",
     listTargetLabel: "dropdown dataSource",

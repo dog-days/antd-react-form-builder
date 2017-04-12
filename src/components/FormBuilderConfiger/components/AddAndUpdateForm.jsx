@@ -120,6 +120,8 @@ class AddAndUpdateForm extends React.Component {
       selectSourceDataMap, 
       currentData,
       index,
+      canNotDeleteFunction,
+      readOnlyFunction,
     } = this.props;
     const formItemLayout = {
       labelCol: { span: 5 },
@@ -158,9 +160,23 @@ class AddAndUpdateForm extends React.Component {
           onChange={ this.onTypeChange }
         />
         {
+          type != undefined &&
           type !== "object" && 
           type !== "table" && 
-          (type != undefined || currentData[index]) &&
+          type !== "dropdown" &&
+          type !== "boolean" &&
+          <Select 
+            name="array"
+            label={ locale.isArray }
+            placeholder={ locale.please }
+            value={ false }
+            boolean={ true }
+          />
+        }
+        {
+          type != undefined &&
+          type !== "object" && 
+          type !== "table" && 
           type !== "dropdown" &&
           type !== "boolean" &&
           <Input 
@@ -168,7 +184,7 @@ class AddAndUpdateForm extends React.Component {
             label={ locale.defaultValue }
             placeholder={ locale.defaultValuePlaceholder }
           />
-        }
+        } 
         {
           type === "boolean" &&
           <Select 
@@ -176,6 +192,7 @@ class AddAndUpdateForm extends React.Component {
             label={ locale.defaultValue }
             placeholder={ locale.please }
             boolean={ true }
+            value={ false }
           />
         }
         {
@@ -196,20 +213,26 @@ class AddAndUpdateForm extends React.Component {
           boolean={ true }
           value={ true }
         />
-        <Select 
-          name="read_only"
-          label={ locale.readOnly }
-          placeholder={ locale.readOnlyPlease }
-          boolean={ true }
-          value={ false }
-        />
-        <Select 
-          name="can_not_delete"
-          label={ locale.cannotDelete }
-          placeholder={ locale.cannotDeletePlease }
-          boolean={ true }
-          value={ false }
-        />
+        {
+          readOnlyFunction &&
+          <Select 
+            name="read_only"
+            label={ locale.readOnly }
+            placeholder={ locale.readOnlyPlease }
+            boolean={ true }
+            value={ false }
+          />
+        }
+        {
+          canNotDeleteFunction &&
+          <Select 
+            name="can_not_delete"
+            label={ locale.cannotDelete }
+            placeholder={ locale.cannotDeletePlease }
+            boolean={ true }
+            value={ false }
+          />
+        }
         <FormItem 
           {...formItemLayout}
           className="none-label-con mt20"

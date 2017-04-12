@@ -22,6 +22,7 @@ export default {
     labelNameRequiredMessage: "请填写字段配置名",
     dataTypeReqiuredMessage: "请选择字段类型",
     requiredReqiuredMessage: please,
+    isArray: "是否数组",
     defaultValue: "默认值",
     defaultValuePlaceholder: "请填写默认值",
     listTargetLabel: "下拉数据源",

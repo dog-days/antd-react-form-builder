@@ -18,6 +18,8 @@ import localeText from './zh_CN'
  *@prop { boolean } hasNoneTableTitle table title是否显示,默认true 
  *@prop { array } selectSourceDataMap 拉选择数据源 
  *@prop { object } fieldAddedOperation 添加字段的按钮或图标（react组件） 
+ *@prop { boolean } canNotDeleteFunction 开启不可删除选项 
+ *@prop { boolean } readOnlyFunction 开启只读选项 
  */
 @localeDecorator
 class FormBuilderConfiger extends React.Component {
@@ -442,6 +444,8 @@ class FormBuilderConfiger extends React.Component {
       onChange,
       title,
       selectSourceDataMap,
+      readOnlyFunction,
+      canNotDeleteFunction,
     } = this.props;
     var locale = this.getLocale(localeText,"FormBuilderConfiger");
     //console.debug("render",config);
@@ -477,6 +481,8 @@ class FormBuilderConfiger extends React.Component {
               setChangeState={ this.setChangeState }
               setAddFieldDialogState={ this.setAddFieldDialogState.bind(this) }
               selectSourceDataMap={ selectSourceDataMap }
+              canNotDeleteFunction={ canNotDeleteFunction }
+              readOnlyFunction={ readOnlyFunction }
             />
           </Modal>
         }

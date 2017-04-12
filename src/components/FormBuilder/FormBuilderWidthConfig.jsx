@@ -116,6 +116,7 @@ class FormBuilderWidthConfig extends React.Component {
           var type = v.type;
           element_props = {
             required,
+            array: v.array,
             name: e_name,
             type: type,
             key: v.key,
