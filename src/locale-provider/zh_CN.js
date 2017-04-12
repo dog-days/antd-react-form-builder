@@ -8,10 +8,10 @@ export default Object.assign(
   {
     FormBuilderCommon: {
       required: "是必填项",
-      charactersBetwteen: "字符个数必须介于%d和%d",
-      charactersMin: "字符至少要%d个",
-      charactersMax: "字符不能超过%d个",
-      charactersOnlyLetter: "字符只能是英文字母",
+      charactersBetwteen: "必须介于%d到%d个字符",
+      charactersMin: "至少要%d个字符",
+      charactersMax: "不能超过%d个字符",
+      charactersOnlyLetter: "只能是英文字母字符",
     }
   },
   Input,
