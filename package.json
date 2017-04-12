@@ -1,6 +1,6 @@
 {
   "name": "antd-react-form-builder",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
@@ -48,7 +48,6 @@
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "object.assign": "^4.0.4",
-    "printj": "^1.0.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "sprintf-js": "^1.0.3"
@@ -58,8 +57,8 @@
     "build-demo": "cross-env NODE_ENV=production grunt",
     "build": "npm run build-es && npm run build-default && node-sass style/css/style.scss lib/style.css",
     "build-es": "cross-env BABEL_ENV=es babel ./src -d es",
-    "build-default": "cross-env BABEL_ENV=default babel ./src -d lib",
-    "build-default-watch": "cross-env BABEL_ENV=default babel ./src -d lib -w",
+    "build-default": "cross-env BABEL_ENV=default babel ./src -d lib --ignore spec.js,test.js",
+    "build-default-watch": "cross-env BABEL_ENV=default babel ./src -d lib -w --ignore spec.js,test.js",
     "build-es-watch": "cross-env BABEL_ENV=es babel ./src -d es -w",
     "test": "cross-env NODE_ENV=default jest --coverage"
   },
@@ -75,7 +74,7 @@
   "homepage": "https://github.com/dog-days/react-react-form-builder#readme",
   "jest": {
     "setupFiles": [
-      "test/setup.js"
+      "tests/setup.js"
     ],
     "moduleFileExtensions": [
       "js",
