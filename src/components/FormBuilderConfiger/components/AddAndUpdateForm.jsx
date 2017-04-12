@@ -57,6 +57,15 @@ class AddAndUpdateForm extends React.Component {
       if(data.required !== undefined){
         obj.required = !!util.convertStringOfTrueAndFalseToBollean(data.required) + "";
       }
+      if(data.min){
+        obj.min = data.min;
+      }
+      if(data.max){
+        obj.max = data.max;
+      }
+      if(data.array !== undefined){
+        obj.array = !!util.convertStringOfTrueAndFalseToBollean(data.array) + "";
+      }
       if(data.read_only !== undefined){
         obj.read_only = !!util.convertStringOfTrueAndFalseToBollean(data.read_only) + "";
       }
@@ -173,6 +182,21 @@ class AddAndUpdateForm extends React.Component {
             boolean={ true }
           />
         }
+        {
+          type === "string" &&
+          <span>
+            <Input 
+              name="min"
+              label={ locale.minLength }
+              placeholder={ locale.minLengthPlaceholder }
+            />
+            <Input 
+              name="max"
+              label={ locale.maxLength }
+              placeholder={ locale.maxLengthPlaceholder }
+            />
+          </span>
+        } 
         {
           type != undefined &&
           type !== "object" && 
