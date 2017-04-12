@@ -210,7 +210,7 @@ class BasicItem extends React.Component {
     return props;
   }
 
-  onChange = (name,rules)=>{
+  onChange = (rules)=>{
     return (e)=>{
       var value;
       if(e && e.target){
@@ -391,7 +391,7 @@ class BasicItem extends React.Component {
           {...other} 
           value={ storage.value }
           onChange={
-            this.onChange(other.name,rules)
+            this.onChange(rules)
           }
         >
           { children }
@@ -403,7 +403,7 @@ class BasicItem extends React.Component {
           {...other} 
           value={ storage.value }
           onChange={
-            this.onChange(other.name,rules)
+            this.onChange(rules)
           }
         />
       )

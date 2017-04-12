@@ -38,6 +38,9 @@ class AddAndUpdateForm extends React.Component {
     } = this.props;
     if(this.isEdited){
       var data = currentData[index];
+      if(data.type === "array"){
+        data.type = "table";
+      }
       var obj = {
         name: data.name,
         label: data.label,
@@ -85,9 +88,13 @@ class AddAndUpdateForm extends React.Component {
         index,
       } = this.props;
       //console.debug(values);
+      //array类型兼容处理
+      if(values.type === "array"){
+        values.type = "table";
+      }
       switch(values.type){
         case "object":
-        case "array":
+        case "table":
           if(!this.isEdited){
             values.children = [];
           }
@@ -95,7 +102,7 @@ class AddAndUpdateForm extends React.Component {
       }
       if(this.isEdited){
         values.key = currentData[index].key; 
-        if(values.type === "array" || values.type === "object"){
+        if(values.type === "table" || values.type === "object"){
           values.children = currentData[index].children || []; 
         };
         currentData[index] = values;
@@ -119,6 +126,9 @@ class AddAndUpdateForm extends React.Component {
       wrapperCol: { span: 17 },
     };
     var type = this.state.type || (currentData[index] && currentData[index].type);
+    if(type === "array"){
+      type = "table";
+    }
     //console.debug(type);
     var locale = this.getLocale(localeText,"FormBuilderConfiger");
     return (
@@ -149,9 +159,9 @@ class AddAndUpdateForm extends React.Component {
         />
         {
           type !== "object" && 
-          type !== "array" && 
+          type !== "table" && 
           (type != undefined || currentData[index]) &&
-          type !== "list" &&
+          type !== "dropdown" &&
           type !== "boolean" &&
           <Input 
             name="value"
@@ -169,7 +179,7 @@ class AddAndUpdateForm extends React.Component {
           />
         }
         {
-          (type === "list") &&
+          (type === "dropdown") &&
           <Select 
             required
             name="select_target"

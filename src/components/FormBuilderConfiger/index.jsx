@@ -81,14 +81,17 @@ class FormBuilderConfiger extends React.Component {
         v.type = v.data_type;
       }
       //console.debug(v)
-      if((v.type === "array" || v.type === "object") && v.children && v.children){
-        if(v.type === "array"){
+      if(v.type === "array"){
+        v.type = "table";
+      }
+      if((v.type === "table" || v.type === "object") && v.children && v.children){
+        if(v.type === "table"){
           v.children = [v.children];
           v.children.forEach((v2,k2)=>{
             FormBuilderConfiger.formBuilderConfigAdapter(v2);
           })
         }
-        if(v.type !== "array"){
+        if(v.type !== "table"){
           FormBuilderConfiger.formBuilderConfigAdapter(v.children);
         }
       }
@@ -369,8 +372,11 @@ class FormBuilderConfiger extends React.Component {
       if(v.data_type && !v.type){
         v.type = v.data_type;
       }
+      if(v.type === "array"){
+        v.type = "table";
+      }
       var description = null;
-      if(_.isArray(v.children) && (v.type === "object" || v.type === "array")){
+      if(_.isArray(v.children) && (v.type === "object" || v.type === "table")){
         var dataSource = this.dataSourceAdapter(v.children);
         description = this.getTableComponent(
           //<span>&nbsp;</span>,

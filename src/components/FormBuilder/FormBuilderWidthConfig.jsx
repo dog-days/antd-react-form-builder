@@ -96,11 +96,14 @@ class FormBuilderWidthConfig extends React.Component {
       if(v.data_type && !v.type){
         v.type = v.data_type;
       }
+      if(v.type === "array"){
+        v.type = "table";
+      }
       var required = util.convertStringOfTrueAndFalseToBollean(v.required);
       var rules = v.rules || [];
       switch(v.type){
         case "object":
-        case "array":
+        case "table":
           isElement = false;
           break;
         default:
@@ -135,7 +138,7 @@ class FormBuilderWidthConfig extends React.Component {
             case "string":
               type = "text";
             break;
-            case "list":
+            case "dropdown":
               type = "select";
               //字段配置时选择的select数据源
               element_props.select_target = v.select_target;
@@ -153,7 +156,7 @@ class FormBuilderWidthConfig extends React.Component {
         <div key={ k }>
           {
             !isElement 
-            && v.type === "array" 
+            && v.type === "table" 
             && v.children 
             && v.children[0] 
             && v.children[0][0] &&
@@ -212,12 +215,12 @@ class FormBuilderWidthConfig extends React.Component {
           }
           {
             !isElement 
-            && v.type !== "array" 
+            && v.type !== "table" 
             && v.children 
             && v.children[0] && 
             <Card title={ v.label } className="mb10 not-array-card-con">
               { 
-                v.type !== "array" && 
+                v.type !== "table" && 
                 this.configRender(v.children,e_name) 
               }
             </Card>

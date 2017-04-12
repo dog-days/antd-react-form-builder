@@ -45,12 +45,12 @@ export default {
       "text": "object"
     },
     {
-      "value": "array",
-      "text": "array"
+      "value": "table",
+      "text": "table"
     },
     {
-      "value": "list",
-      "text": "list（下拉选择）"
+      "value": "dropdown",
+      "text": "dropdown"
     },
     {
       "value": "string",
