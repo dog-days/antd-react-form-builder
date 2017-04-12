@@ -81,21 +81,19 @@ class Container extends React.Component {
             required: 'true',
             label: "电源个数",
             value: "10",
-            read_only: true,
-            can_not_delete: true,
           },
           {
             key: util.getUniqueKey(),
             name: "rack_digit",
             type: "boolean",
-            value: false,
+            value: true,
             required: true,
             label: "机架位数",
           },
           {
             key: util.getUniqueKey(),
             name: "disk_list",
-            type: "array",
+            type: "table",
             required: true,
             label: "硬盘列表",
             children: [

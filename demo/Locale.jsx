@@ -61,7 +61,7 @@ class Locale extends React.Component {
           {
             key: util.getUniqueKey(),
             name: "disk_list",
-            type: "array",
+            type: "table",
             required: true,
             label: "disk List",
             children: [
