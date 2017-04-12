@@ -38,6 +38,9 @@ class AddAndUpdateForm extends React.Component {
     } = this.props;
     if(this.isEdited){
       var data = currentData[index];
+      if(data.type === "array"){
+        data.type = "table";
+      }
       var obj = {
         name: data.name,
         label: data.label,
@@ -53,6 +56,15 @@ class AddAndUpdateForm extends React.Component {
       }
       if(data.required !== undefined){
         obj.required = !!util.convertStringOfTrueAndFalseToBollean(data.required) + "";
+      }
+      if(data.min){
+        obj.min = data.min;
+      }
+      if(data.max){
+        obj.max = data.max;
+      }
+      if(data.array !== undefined){
+        obj.array = !!util.convertStringOfTrueAndFalseToBollean(data.array) + "";
       }
       if(data.read_only !== undefined){
         obj.read_only = !!util.convertStringOfTrueAndFalseToBollean(data.read_only) + "";
@@ -85,9 +97,13 @@ class AddAndUpdateForm extends React.Component {
         index,
       } = this.props;
       //console.debug(values);
+      //array类型兼容处理
+      if(values.type === "array"){
+        values.type = "table";
+      }
       switch(values.type){
         case "object":
-        case "array":
+        case "table":
           if(!this.isEdited){
             values.children = [];
           }
@@ -95,7 +111,7 @@ class AddAndUpdateForm extends React.Component {
       }
       if(this.isEdited){
         values.key = currentData[index].key; 
-        if(values.type === "array" || values.type === "object"){
+        if(values.type === "table" || values.type === "object"){
           values.children = currentData[index].children || []; 
         };
         currentData[index] = values;
@@ -113,12 +129,17 @@ class AddAndUpdateForm extends React.Component {
       selectSourceDataMap, 
       currentData,
       index,
+      canNotDeleteFunction,
+      readOnlyFunction,
     } = this.props;
     const formItemLayout = {
       labelCol: { span: 5 },
       wrapperCol: { span: 17 },
     };
     var type = this.state.type || (currentData[index] && currentData[index].type);
+    if(type === "array"){
+      type = "table";
+    }
     //console.debug(type);
     var locale = this.getLocale(localeText,"FormBuilderConfiger");
     return (
@@ -148,17 +169,46 @@ class AddAndUpdateForm extends React.Component {
           onChange={ this.onTypeChange }
         />
         {
+          type != undefined &&
           type !== "object" && 
-          type !== "array" && 
-          (type != undefined || currentData[index]) &&
-          type !== "list" &&
+          type !== "table" && 
+          type !== "dropdown" &&
+          type !== "boolean" &&
+          <Select 
+            name="array"
+            label={ locale.isArray }
+            placeholder={ locale.please }
+            value={ false }
+            boolean={ true }
+          />
+        }
+        {
+          type === "string" &&
+          <span>
+            <Input 
+              name="min"
+              label={ locale.minLength }
+              placeholder={ locale.minLengthPlaceholder }
+            />
+            <Input 
+              name="max"
+              label={ locale.maxLength }
+              placeholder={ locale.maxLengthPlaceholder }
+            />
+          </span>
+        } 
+        {
+          type != undefined &&
+          type !== "object" && 
+          type !== "table" && 
+          type !== "dropdown" &&
           type !== "boolean" &&
           <Input 
             name="value"
             label={ locale.defaultValue }
             placeholder={ locale.defaultValuePlaceholder }
           />
-        }
+        } 
         {
           type === "boolean" &&
           <Select 
@@ -166,10 +216,11 @@ class AddAndUpdateForm extends React.Component {
             label={ locale.defaultValue }
             placeholder={ locale.please }
             boolean={ true }
+            value={ false }
           />
         }
         {
-          (type === "list") &&
+          (type === "dropdown") &&
           <Select 
             required
             name="select_target"
@@ -186,20 +237,26 @@ class AddAndUpdateForm extends React.Component {
           boolean={ true }
           value={ true }
         />
-        <Select 
-          name="read_only"
-          label={ locale.readOnly }
-          placeholder={ locale.readOnlyPlease }
-          boolean={ true }
-          value={ false }
-        />
-        <Select 
-          name="can_not_delete"
-          label={ locale.cannotDelete }
-          placeholder={ locale.cannotDeletePlease }
-          boolean={ true }
-          value={ false }
-        />
+        {
+          readOnlyFunction &&
+          <Select 
+            name="read_only"
+            label={ locale.readOnly }
+            placeholder={ locale.readOnlyPlease }
+            boolean={ true }
+            value={ false }
+          />
+        }
+        {
+          canNotDeleteFunction &&
+          <Select 
+            name="can_not_delete"
+            label={ locale.cannotDelete }
+            placeholder={ locale.cannotDeletePlease }
+            boolean={ true }
+            value={ false }
+          />
+        }
         <FormItem 
           {...formItemLayout}
           className="none-label-con mt20"

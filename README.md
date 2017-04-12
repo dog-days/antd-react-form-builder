@@ -10,7 +10,7 @@
 
 基于以上原因，就有了本项目。
 
-本项目是基于[Antd](https://ant.design/docs/react/introduce)的antd-react-form-builder，既可以使用配置生成表单（整合了表单验证），也支持直接是使用JSX。（两种方式都支持，就像使用react-router一样）
+本项目是基于[Antd](https://ant.design/docs/react/introduce)的antd-react-form-builder，既可以使用配置生成表单（**整合了表单验证，单并不采用getFieldDecorator**），也支持直接是使用JSX。（两种方式都支持，就像使用react-router一样）
 
 ### 安装
 
@@ -395,20 +395,20 @@ var config = [
 | children | array  | 子字段，里面的结构完全同父结构，只有`object`和`array`类型有children字段。 | 否    |
 
 `type`说明
+其中`dropdown`、`table`、`object`是特殊的类型。
 
-| 可取值     | 说明                   |
-| ------- | -------------------- |
-| string  | 字符串类型，默认是这种类型        |
-| number  | 数字类型                 |
-| integer | 整数类型                 |
-| float   | 浮点数类型                |
-| boolean | 布尔值 true \|\| false  |
-| list    | 下拉类型，select选择框，特殊的一种 |
-| array   | 数组类型                 |
-| object  | 对象类型                 |
-| date    | 日期对象类型               |
-| url     | url类型                |
-| emai    | 电子邮箱类型               |
+| 可取值      | 说明                                   | 是否有子字段 |
+| -------- | ------------------------------------ | ------ |
+| object   | 对象类型，子字段可以选择所有不同的类型                  | 否      |
+| table    | 表格类型，子字段可以选择所有不同的类型                  | 有      |
+| array    | 表格类型，子字段可以选择所有不同的类型（有歧义，已废弃，请用table） | 有      |
+| dropdown | 下拉类型，select选择框，特殊的一种，需要设置数据源才可用      | 否      |
+| string   | 字符串类型，默认是这种类型                        | 否      |
+| number   | 数字类型                                 | 否      |
+| integer  | 整数类型                                 | 否      |
+| float    | 浮点数类型                                | 否      |
+| boolean  | 布尔值 true \|\| false                  | 否      |
+| date     | 日期对象类型                               | 否      |
 
 #### FormBuilder.create()
 
@@ -795,7 +795,7 @@ RadioGroup的`props.options`结构如下：
 <Cascader required label="密码" options={[]}/>
 //配置
 [{
-  type: "checkbox-group",
+  type: "cascader",
   required: true,
   label: "说明",
   options: [],
@@ -827,14 +827,16 @@ RadioGroup的`props.options`结构如下：
 />
 ```
 
-| props               | 说明                                       | 类型       | 默认值                         |
-| ------------------- | ---------------------------------------- | -------- | --------------------------- |
-| title               | 第一级table的title，hasNoneTableTitle为true时隐藏 | string   | 字段管理                        |
-| config              | 配置数据，只要config改变了都会以新的config重新渲染（父组件传进来）  | array    | []                          |
-| onChange            | 配置数据变化时触发的回调函数（这里的配置数据与父组件传进来的是相互独立的）,function(data01,data02)，data01是formBuilderConfiger的配置数据，data02是formBuilder的配置数据 | function | 无                           |
-| hasNoneTableTitle   | antd table title是否显示（两种添加新字段的方式）         | boolean  | true                        |
-| selectSourceDataMap | 拉选择数据源选项                                 | array    | 无                           |
-| fieldAddedOperation | fieldAddedOperation 添加字段的按钮或图标（react组件）  | object   | `<Antd.Icon type="plus" />` |
+| props                | 说明                                       | 类型       | 默认值                         |
+| -------------------- | ---------------------------------------- | -------- | --------------------------- |
+| title                | 第一级table的title，hasNoneTableTitle为true时隐藏 | string   | 字段管理                        |
+| config               | 配置数据，只要config改变了都会以新的config重新渲染（父组件传进来）  | array    | []                          |
+| onChange             | 配置数据变化时触发的回调函数（这里的配置数据与父组件传进来的是相互独立的）,function(data01,data02)，data01是formBuilderConfiger的配置数据，data02是formBuilder的配置数据 | function | 无                           |
+| hasNoneTableTitle    | antd table title是否显示（两种添加新字段的方式）         | boolean  | true                        |
+| selectSourceDataMap  | 拉选择数据源选项                                 | array    | 无                           |
+| fieldAddedOperation  | fieldAddedOperation 添加字段的按钮或图标（react组件）  | object   | `<Antd.Icon type="plus" />` |
+| canNotDeleteFunction | 开启不可删除选项                                 | boolean  | false                       |
+| readOnlyFunction     | 开启只读选项                                   | boolean  | false                       |
 
 `props.config`
 
