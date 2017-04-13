@@ -62,7 +62,9 @@ class BasicItem extends React.Component {
   }
   componentWillUnmount(){
     //销毁时，删除验证函数
-    delete this.context.itemsValidateFunc[this.key];
+    if(this.context.itemsValidateFunc){
+      delete this.context.itemsValidateFunc[this.key];
+    }
   }
 
   /**
@@ -114,26 +116,32 @@ class BasicItem extends React.Component {
       uniqueKey,
     } = props;
     if(this.key){
-      delete this.context.itemsValidateFunc[this.key];
+      if(this.context.itemsValidateFunc){
+        delete this.context.itemsValidateFunc[this.key];
+      }
     }
     if(uniqueKey){
       this.key = name + "-" + uniqueKey;
     }else {
       this.key = name;
     }
-    this.context.itemsValidateFunc[this.key] = this.commonValidate(props);
+    if(this.context.itemsValidateFunc){
+      this.context.itemsValidateFunc[this.key] = this.commonValidate(props);
+    }
     //console.debug(this.context)
   }
 
   bindSetFieldValue(props){
-    this.context.setFieldValueFunc[props.name] = (value)=>{
-      props.storage.value = value;
-      this.setState({
-        random: util.getUniqueKey(),
-      })
-      this.setArrayValue = true;
-      this.validate(props);
-    };
+    if(this.context.setFieldValueFunc){
+      this.context.setFieldValueFunc[props.name] = (value)=>{
+        props.storage.value = value;
+        this.setState({
+          random: util.getUniqueKey(),
+        })
+        this.setArrayValue = true;
+        this.validate(props);
+      };
+    }
   }
 
   /**
