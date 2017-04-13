@@ -5,6 +5,7 @@ import AntdForm from 'antd/lib/form'
 import AntdButton from 'antd/lib/button'
 import FormBuilder from "../../FormBuilder"
 import Input from "../../Input"
+import InputNumber from "../../InputNumber"
 import Select from "../../Select"
 import util from "../../../util"
 import localeText from '../zh_CN'
@@ -185,13 +186,15 @@ class AddAndUpdateForm extends React.Component {
         {
           type === "string" &&
           <span>
-            <Input 
+            <InputNumber 
               name="min"
+              type="integer"
               label={ locale.minLength }
               placeholder={ locale.minLengthPlaceholder }
             />
-            <Input 
+            <InputNumber 
               name="max"
+              type="integer"
               label={ locale.maxLength }
               placeholder={ locale.maxLengthPlaceholder }
             />
