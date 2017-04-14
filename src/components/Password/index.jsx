@@ -57,13 +57,16 @@ function component(BasicItemComponent){
         reProps.rules = [];
         reProps.min = undefined;
         reProps.max = undefined;
+        reProps.value = undefined;
+        reProps.storage.value = undefined;
         reProps.formItemProps.label = locale.reLabel, 
         reProps.name = "re-" + reProps.name;
         reProps.rules.push(
           {
             validator(rule, value, callback, source, options) {
               var errors = [];
-              var password_value = document.getElementsByName(other.name)[0].value;
+              var passwordDom = document.getElementsByName(other.name);
+              var password_value = passwordDom[0] && passwordDom[0].value;
               if(password_value !== value){
                 errors.push({
                   message: locale.checkErrorMsg,
