@@ -1,0 +1,551 @@
+exports[`TimePicker renders correctly 1`] = `
+initialize {
+  "0": Object {
+    "attribs": Object {},
+    "children": Array [
+      Object {
+        "attribs": Object {},
+        "children": Array [
+          Object {
+            "attribs": Object {
+              "class": "ant-row ant-form-item",
+            },
+            "children": Array [
+              Object {
+                "attribs": Object {
+                  "class": "ant-form-item-label",
+                },
+                "children": Array [
+                  Object {
+                    "attribs": Object {
+                      "class": "ant-form-item-required",
+                      "title": "name",
+                    },
+                    "children": Array [
+                      Object {
+                        "data": "name",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "text",
+                      },
+                    ],
+                    "name": "label",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": null,
+                    "type": "tag",
+                  },
+                ],
+                "name": "div",
+                "next": Object {
+                  "attribs": Object {
+                    "class": "ant-form-item-control-wrapper",
+                  },
+                  "children": Array [
+                    Object {
+                      "attribs": Object {
+                        "class": "ant-form-item-control has-success",
+                      },
+                      "children": Array [
+                        Object {
+                          "attribs": Object {
+                            "class": "ant-time-picker test ant-time-picker-default",
+                          },
+                          "children": Array [
+                            Object {
+                              "attribs": Object {
+                                "class": "ant-time-picker-input",
+                                "placeholder": "请选择时间",
+                                "readonly": "",
+                                "type": "text",
+                                "value": "10:10:00",
+                              },
+                              "children": Array [],
+                              "name": "input",
+                              "next": Object {
+                                "attribs": Object {
+                                  "class": "ant-time-picker-icon",
+                                },
+                                "children": Array [],
+                                "name": "span",
+                                "next": null,
+                                "parent": [Circular],
+                                "prev": [Circular],
+                                "type": "tag",
+                              },
+                              "parent": [Circular],
+                              "prev": null,
+                              "type": "tag",
+                            },
+                            Object {
+                              "attribs": Object {
+                                "class": "ant-time-picker-icon",
+                              },
+                              "children": Array [],
+                              "name": "span",
+                              "next": null,
+                              "parent": [Circular],
+                              "prev": Object {
+                                "attribs": Object {
+                                  "class": "ant-time-picker-input",
+                                  "placeholder": "请选择时间",
+                                  "readonly": "",
+                                  "type": "text",
+                                  "value": "10:10:00",
+                                },
+                                "children": Array [],
+                                "name": "input",
+                                "next": [Circular],
+                                "parent": [Circular],
+                                "prev": null,
+                                "type": "tag",
+                              },
+                              "type": "tag",
+                            },
+                          ],
+                          "name": "span",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "tag",
+                        },
+                      ],
+                      "name": "div",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "tag",
+                    },
+                  ],
+                  "name": "div",
+                  "next": null,
+                  "parent": [Circular],
+                  "prev": [Circular],
+                  "type": "tag",
+                },
+                "parent": [Circular],
+                "prev": null,
+                "type": "tag",
+              },
+              Object {
+                "attribs": Object {
+                  "class": "ant-form-item-control-wrapper",
+                },
+                "children": Array [
+                  Object {
+                    "attribs": Object {
+                      "class": "ant-form-item-control has-success",
+                    },
+                    "children": Array [
+                      Object {
+                        "attribs": Object {
+                          "class": "ant-time-picker test ant-time-picker-default",
+                        },
+                        "children": Array [
+                          Object {
+                            "attribs": Object {
+                              "class": "ant-time-picker-input",
+                              "placeholder": "请选择时间",
+                              "readonly": "",
+                              "type": "text",
+                              "value": "10:10:00",
+                            },
+                            "children": Array [],
+                            "name": "input",
+                            "next": Object {
+                              "attribs": Object {
+                                "class": "ant-time-picker-icon",
+                              },
+                              "children": Array [],
+                              "name": "span",
+                              "next": null,
+                              "parent": [Circular],
+                              "prev": [Circular],
+                              "type": "tag",
+                            },
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "tag",
+                          },
+                          Object {
+                            "attribs": Object {
+                              "class": "ant-time-picker-icon",
+                            },
+                            "children": Array [],
+                            "name": "span",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": Object {
+                              "attribs": Object {
+                                "class": "ant-time-picker-input",
+                                "placeholder": "请选择时间",
+                                "readonly": "",
+                                "type": "text",
+                                "value": "10:10:00",
+                              },
+                              "children": Array [],
+                              "name": "input",
+                              "next": [Circular],
+                              "parent": [Circular],
+                              "prev": null,
+                              "type": "tag",
+                            },
+                            "type": "tag",
+                          },
+                        ],
+                        "name": "span",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "tag",
+                      },
+                    ],
+                    "name": "div",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": null,
+                    "type": "tag",
+                  },
+                ],
+                "name": "div",
+                "next": null,
+                "parent": [Circular],
+                "prev": Object {
+                  "attribs": Object {
+                    "class": "ant-form-item-label",
+                  },
+                  "children": Array [
+                    Object {
+                      "attribs": Object {
+                        "class": "ant-form-item-required",
+                        "title": "name",
+                      },
+                      "children": Array [
+                        Object {
+                          "data": "name",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "text",
+                        },
+                      ],
+                      "name": "label",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "tag",
+                    },
+                  ],
+                  "name": "div",
+                  "next": [Circular],
+                  "parent": [Circular],
+                  "prev": null,
+                  "type": "tag",
+                },
+                "type": "tag",
+              },
+            ],
+            "name": "div",
+            "next": Object {
+              "attribs": Object {
+                "class": "ant-input",
+                "name": "test",
+                "type": "hidden",
+                "value": "1492135800",
+              },
+              "children": Array [],
+              "name": "input",
+              "next": null,
+              "parent": [Circular],
+              "prev": [Circular],
+              "type": "tag",
+            },
+            "parent": [Circular],
+            "prev": null,
+            "type": "tag",
+          },
+          Object {
+            "attribs": Object {
+              "class": "ant-input",
+              "name": "test",
+              "type": "hidden",
+              "value": "1492135800",
+            },
+            "children": Array [],
+            "name": "input",
+            "next": null,
+            "parent": [Circular],
+            "prev": Object {
+              "attribs": Object {
+                "class": "ant-row ant-form-item",
+              },
+              "children": Array [
+                Object {
+                  "attribs": Object {
+                    "class": "ant-form-item-label",
+                  },
+                  "children": Array [
+                    Object {
+                      "attribs": Object {
+                        "class": "ant-form-item-required",
+                        "title": "name",
+                      },
+                      "children": Array [
+                        Object {
+                          "data": "name",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "text",
+                        },
+                      ],
+                      "name": "label",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "tag",
+                    },
+                  ],
+                  "name": "div",
+                  "next": Object {
+                    "attribs": Object {
+                      "class": "ant-form-item-control-wrapper",
+                    },
+                    "children": Array [
+                      Object {
+                        "attribs": Object {
+                          "class": "ant-form-item-control has-success",
+                        },
+                        "children": Array [
+                          Object {
+                            "attribs": Object {
+                              "class": "ant-time-picker test ant-time-picker-default",
+                            },
+                            "children": Array [
+                              Object {
+                                "attribs": Object {
+                                  "class": "ant-time-picker-input",
+                                  "placeholder": "请选择时间",
+                                  "readonly": "",
+                                  "type": "text",
+                                  "value": "10:10:00",
+                                },
+                                "children": Array [],
+                                "name": "input",
+                                "next": Object {
+                                  "attribs": Object {
+                                    "class": "ant-time-picker-icon",
+                                  },
+                                  "children": Array [],
+                                  "name": "span",
+                                  "next": null,
+                                  "parent": [Circular],
+                                  "prev": [Circular],
+                                  "type": "tag",
+                                },
+                                "parent": [Circular],
+                                "prev": null,
+                                "type": "tag",
+                              },
+                              Object {
+                                "attribs": Object {
+                                  "class": "ant-time-picker-icon",
+                                },
+                                "children": Array [],
+                                "name": "span",
+                                "next": null,
+                                "parent": [Circular],
+                                "prev": Object {
+                                  "attribs": Object {
+                                    "class": "ant-time-picker-input",
+                                    "placeholder": "请选择时间",
+                                    "readonly": "",
+                                    "type": "text",
+                                    "value": "10:10:00",
+                                  },
+                                  "children": Array [],
+                                  "name": "input",
+                                  "next": [Circular],
+                                  "parent": [Circular],
+                                  "prev": null,
+                                  "type": "tag",
+                                },
+                                "type": "tag",
+                              },
+                            ],
+                            "name": "span",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "tag",
+                          },
+                        ],
+                        "name": "div",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "tag",
+                      },
+                    ],
+                    "name": "div",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": [Circular],
+                    "type": "tag",
+                  },
+                  "parent": [Circular],
+                  "prev": null,
+                  "type": "tag",
+                },
+                Object {
+                  "attribs": Object {
+                    "class": "ant-form-item-control-wrapper",
+                  },
+                  "children": Array [
+                    Object {
+                      "attribs": Object {
+                        "class": "ant-form-item-control has-success",
+                      },
+                      "children": Array [
+                        Object {
+                          "attribs": Object {
+                            "class": "ant-time-picker test ant-time-picker-default",
+                          },
+                          "children": Array [
+                            Object {
+                              "attribs": Object {
+                                "class": "ant-time-picker-input",
+                                "placeholder": "请选择时间",
+                                "readonly": "",
+                                "type": "text",
+                                "value": "10:10:00",
+                              },
+                              "children": Array [],
+                              "name": "input",
+                              "next": Object {
+                                "attribs": Object {
+                                  "class": "ant-time-picker-icon",
+                                },
+                                "children": Array [],
+                                "name": "span",
+                                "next": null,
+                                "parent": [Circular],
+                                "prev": [Circular],
+                                "type": "tag",
+                              },
+                              "parent": [Circular],
+                              "prev": null,
+                              "type": "tag",
+                            },
+                            Object {
+                              "attribs": Object {
+                                "class": "ant-time-picker-icon",
+                              },
+                              "children": Array [],
+                              "name": "span",
+                              "next": null,
+                              "parent": [Circular],
+                              "prev": Object {
+                                "attribs": Object {
+                                  "class": "ant-time-picker-input",
+                                  "placeholder": "请选择时间",
+                                  "readonly": "",
+                                  "type": "text",
+                                  "value": "10:10:00",
+                                },
+                                "children": Array [],
+                                "name": "input",
+                                "next": [Circular],
+                                "parent": [Circular],
+                                "prev": null,
+                                "type": "tag",
+                              },
+                              "type": "tag",
+                            },
+                          ],
+                          "name": "span",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "tag",
+                        },
+                      ],
+                      "name": "div",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "tag",
+                    },
+                  ],
+                  "name": "div",
+                  "next": null,
+                  "parent": [Circular],
+                  "prev": Object {
+                    "attribs": Object {
+                      "class": "ant-form-item-label",
+                    },
+                    "children": Array [
+                      Object {
+                        "attribs": Object {
+                          "class": "ant-form-item-required",
+                          "title": "name",
+                        },
+                        "children": Array [
+                          Object {
+                            "data": "name",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "text",
+                          },
+                        ],
+                        "name": "label",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "tag",
+                      },
+                    ],
+                    "name": "div",
+                    "next": [Circular],
+                    "parent": [Circular],
+                    "prev": null,
+                    "type": "tag",
+                  },
+                  "type": "tag",
+                },
+              ],
+              "name": "div",
+              "next": [Circular],
+              "parent": [Circular],
+              "prev": null,
+              "type": "tag",
+            },
+            "type": "tag",
+          },
+        ],
+        "name": "span",
+        "next": null,
+        "parent": null,
+        "prev": null,
+        "root": [Circular],
+        "type": "tag",
+      },
+    ],
+    "name": "root",
+    "next": null,
+    "parent": null,
+    "prev": null,
+    "type": "root",
+  },
+  "_root": [Circular],
+  "length": 1,
+  "options": Object {
+    "decodeEntities": true,
+    "normalizeWhitespace": false,
+    "withDomLvl1": true,
+    "xmlMode": false,
+  },
+}
+`;

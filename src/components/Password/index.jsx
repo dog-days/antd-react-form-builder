@@ -78,13 +78,13 @@ function component(BasicItemComponent){
         )
       }
       return (
-        <div key={ key } className="password-con">
+        <span key={ key } className="password-con">
           <BasicItemComponent { ...other }/>
           {
             rePassword &&
             <BasicItemComponent { ...reProps } />
           }
-        </div>
+        </span>
       )
     }
     

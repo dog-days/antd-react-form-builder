@@ -146,8 +146,115 @@ describe('Input',function(){
     );
     const antdInputMount = getAntdFormComponentMount(wrapper);
     const antdFormItemMount = getAntdFormItemMount(wrapper);
-    //有label时，className="ant-form-item-label"
     expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-error");
+  })
+  it("max='5' should show success state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="text"
+        value="111"
+        max={ 5 }
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-success");
+  })
+  it("max='5' should show error state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="text"
+        value="1111111"
+        max={ 5 }
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-error");
+  })
+  it("min='2' && max='5' should show success state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="text"
+        value="111"
+        min={ 2 }
+        max={ 5 }
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-success");
+  })
+  it("min='2' && max='5' && value='1111111111' should show error state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="text"
+        value="1111111111"
+        min="2"
+        max="5"
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-error");
+  })
+  it("min='2' && max='5' && value='1' should show error state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="text"
+        value="1"
+        min="2"
+        max="5"
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-error");
+  })
+  it("onlyLetter=true should show success state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="text"
+        value="sdd"
+        onlyLetter={ true }
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-success");
+  })
+  it("onlyLetter=true should show error state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="text"
+        value="取值"
+        onlyLetter={ true }
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-error");
+  })
+  it("array=true should work",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="text"
+        value="取值"
+        array={ true }
+        value={
+          [2,3]
+        }
+      />
+    );
+    expect(wrapper.childAt(0).childAt(0).props().children.length).toEqual(2);
   })
 })
 
