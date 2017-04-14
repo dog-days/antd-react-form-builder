@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 import schema from "async-validator"
 import AntdForm from 'antd/lib/form'
 import Button from 'antd/lib/button'
@@ -366,6 +367,8 @@ class BasicItem extends React.Component {
   render() { 
     let props = this.props;
     let {
+      min,//在这只是为了解决原生html表单props多余问题
+      max,//在这只是为了解决原生html表单props多余问题
       onlyLetter,//在这只是为了解决原生html表单props多余报错问题
       validateAll,//在这只是为了解决原生html表单props多余报错问题
       array,//在这只是为了解决原生html表单props多余报错问题
