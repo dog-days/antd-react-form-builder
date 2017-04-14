@@ -14,7 +14,7 @@ function component(BasicItemComponent){
 
       other.targetComponent = AntdDatePicker;
       if(_.isString(other.value)){
-        other.value = new moment(other.value,other.format || "YYYY-MM-DD")
+        other.value = moment(other.value)
       }
       other.type = "datepicker";
       this.propsAdapter(other);

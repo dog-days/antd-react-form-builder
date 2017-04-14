@@ -18,7 +18,7 @@ function component(BasicItemComponent){
       if(_.isArray(other.value)){
         other.value.forEach((v,k)=>{
           if(_.isString(v)){
-            other.value[k] = new moment(v,other.format || "YYYY-MM-DD")
+            other.value[k] = moment(v)
           }
         })
       }
