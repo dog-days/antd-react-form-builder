@@ -406,9 +406,14 @@ class BasicItem extends React.Component {
         </FormItemComponent>
       )
     }else {
+      var temp_name;
+      if(other.type !== "timepicker"){
+        temp_name = other.name;
+      }
       component = (
         <FormItemComponent 
           {...other} 
+          name={ temp_name }
           value={ storage.value }
           onChange={
             this.onChange(rules)
@@ -433,14 +438,19 @@ class BasicItem extends React.Component {
       errors_type= null;
     }
     return (
-      <span>
+      <span> 
+        <FormItem 
+          {...formItemProps}
+          required={ required }
+          validateStatus={ errors_type }
+          help={this.state.errors_message}
+        >
+          { component }
+        </FormItem>
         {
           (
             other.type === "radiogroup" ||
-            other.type === "select" ||
-            other.type === "timepicker" ||
-            other.type === "monthpicker" ||
-            other.type === "datepicker"
+            other.type === "select" 
           ) &&
           //处理timepicker这种，无法设置name的表单组件
           <AntdInput 
@@ -451,9 +461,35 @@ class BasicItem extends React.Component {
         }
         {
           (
+            other.type === "monthpicker" ||
+            other.type === "timepicker" ||
+            other.type === "datepicker"
+          ) &&
+          //处理timepicker这种，无法设置name的表单组件
+          <AntdInput 
+            type="hidden" 
+            name={ other.name }
+            value={ Math.floor(+storage.value / 1000) }
+          />
+        }
+        {
+          other.type === "rangepicker"  && 
+          storage.value && storage.value.map((v,k)=>{
+            return (
+              <span key={ k }>
+                <AntdInput 
+                  type="hidden" 
+                  name={ other.name }
+                  value={ Math.floor(+v / 1000) }
+                />
+              </span>
+            )
+          })
+        }
+        {
+          (
             other.type === "cascader" ||
             other.type === "multiple-select" || 
-            other.type === "rangepicker" || 
             other.type === "checkboxgroup" 
           ) && 
           storage.value && storage.value.map((v,k)=>{
@@ -468,14 +504,6 @@ class BasicItem extends React.Component {
             )
           })
         }
-        <FormItem 
-          {...formItemProps}
-          required={ required }
-          validateStatus={ errors_type }
-          help={this.state.errors_message}
-        >
-          { component }
-        </FormItem>
       </span>
     ) 
   }
