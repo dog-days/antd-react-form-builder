@@ -54,6 +54,9 @@ function component(BasicItemComponent){
       }
       if(rePassword){
         var reProps = _.cloneDeep(other);
+        reProps.rules = [];
+        reProps.min = undefined;
+        reProps.max = undefined;
         reProps.formItemProps.label = locale.reLabel, 
         reProps.name = "re-" + reProps.name;
         reProps.rules.push(
