@@ -11,6 +11,18 @@ function component(BasicItemComponent){
   @FormItemComponentDecorator
   @localeDecorator
   class Password extends React.Component {
+    static propTypes = {
+      min: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number,
+      ]),
+      max: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number,
+      ]),
+      rePassword: React.PropTypes.bool,
+      onlyLetterAndNumber: React.PropTypes.bool,
+    }
 
     render(){
       let { 

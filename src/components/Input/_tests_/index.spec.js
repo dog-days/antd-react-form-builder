@@ -1,103 +1,153 @@
-import React from "react"
-import { shallow,mount,render } from "enzyme"
-import sinon from "sinon"
+import React from 'react'
+import { shallow,mount,render } from 'enzyme'
+import sinon from 'sinon'
 import LocaleProvider from "antd/lib/locale-provider"
-import moment from 'moment'
-import {
-  FormBuilder,
-  Input,
-  InputNumber,
-  Select,
-  Button,
-  TimePicker,
-  DatePicker,
-  MonthPicker,
-  RangePicker,
-  CheckboxGroup,
-  RadioGroup,
-  Password,
-  Cascader,
-} from '../../../index'
+import { 
+  testCommonProps, 
+  getAntdFormComponentMount,
+  getAntdFormItemMount,
+} from '../../../../tests/common'
+import Input from '../index'
 
-//获取Mount的ant表单组件
-function getAntdFormComponentMount(mountComponent){
-  return mountComponent.childAt(0).childAt(0).childAt(0).childAt(0);
-}
-//获取Mount的antd FromItem
-function getAntdFormItemMount(mountComponent){
-  return mountComponent.childAt(0).childAt(0);
-}
-
-function renderFormBuilder(props,children,isRender){
-  const handleOnsubmit = sinon.spy();
-  var fn = mount;
-  if(isRender){
-    fn = render;
-  }
-  const wrapperMount = fn(
-    <FormBuilder 
-      onSubmit={ handleOnsubmit }
-      { ...props }
-    > 
-      { children }
-    </FormBuilder>
-  );
-  return wrapperMount;
-}
-
-describe("<FormBuilder />",function(){
-  const component = (
-    <span>
-      <Input />
-      <Input 
-        name="test"
-      />
-      <Input 
-        label="name"
-        name="test"
-      />
-      <Input 
-        required
-        label="name"
-        name="test"
-      />
+describe('Input',function(){
+  sinon.stub(console,"warn");
+  it('renders correctly', () => {
+    const wrapper = render(
       <Input 
         required
         className="test"
         label="name"
         name="test"
       />
-    </span>
-  ) 
-  const wrapperRender = renderFormBuilder({
-    size: "small",
-  }, component,true) 
-  const wrapperMount = renderFormBuilder({
-    size: "small",
-  }, component) 
-  it('FormBuilder renders correctly', () => {
-    expect(wrapperRender).toMatchSnapshot();
+    );
+    expect(wrapper).toMatchSnapshot();
   });
-  it("The all rendered <Input />'s length should be equal",function(){
-    expect(wrapperMount.find(Input)).toHaveLength(5);
+  testCommonProps(Input); 
+  it("type='url' should show error state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="url"
+        value="test"
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    //有label时，className="ant-form-item-label"
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-error");
   })
-  //上面span组件Mount对象antInputMount
-  var spanChildMount = wrapperMount.childAt(0);
-  var inputMount = spanChildMount.childAt(0);
-  var antdInputMount = getAntdFormComponentMount(inputMount);
-  var antdFormItemMount = getAntdFormItemMount(inputMount);
-  console.log(antdFormItemMount.props())
-  it("The first rendered <Input /> should not have props",function(){
-    expect(inputMount.props()).toEqual({ });
-    expect(antdInputMount.props().name).toEqual(undefined);
+  it("type='url' should show success state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="url"
+        value="http://www.github.com/"
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    //有label时，className="ant-form-item-label"
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-success");
   })
-  var inputMount1 = spanChildMount.childAt(1);
-  var antdInputMount1 = getAntdFormComponentMount(inputMount1);
-  it("The second rendered <Input /> props.name should equal 'test'",function(){
-    expect(inputMount1.props()).toEqual({ name: "test" });
-    expect(antdInputMount1.props().name).toEqual("test");
+  it("type='email' should show error state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="email"
+        value="test"
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    //有label时，className="ant-form-item-label"
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-error");
+  })
+  it("type='email' should show success state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="email"
+        value="xianshannan@qq.com"
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    //有label时，className="ant-form-item-label"
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-success");
+  })
+  it("type='phone' should show error state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="phone"
+        value="111"
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    //有label时，className="ant-form-item-label"
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-error");
+  })
+  it("type='phone' should show success state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="phone"
+        value="15989350865"
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    //有label时，className="ant-form-item-label"
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-success");
+  })
+  it("type='textarea' should work",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="textarea"
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    expect(antdInputMount.props().type).toEqual("textarea");
+  })
+  it("type='hidden' should work",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="hidden"
+      />
+    );
+    expect(wrapper.props().type).toEqual("hidden");
+  })
+  it("min='5' should show success state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="text"
+        value="111111"
+        min={ 5 }
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    //有label时，className="ant-form-item-label"
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-success");
+  })
+  it("min='5' should show error state",function(){
+    const wrapper = mount(
+      <Input 
+        name="test"
+        type="text"
+        value="111"
+        min={ 6 }
+      />
+    );
+    const antdInputMount = getAntdFormComponentMount(wrapper);
+    const antdFormItemMount = getAntdFormItemMount(wrapper);
+    //有label时，className="ant-form-item-label"
+    expect(antdFormItemMount.childAt(0).childAt(0).props().className).toEqual("ant-form-item-control has-error");
   })
 })
-
-
 

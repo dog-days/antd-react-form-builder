@@ -29,6 +29,8 @@ function propsAdapter(props){
   if(!formItemProps.label){
     formItemProps.label = label;
   }
+  min = parseInt(min,10);
+  max = parseInt(max,10);
   function validateLength(){
     if(min && max){
       rules.unshift({
