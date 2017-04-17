@@ -274,7 +274,7 @@ exports[`FormBuilder props.config render correctly 1`] = `
           class="ant-input"
           name="test10"
           type="hidden"
-          value="NaN"
+          value=""
         />
       </span>
     </div>
@@ -310,7 +310,7 @@ exports[`FormBuilder props.config render correctly 1`] = `
           class="ant-input"
           name="test11"
           type="hidden"
-          value="NaN"
+          value=""
         />
       </span>
     </div>
@@ -347,7 +347,7 @@ exports[`FormBuilder props.config render correctly 1`] = `
           class="ant-input"
           name="test12"
           type="hidden"
-          value="NaN"
+          value=""
         />
       </span>
     </div>
@@ -384,7 +384,7 @@ exports[`FormBuilder props.config render correctly 1`] = `
           class="ant-input"
           name="test13"
           type="hidden"
-          value="NaN"
+          value=""
         />
       </span>
     </div>
@@ -421,7 +421,7 @@ exports[`FormBuilder props.config render correctly 1`] = `
           class="ant-input"
           name="test14"
           type="hidden"
-          value="NaN"
+          value=""
         />
       </span>
     </div>
@@ -458,7 +458,7 @@ exports[`FormBuilder props.config render correctly 1`] = `
           class="ant-input"
           name="test15"
           type="hidden"
-          value="NaN"
+          value=""
         />
       </span>
     </div>
