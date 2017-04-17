@@ -29,7 +29,7 @@ exports[`DatePicker renders correctly 1`] = `
               class="ant-calendar-picker-input ant-input"
               placeholder="请选择日期"
               readonly=""
-              value="2016-04-14"
+              value="2016-04-13"
             />
             <i
               class="anticon anticon-cross-circle ant-calendar-picker-clear"

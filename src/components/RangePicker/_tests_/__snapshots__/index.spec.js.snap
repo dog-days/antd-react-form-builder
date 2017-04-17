@@ -31,7 +31,7 @@ exports[`RangePicker renders correctly 1`] = `
               class="ant-calendar-range-picker-input"
               placeholder="开始日期"
               readonly=""
-              value="2016-04-05"
+              value="2016-04-04"
             />
             <span
               class="ant-calendar-range-picker-separator"
@@ -42,7 +42,7 @@ exports[`RangePicker renders correctly 1`] = `
               class="ant-calendar-range-picker-input"
               placeholder="结束日期"
               readonly=""
-              value="2016-04-05"
+              value="2016-04-04"
             />
             <i
               class="anticon anticon-cross-circle ant-calendar-picker-clear"

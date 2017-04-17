@@ -19,7 +19,9 @@ describe('MonthPicker',function(){
         className="test"
         label="name"
         name="test"
-        value="2016-04-01 00:00:00"
+        value={
+          moment("2016-04","YYYY-MM").utc()
+        }
       />
     );
     expect(wrapper).toMatchSnapshot();

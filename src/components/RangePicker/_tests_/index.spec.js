@@ -20,7 +20,10 @@ describe('RangePicker',function(){
         label="name"
         name="test"
         value={
-          ["2016-04-05 00:00:00","2016-04-05 00:00:00"]
+          [
+            moment("2016-04-05","YYYY-MM-DD").utc(),
+            moment("2016-04-05","YYYY-MM-DD").utc()
+          ]
         }
       />
     );

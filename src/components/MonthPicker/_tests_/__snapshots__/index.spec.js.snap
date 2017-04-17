@@ -29,7 +29,7 @@ exports[`MonthPicker renders correctly 1`] = `
               class="ant-calendar-picker-input ant-input"
               placeholder="请选择日期"
               readonly=""
-              value="2016-04"
+              value="2016-03"
             />
             <i
               class="anticon anticon-cross-circle ant-calendar-picker-clear"
