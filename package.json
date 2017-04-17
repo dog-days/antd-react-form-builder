@@ -7,7 +7,7 @@
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
-    "babel-jest": "^17.0.2",
+    "babel-jest": "^19.0.0",
     "babel-loader": "^6.2.8",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-preset-es2015": "^6.18.0",
@@ -27,7 +27,7 @@
     "grunt-contrib-compress": "^1.3.0",
     "grunt-webpack": "^2.0.1",
     "html-webpack-plugin": "^2.22.0",
-    "jest": "^17.0.3",
+    "jest": "^19.0.2",
     "node-sass": "^3.13.1",
     "react-addons-test-utils": "^15.4.1",
     "react-codemirror": "^0.3.0",
@@ -40,6 +40,7 @@
     "webpack": "^2.2.1",
     "webpack-dev-middleware": "^1.8.3",
     "webpack-dev-server": "^2.4.1",
+    "enzyme-to-json": "^1.5.1",
     "webpack-hot-middleware": "^2.13.0"
   },
   "dependencies": {
@@ -60,6 +61,7 @@
     "build-default": "cross-env BABEL_ENV=default babel ./src -d lib --ignore spec.js,test.js",
     "build-default-watch": "cross-env BABEL_ENV=default babel ./src -d lib -w --ignore spec.js,test.js",
     "build-es-watch": "cross-env BABEL_ENV=es babel ./src -d es -w",
+    "updateSnapshot": "cross-env NODE_ENV=default jest --updateSnapshot",
     "test": "cross-env NODE_ENV=default jest --coverage"
   },
   "repository": {
@@ -74,7 +76,7 @@
   "homepage": "https://github.com/dog-days/react-react-form-builder#readme",
   "jest": {
     "setupFiles": [
-      "tests/setup.js"
+      "./tests/setup.js"
     ],
     "moduleFileExtensions": [
       "js",
@@ -88,6 +90,9 @@
       "/lib/",
       "/demo/",
       "/test/"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
     ]
   }
 }
