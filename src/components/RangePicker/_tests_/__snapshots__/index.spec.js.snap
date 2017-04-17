@@ -19,7 +19,7 @@ exports[`RangePicker renders correctly 1`] = `
       class="ant-form-item-control-wrapper"
     >
       <div
-        class="ant-form-item-control has-success"
+        class="ant-form-item-control "
       >
         <span
           class="ant-calendar-picker"
@@ -31,7 +31,7 @@ exports[`RangePicker renders correctly 1`] = `
               class="ant-calendar-range-picker-input"
               placeholder="开始日期"
               readonly=""
-              value="2016-04-04"
+              value=""
             />
             <span
               class="ant-calendar-range-picker-separator"
@@ -42,10 +42,7 @@ exports[`RangePicker renders correctly 1`] = `
               class="ant-calendar-range-picker-input"
               placeholder="结束日期"
               readonly=""
-              value="2016-04-04"
-            />
-            <i
-              class="anticon anticon-cross-circle ant-calendar-picker-clear"
+              value=""
             />
             <span
               class="ant-calendar-picker-icon"
@@ -55,21 +52,5 @@ exports[`RangePicker renders correctly 1`] = `
       </div>
     </div>
   </div>
-  <span>
-    <input
-      class="ant-input"
-      name="test"
-      type="hidden"
-      value="1459785600"
-    />
-  </span>
-  <span>
-    <input
-      class="ant-input"
-      name="test"
-      type="hidden"
-      value="1459785600"
-    />
-  </span>
 </span>
 `;

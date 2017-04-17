@@ -19,12 +19,6 @@ describe('RangePicker',function(){
         className="test"
         label="name"
         name="test"
-        value={
-          [
-            moment("2016-04-05","YYYY-MM-DD").utc(),
-            moment("2016-04-05","YYYY-MM-DD").utc()
-          ]
-        }
       />
     );
     expect(wrapper).toMatchSnapshot();
