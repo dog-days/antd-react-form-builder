@@ -19,7 +19,7 @@ describe('MonthPicker',function(){
         className="test"
         label="name"
         name="test"
-        value="2016-04"
+        value="2016-04-01 00:00:00"
       />
     );
     expect(wrapper).toMatchSnapshot();

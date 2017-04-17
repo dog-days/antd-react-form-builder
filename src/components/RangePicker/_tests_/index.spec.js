@@ -9,7 +9,6 @@ import {
   getAntdFormItemMount,
 } from '../../../../tests/common'
 import RangePicker from '../index'
-moment.locale('en');
 
 describe('RangePicker',function(){
   sinon.stub(console,"warn");
@@ -21,7 +20,7 @@ describe('RangePicker',function(){
         label="name"
         name="test"
         value={
-          ["2016-04-05","2016-04-05"]
+          ["2016-04-05 00:00:00","2016-04-05 00:00:00"]
         }
       />
     );

@@ -20,7 +20,7 @@ describe('TimePicker',function(){
         label="name"
         name="test"
         value={
-          moment("2017-04-14 10:10:00")
+          moment("2017-04-14 10:10:00","YYYY-MM-DD HH:mm:ss")
         }
       />
     );
