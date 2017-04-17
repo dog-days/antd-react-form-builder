@@ -19,7 +19,7 @@ exports[`TimePicker renders correctly 1`] = `
       class="ant-form-item-control-wrapper"
     >
       <div
-        class="ant-form-item-control has-success"
+        class="ant-form-item-control "
       >
         <span
           class="ant-time-picker test ant-time-picker-default"
@@ -29,7 +29,7 @@ exports[`TimePicker renders correctly 1`] = `
             placeholder="请选择时间"
             readonly=""
             type="text"
-            value="02:10:00"
+            value=""
           />
           <span
             class="ant-time-picker-icon"
@@ -42,7 +42,7 @@ exports[`TimePicker renders correctly 1`] = `
     class="ant-input"
     name="test"
     type="hidden"
-    value="1492135800"
+    value="NaN"
   />
 </span>
 `;

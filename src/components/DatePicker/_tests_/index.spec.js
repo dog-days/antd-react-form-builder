@@ -19,9 +19,6 @@ describe('DatePicker',function(){
         className="test"
         label="name"
         name="test"
-        value={
-          moment("2016-04-14","YYYY-MM-DD").utc()
-        }
       />
     );
     expect(wrapper).toMatchSnapshot();
