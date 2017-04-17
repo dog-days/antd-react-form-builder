@@ -11,6 +11,18 @@ function component(BasicItemComponent){
   @FormItemComponentDecorator
   @localeDecorator
   class Password extends React.Component {
+    static propTypes = {
+      min: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number,
+      ]),
+      max: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number,
+      ]),
+      rePassword: React.PropTypes.bool,
+      onlyLetterAndNumber: React.PropTypes.bool,
+    }
 
     render(){
       let { 
@@ -42,13 +54,19 @@ function component(BasicItemComponent){
       }
       if(rePassword){
         var reProps = _.cloneDeep(other);
+        reProps.rules = [];
+        reProps.min = undefined;
+        reProps.max = undefined;
+        reProps.value = undefined;
+        reProps.storage.value = undefined;
         reProps.formItemProps.label = locale.reLabel, 
         reProps.name = "re-" + reProps.name;
         reProps.rules.push(
           {
             validator(rule, value, callback, source, options) {
               var errors = [];
-              var password_value = document.getElementsByName(other.name)[0].value;
+              var passwordDom = document.getElementsByName(other.name);
+              var password_value = passwordDom[0] && passwordDom[0].value;
               if(password_value !== value){
                 errors.push({
                   message: locale.checkErrorMsg,
@@ -60,13 +78,13 @@ function component(BasicItemComponent){
         )
       }
       return (
-        <div key={ key } className="password-con">
+        <span key={ key } className="password-con">
           <BasicItemComponent { ...other }/>
           {
             rePassword &&
             <BasicItemComponent { ...reProps } />
           }
-        </div>
+        </span>
       )
     }
     

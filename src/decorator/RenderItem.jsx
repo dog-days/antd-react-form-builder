@@ -1,19 +1,16 @@
 import React from 'react'
 import _ from 'lodash'
-import { 
-  Input,
-  InputNest,
-  InputNumber,
-  Select,
-  Button,
-  TimePicker,
-  DatePicker,
-  MonthPicker,
-  RangePicker,
-  CheckboxGroup,
-  RadioGroup,
-  Password,
-} from '../index'
+import Input from '../components/Input'
+import InputNumber from '../components/InputNumber'
+import Select from '../components/Select'
+import TimePicker from '../components/TimePicker'
+import DatePicker from '../components/DatePicker'
+import MonthPicker from '../components/MonthPicker'
+import RangePicker from '../components/RangePicker'
+import CheckboxGroup from '../components/CheckboxGroup'
+import RadioGroup from '../components/RadioGroup'
+import Password from '../components/Password'
+import Cascader from '../components/Cascader'
 
 function getFormItemComponentByType(type){
   var Element;
@@ -30,14 +27,8 @@ function getFormItemComponentByType(type){
     case "integer":
       Element = InputNumber;
     break;
-    case "password":
-      Element = Input;
-    break;
     case "select":
       Element = Select;
-    break;
-    case "button":
-      Element = Button;
     break;
     case "time":
       Element = TimePicker;
@@ -64,6 +55,9 @@ function getFormItemComponentByType(type){
     break;
     case "password":
       Element = Password;
+    break;
+    case "cascader":
+      Element = Cascader;
     break;
     default:
       Element = Input;

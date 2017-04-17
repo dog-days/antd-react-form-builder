@@ -14,6 +14,18 @@ function component(BasicItemComponent){
       super(props);
     }
 
+    static propTypes = {
+      min: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number,
+      ]),
+      max: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number,
+      ]),
+      onlyLetter: React.PropTypes.bool,
+    }
+
     //其他地方也可以访问这个rules，测试就要用到
     static getRules(replaceLocale) {
       var locale = replaceLocale;
