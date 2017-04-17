@@ -29,7 +29,7 @@ exports[`TimePicker renders correctly 1`] = `
             placeholder="请选择时间"
             readonly=""
             type="text"
-            value="10:10:00"
+            value="02:10:00"
           />
           <span
             class="ant-time-picker-icon"
