@@ -431,7 +431,7 @@ class CustomizedForm extends React.Component {}
 | 参数             | 说明                                       | 类型     | 类型                                   |
 | -------------- | ---------------------------------------- | ------ | ------------------------------------ |
 | setFieldsValue | 跟antd的一样，设置一组输入控件的值（注意：不要在 `componentWillReceiveProps` 内使用，否则会导致死循环） | string | setFieldsValue({xxx: value})         |
-| validateFields | 校验并获取全部表单组件的输入域的值与 Error，通常在onSubmit中使用。（跟antd不一样的地方在于不可以局部校验） | string | validateFields(function(err,values)) |
+| validateFields | 校验并获取全部表单组件的输入域的值与 Error，通常在onSubmit中使用，这里返回的参数values的值都是字符串或数字，TimePicker、DataPicker、MonthPicker、RangePicker返回的时unix时间戳。（跟antd不一样的地方在于不可以局部校验） | string | validateFields(function(err,values)) |
 | 其他props        | 其他props完全跟antd \<Input /\>一致             |        |                                      |
 
 #### FormBuilder.valuesToConfig
@@ -516,12 +516,12 @@ return (
 }]
 ```
 
-| props      | 说明          | 类型      | 必填   | 默认值   |
-| ---------- | ----------- | ------- | ---- | ----- |
-| type       | 表单子项类型      | string  | 否    | text  |
-| onlyLetter | 是否只允许输入英文字母 | boolean | 否    | false |
-| min        | 输入字符最小长度    | number  | 否    | 无     |
-| max        | 输入字符最大长度    | number  | 否    | 无     |
+| props      | 说明          | 类型                  | 必填   | 默认值   |
+| ---------- | ----------- | ------------------- | ---- | ----- |
+| type       | 表单子项类型      | string              | 否    | text  |
+| onlyLetter | 是否只允许输入英文字母 | boolean             | 否    | false |
+| min        | 输入字符最小长度    | number  \|\| string | 否    | 无     |
+| max        | 输入字符最大长度    | number  \|\| string | 否    | 无     |
 
 参考[Antd.Input](https://ant.design/components/input-cn/)。
 
@@ -777,13 +777,13 @@ RadioGroup的`props.options`结构如下：
 }]
 ````
 
-| props               | 说明                                       | 类型      | 默认值      |
-| ------------------- | ---------------------------------------- | ------- | -------- |
-| type                | 使用配置时**必填**，直接使用JSX可选。type取值`password`，只有一种值。 | string  | password |
-| rePassword          | 是否重复验证密码                                 | boolean | false    |
-| onlyLetterAndNumber | 只允许输入英文字母和数字结合的密码                        | boolean | true     |
-| min                 | 输入字符最小长度                                 | number  | 否        |
-| max                 | 输入字符最大长度                                 | number  | 无        |
+| props               | 说明                                       | 类型                  | 默认值      |
+| ------------------- | ---------------------------------------- | ------------------- | -------- |
+| type                | 使用配置时**必填**，直接使用JSX可选。type取值`password`，只有一种值。 | string              | password |
+| rePassword          | 是否重复验证密码                                 | boolean             | false    |
+| onlyLetterAndNumber | 只允许输入英文字母和数字结合的密码                        | boolean             | true     |
+| min                 | 输入字符最小长度                                 | number  \|\| string | 否        |
+| max                 | 输入字符最大长度                                 | number  \|\| string | 无        |
 
 参考[Antd.Input](https://ant.design/components/input-cn/)。
 公共部分的props请参考，**表单组件公共部分的API**。
