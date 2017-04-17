@@ -19,7 +19,9 @@ describe('TimePicker',function(){
         className="test"
         label="name"
         name="test"
-        value="10:10:00"
+        value={
+          moment("2017-04-14 10:10:00")
+        }
       />
     );
     expect(wrapper).toMatchSnapshot();

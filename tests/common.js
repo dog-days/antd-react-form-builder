@@ -2,23 +2,6 @@ import React from 'react'
 import { shallow,mount,render } from 'enzyme'
 import sinon from 'sinon'
 import LocaleProvider from "antd/lib/locale-provider"
-
-export function renderFormBuilder(props,children,isRender){
-  const handleOnsubmit = sinon.spy();
-  var fn = mount;
-  if(isRender){
-    fn = render;
-  }
-  const wrapperMount = fn(
-    <FormBuilder 
-      onSubmit={ handleOnsubmit }
-      { ...props }
-    > 
-      { children }
-    </FormBuilder>
-  );
-  return wrapperMount;
-}
 //获取Mount的ant表单组件
 //index有label为1，无label为0
 export function getAntdFormComponentMount(mountComponent,index=0,type){

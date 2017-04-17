@@ -247,7 +247,6 @@ describe('Input',function(){
       <Input 
         name="test"
         type="text"
-        value="取值"
         array={ true }
         value={
           [2,3]
