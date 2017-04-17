@@ -9,6 +9,7 @@ import {
   getAntdFormItemMount,
 } from '../../../../tests/common'
 import RangePicker from '../index'
+moment.locale('en');
 
 describe('RangePicker',function(){
   sinon.stub(console,"warn");
