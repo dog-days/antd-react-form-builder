@@ -1,8 +1,24 @@
 ## 更新日志
 
+### 0.4.4
+
+`2017-04-17`
+
+- TimePicker && DatePicker && MonthPicker && RangePicer
+  - validateFields中参数返回值改为unix字符串
+- Fix 无FormBuilder组件包含报错问题
+- Fix password类型映射问题
+- Fix 无FormBuilder组件包含保存问
+- Modified FormBuilderConfiger弹窗长度设置input改为inutnumber
+- Add input && password props.min 和props.max 支持string类型
+- Fix password 填写默认值报错问题
+- Fix loadsh未引入问题
+- Add 自动化测试
+- Fix 配置模式password类型映射问题
+
 ### 0.4.3
 
-`2017-04-120`
+`2017-04-12`
 
 - FormBuilder
   -  Modified 重新定义FormBuilder表单配置类型
