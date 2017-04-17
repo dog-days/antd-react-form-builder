@@ -472,7 +472,7 @@ class BasicItem extends React.Component {
           <AntdInput 
             type="hidden" 
             name={ other.name }
-            value={ Math.floor(+storage.value / 1000) }
+            value={ storage.value && Math.floor(+storage.value / 1000) }
           />
         }
         {
@@ -483,7 +483,7 @@ class BasicItem extends React.Component {
                 <AntdInput 
                   type="hidden" 
                   name={ other.name }
-                  value={ Math.floor(+v / 1000) }
+                  value={ v && Math.floor(+v / 1000) }
                 />
               </span>
             )
