@@ -1,7 +1,8 @@
 import React ,{ PropTypes } from 'react'
 import BasicItem from '../BasicItem'
-import Select from 'antd/lib/select'
-import 'antd/lib/select/style/css'
+import {
+  Select 
+} from "antd"
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 import localeDecorator from "../../decorator/Locale"
 import localeText from './zh_CN'

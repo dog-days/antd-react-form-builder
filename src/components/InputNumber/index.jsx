@@ -1,7 +1,7 @@
 import React from 'react'
-import AntdInputNumber from 'antd/lib/input-number'
-import AntdInput from 'antd/lib/input'
-import 'antd/lib/select/style/css'
+import {
+  Input 
+} from "antd"
 import BasicItem from '../BasicItem'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 import localeText from './zh_CN'
@@ -86,7 +86,7 @@ function component(BasicItemComponent){
       if(other.value){
         other.value = Number(other.value);
       }
-      other.targetComponent = AntdInput;
+      other.targetComponent = Input;
       let infoObject = this.getInfoObject(type); 
       let temp_rules = [];
       Array.prototype.push.apply(temp_rules,rules)
