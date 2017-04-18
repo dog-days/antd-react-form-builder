@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom'
 import schema from "async-validator"
 import _ from 'lodash'
 import serialize from "form-serialize" 
-import Form from 'antd/lib/form'
-import 'antd/lib/form/style/css'
+import {
+  Form
+} from 'antd'
 import BuilderDecorator from '../../decorator/Builder'
 import util from "../../util"
 import FormBuilderWidthConfig from "./FormBuilderWidthConfig"

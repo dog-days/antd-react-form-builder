@@ -1,6 +1,8 @@
 import React from "react" 
 import _ from 'lodash'
-import Icon from 'antd/lib/icon'
+import {
+  Icon,
+} from 'antd'
 
 function renderIconGroup(action,index,data){
   var group;

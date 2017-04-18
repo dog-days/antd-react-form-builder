@@ -16,7 +16,9 @@ import {
   Password,
   Cascader,
 } from '../lib/index'
-import Icon from "antd/lib/icon"
+import {
+  Icon
+} from "antd"
 
 @FormBuilder.create()
 class Container extends React.Component {

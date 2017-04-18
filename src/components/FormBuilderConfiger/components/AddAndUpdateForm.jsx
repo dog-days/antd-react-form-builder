@@ -1,8 +1,10 @@
 import React from 'react'
 import _ from 'lodash'
-import Icon from 'antd/lib/icon'
-import AntdForm from 'antd/lib/form'
-import AntdButton from 'antd/lib/button'
+import {
+  Icon,
+  Form,
+  Button,
+} from 'antd'
 import FormBuilder from "../../FormBuilder"
 import Input from "../../Input"
 import InputNumber from "../../InputNumber"
@@ -11,7 +13,7 @@ import util from "../../../util"
 import localeText from '../zh_CN'
 import localeDecorator from "../../../decorator/Locale"
 
-const FormItem = AntdForm.Item;
+const FormItem = Form.Item;
 
 @FormBuilder.create()
 @localeDecorator
@@ -266,15 +268,15 @@ class AddAndUpdateForm extends React.Component {
           label=" "
           hasFeedback
         >
-          <AntdButton 
+          <Button 
             className="fr"
             type="primary"
             size="large"
             htmlType="submit"
           >
             { locale.confirm }
-          </AntdButton>
-          <AntdButton 
+          </Button>
+          <Button 
             className="fr mr10"
             type="default"
             size="large"
@@ -285,7 +287,7 @@ class AddAndUpdateForm extends React.Component {
             }
           >
             { locale.cancel }
-          </AntdButton>
+          </Button>
         </FormItem>
       </FormBuilder>
     )

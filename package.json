@@ -58,7 +58,7 @@
     "start": "cross-env NODE_ENV=development node server.js",
     "build-demo": "cross-env NODE_ENV=production grunt",
     "build": "npm run build-es && npm run build-default && node-sass style/css/style.scss lib/style.css",
-    "build-es": "cross-env BABEL_ENV=es babel ./src -d es",
+    "build-es": "cross-env BABEL_ENV=es babel ./src -d es --ignore spec.js,test.js",
     "build-default": "cross-env BABEL_ENV=default babel ./src -d lib --ignore spec.js,test.js",
     "build-default-watch": "cross-env BABEL_ENV=default babel ./src -d lib -w --ignore spec.js,test.js",
     "build-es-watch": "cross-env BABEL_ENV=es babel ./src -d es -w",
@@ -84,11 +84,15 @@
       "jsx"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "/lib/",
+      "/es/",
+      "/demo/"
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/lib/",
+      "/es/",
       "/demo/",
       "/test/"
     ],

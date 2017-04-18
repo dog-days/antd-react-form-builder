@@ -1,15 +1,17 @@
 import React from 'react'
 import _ from 'lodash'
 import schema from "async-validator"
-import AntdForm from 'antd/lib/form'
-import Button from 'antd/lib/button'
-import Icon from 'antd/lib/icon'
-import AntdInput from 'antd/lib/input'
+import {
+  Form,
+  Icon,
+  Button,
+  Input,
+} from 'antd'
 import PureRender from '../decorator/PureRender'
 import ItemButtonGroupDecorator from '../decorator/ItemButtonGroup'
 import util from '../util'
 
-let FormItem = AntdForm.Item;
+let FormItem = Form.Item;
 
 
 /**
@@ -456,7 +458,7 @@ class BasicItem extends React.Component {
             other.type === "select" 
           ) &&
           //处理timepicker这种，无法设置name的表单组件
-          <AntdInput 
+          <Input 
             type="hidden" 
             name={ other.name }
             value={ storage.value }
@@ -469,7 +471,7 @@ class BasicItem extends React.Component {
             other.type === "datepicker"
           ) &&
           //处理timepicker这种，无法设置name的表单组件
-          <AntdInput 
+          <Input 
             type="hidden" 
             name={ other.name }
             value={ storage.value && Math.floor(+storage.value / 1000) }
@@ -480,7 +482,7 @@ class BasicItem extends React.Component {
           storage.value && storage.value.map((v,k)=>{
             return (
               <span key={ k }>
-                <AntdInput 
+                <Input 
                   type="hidden" 
                   name={ other.name }
                   value={ v && Math.floor(+v / 1000) }
@@ -498,7 +500,7 @@ class BasicItem extends React.Component {
           storage.value && storage.value.map((v,k)=>{
             return (
               <span key={ k }>
-                <AntdInput 
+                <Input 
                   type="hidden" 
                   name={ other.name }
                   value={ v }
