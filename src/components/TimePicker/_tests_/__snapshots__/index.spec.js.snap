@@ -42,7 +42,7 @@ exports[`TimePicker renders correctly 1`] = `
     class="ant-input"
     name="test"
     type="hidden"
-    value="NaN"
+    value=""
   />
 </span>
 `;

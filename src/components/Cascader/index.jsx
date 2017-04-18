@@ -3,6 +3,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
 import AntdCascader from 'antd/lib/cascader'
+import 'antd/lib/cascader/style/css'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 
 function component(BasicItemComponent){

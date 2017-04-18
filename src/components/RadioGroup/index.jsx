@@ -3,6 +3,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
 import AntdRadio from 'antd/lib/radio'
+import 'antd/lib/radio/style/css'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 
 const RadioGroup = AntdRadio.Group;

@@ -3,6 +3,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
 import AntdTimePicker from 'antd/lib/time-picker'
+import 'antd/lib/time-picker/style/css'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 
 function component(BasicItemComponent){

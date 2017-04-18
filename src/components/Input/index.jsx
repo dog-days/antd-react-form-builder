@@ -1,5 +1,6 @@
 import React from 'react'
 import AntdInput from 'antd/lib/input'
+import 'antd/lib/select/style/css'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 import localeDecorator from "../../decorator/Locale"
 import BasicItem from '../BasicItem'
