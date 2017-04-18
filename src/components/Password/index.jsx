@@ -2,8 +2,9 @@ import React from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
-import Input from 'antd/lib/input'
-import 'antd/lib/select/style/css'
+import {
+  Input 
+} from "antd"
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 import localeDecorator from "../../decorator/Locale"
 import localeText from './zh_CN'

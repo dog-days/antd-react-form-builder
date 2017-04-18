@@ -2,18 +2,19 @@ import React from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
-import AntdCascader from 'antd/lib/cascader'
-import 'antd/lib/cascader/style/css'
+import {
+  Cascader 
+} from "antd"
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 
 function component(BasicItemComponent){
   @FormItemComponentDecorator
-  class Cascader extends React.Component {
+  class FCascader extends React.Component {
 
     render(){
       let { ...other } = this.props;
 
-      other.targetComponent = AntdCascader;
+      other.targetComponent = Cascader;
       other.type = "cascader";
       this.propsAdapter(other);
       return (
@@ -22,7 +23,7 @@ function component(BasicItemComponent){
     }
     
   }
-  return Cascader;
+  return FCascader;
 }
 
 export default component(BasicItem) 

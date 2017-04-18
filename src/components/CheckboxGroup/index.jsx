@@ -2,11 +2,12 @@ import React from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
-import AntdCheckbox from 'antd/lib/checkbox'
-import 'antd/lib/checkbox/style/css'
+import {
+  Checkbox 
+} from "antd"
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 
-const CheckboxGroup = AntdCheckbox.Group;
+const CheckboxGroup = Checkbox.Group;
 
 function component(BasicItemComponent){
   @FormItemComponentDecorator

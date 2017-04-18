@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import Button from 'antd/lib/button'
+import 'antd/lib/button/style/css'
 import PureRender from '../../decorator/PureRender'
 
 /**

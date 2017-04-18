@@ -2,11 +2,12 @@ import React from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
-import AntdRadio from 'antd/lib/radio'
-import 'antd/lib/radio/style/css'
+import {
+  Radio 
+} from "antd"
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 
-const RadioGroup = AntdRadio.Group;
+const RadioGroup = Radio.Group;
 
 function component(BasicItemComponent){
   @FormItemComponentDecorator
@@ -22,9 +23,9 @@ function component(BasicItemComponent){
           {
             options && options[0] && options.map((v,k)=>{
               return (
-                <AntdRadio value={ v.value } key={ k }>
+                <Radio value={ v.value } key={ k }>
                   { v.label }
-                </AntdRadio>
+                </Radio>
               )
             })
           }

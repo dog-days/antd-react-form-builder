@@ -1,6 +1,7 @@
 import React from 'react'
-import AntdInput from 'antd/lib/input'
-import 'antd/lib/select/style/css'
+import {
+  Input 
+} from "antd"
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 import localeDecorator from "../../decorator/Locale"
 import BasicItem from '../BasicItem'
@@ -9,7 +10,7 @@ import localeText from './zh_CN'
 function component(BasicItemComponent){
   @FormItemComponentDecorator
   @localeDecorator
-  class Input extends React.Component {
+  class FInput extends React.Component {
 
     constructor(props){
       super(props);
@@ -63,7 +64,7 @@ function component(BasicItemComponent){
     //定义rule,type等信息 
     getInfoObject(type){
       var locale = this.getLocale(localeText,"FormBuilderInput");
-      var rules = Input.getRules(locale); 
+      var rules = FInput.getRules(locale); 
       switch(type){
         case "email":
           return {
@@ -108,7 +109,7 @@ function component(BasicItemComponent){
       Array.prototype.push.apply(temp_rules,infoObject.rules || [])
       other.rules = temp_rules;
       other.type = infoObject.type;
-      other.targetComponent = AntdInput;
+      other.targetComponent = Input;
       this.propsAdapter(other);
       return (
         <BasicItemComponent { ...other }/>
@@ -116,7 +117,7 @@ function component(BasicItemComponent){
     }
     
   }
-  return Input;
+  return FInput;
 }
 
 const Item = component(BasicItem); 
