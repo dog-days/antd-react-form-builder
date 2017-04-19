@@ -8,3 +8,5 @@ import "antd/lib/button/style/css"
 import "antd/lib/cascader/style/css"
 import "antd/lib/table/style/css"
 import "antd/lib/modal/style/css"
+
+import "../../lib/style/style.css"
