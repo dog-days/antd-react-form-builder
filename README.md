@@ -34,7 +34,13 @@ npm install antd-react-form-builder --save
 
 ```js
 import "antd/dist/antd.css"
-import "antd-react-form-buider/lib/style.css"
+import "antd-react-form-buider/lib/style/style.css"
+```
+
+或者
+
+```jsx
+import "antd-react-form-buider/lib/style/index"
 ```
 
 #### JSX直接使用

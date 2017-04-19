@@ -2,9 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
-import {
-  DatePicker 
-} from "antd"
+import DatePicker from 'antd/lib/date-picker'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 
 const { RangePicker } = DatePicker;

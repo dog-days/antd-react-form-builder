@@ -1,7 +1,7 @@
 {
   "name": "antd-react-form-builder",
-  "version": "0.4.6",
-  "description": "",
+  "version": "0.4.7",
+  "description": "A form-builder based on Ant Design UI",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
   "devDependencies": {
@@ -57,7 +57,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development node server.js",
     "build-demo": "cross-env NODE_ENV=production grunt",
-    "build": "npm run build-es && npm run build-default && node-sass style/css/style.scss lib/style.css",
+    "build": "npm run build-es && npm run build-default && node-sass style/css/style.scss lib/style/style.css",
     "build-es": "cross-env BABEL_ENV=es babel ./src -d es --ignore spec.js,test.js",
     "build-default": "cross-env BABEL_ENV=default babel ./src -d lib --ignore spec.js,test.js",
     "build-default-watch": "cross-env BABEL_ENV=default babel ./src -d lib -w --ignore spec.js,test.js",

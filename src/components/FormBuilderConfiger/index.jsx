@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react'
 import _ from 'lodash'
-import {
-  Modal,
-  Table,
-  Icon,
-} from 'antd'
+import Modal from 'antd/lib/modal'
+import Table from 'antd/lib/table'
+import Icon from 'antd/lib/icon'
 import util from "../../util"
 import PureRender,{ shallowCompare } from "../../decorator/PureRender"
 import localeDecorator from "../../decorator/Locale"

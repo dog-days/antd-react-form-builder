@@ -2,9 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
-import {
-  Cascader 
-} from "antd"
+import Cascader from 'antd/lib/cascader'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 
 function component(BasicItemComponent){

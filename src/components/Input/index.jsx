@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-  Input 
-} from "antd"
+import Input from 'antd/lib/input'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 import localeDecorator from "../../decorator/Locale"
 import BasicItem from '../BasicItem'

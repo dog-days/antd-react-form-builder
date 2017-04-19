@@ -2,9 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import BasicItem from '../BasicItem'
-import {
-  TimePicker 
-} from "antd"
+import TimePicker from 'antd/lib/time-picker'
 import FormItemComponentDecorator from '../../decorator/FormItemComponent'
 
 function component(BasicItemComponent){

@@ -18,7 +18,7 @@ import {
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 import feilds from "./config"
-import "../style/css/style.scss"
+import "../lib/style"
 
 moment.locale('zh_CN');
 
