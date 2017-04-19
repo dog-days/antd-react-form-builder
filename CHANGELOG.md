@@ -2,10 +2,22 @@
 
 ### 0.4.5
 
+`2017-04-19`
+
+- Add 单独Antd表单等本项目依赖的样式（src/style/index.js）
+
+### 0.4.6
+
+`2017-04-18`
+
+- rewrite antd组件引入方式，去掉样式引入
+
+### 0.4.5
+
 `2017-04-18`
 
 -  Fix 使用babel-plugin-import时样式问题
-- Fix 时间类组件不设置value值时，隐藏input值为NaN问题
+-  Fix 时间类组件不设置value值时，隐藏input值为NaN问题
 
 ### 0.4.4
 
