@@ -6,6 +6,7 @@ import {
   Select,
   TimePicker,
 } from '../lib/index'
+import _ from 'lodash'
 import serialize from "form-serialize" 
 import FormBuilderConfiger from "../src/components/FormBuilderConfiger" 
 import { 
@@ -68,44 +69,36 @@ class Container extends React.Component {
     function getData(){
 
       var data = {
-        key: util.getUniqueKey(),
         name: "physics",
         label: "服务器物理属性表",
         type: "object",
         required: true,
         children: [
           {
-            key: util.getUniqueKey(),
             name: "power_num",
             type: "number",
             required: 'true',
             label: "电源个数",
-            value: "10",
           },
           {
-            key: util.getUniqueKey(),
             name: "rack_digit",
             type: "boolean",
-            value: true,
             required: true,
             label: "机架位数",
           },
           {
-            key: util.getUniqueKey(),
             name: "disk_list",
             type: "table",
             required: true,
             label: "硬盘列表",
             children: [
               {
-                key: util.getUniqueKey(),
                 name: "brand",
                 type: "string",
                 required: true,
                 label: "硬盘品牌",
               },
               {
-                key: util.getUniqueKey(),
                 name: "model",
                 type: "string",
                 required: true,
@@ -134,7 +127,24 @@ class Container extends React.Component {
       ]
     }
 
-    this.state.formBuilderConfig = FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(this.state.formBuilderConfigerConfig));
+    var formBuilderConfig = FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(this.state.formBuilderConfigerConfig));
+    var data = {
+      physics: {
+        disk_list: [
+          {
+            brand: "lenovo",
+            model: "t210"
+          },
+          {
+            brand: "lenovo2",
+            model: "t210"
+          },
+        ],
+        power_num: 10,
+        rack_digit: 10,
+      }
+    };
+    this.state.formBuilderConfig = FormBuilder.valuesToConfig(formBuilderConfig,data);
   }
 
   handleOnsubmit(e){
