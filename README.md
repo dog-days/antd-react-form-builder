@@ -840,7 +840,7 @@ RadioGroup的`props.options`结构如下：
 | readOnlyFunction     | 开启只读选项                                   | boolean  | false                       |
 
 `props.config`
-**formBuider和formBuilderConfiger他们的区别在于type为array类型的时候，formBuilder的children需要再包一层数组，`children: [] => children: [[]]`。**。
+**formBuider和formBuilderConfiger他们的区别在于type为array类型的时候，formBuilder的children需要再包一层数组，`children: [] => children: [[]]`。还有FormBuilderConfiger中的config每个数据都要设置key值**。
 
 ```js
 var config = [
