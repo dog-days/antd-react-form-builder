@@ -383,7 +383,7 @@ class FormBuilderConfiger extends React.Component {
           //<span>&nbsp;</span>,
           v.name + "：" + v.label,
           this.getTableColumns(v.children),
-          util.antdTableFieldBind(dataSource),
+          dataSource,
           v.children,
         );
       }
@@ -448,6 +448,7 @@ class FormBuilderConfiger extends React.Component {
     } = this.props;
     var locale = this.getLocale(localeText,"FormBuilderConfiger");
     //console.debug("render",config);
+    //console.debug(this.config)
     var dataSource = this.dataSourceAdapter(this.config);
     //对外提供最外层添加窗口
     if(this.context.formBuilderConfiger){
@@ -459,7 +460,7 @@ class FormBuilderConfiger extends React.Component {
           this.getTableComponent(
             title || "字段管理",
             this.getTableColumns(this.config),
-            util.antdTableFieldBind(dataSource),
+            dataSource,
             this.config,
           ) 
         }
