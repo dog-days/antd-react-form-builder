@@ -1,5 +1,6 @@
 import React from 'react'
 import Icon from 'antd/lib/icon'
+import _ from 'lodash'
 
 class IconGroup extends React.Component {
 

@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cascader renders correctly 1`] = `
+<span>
+  <div
+    class="ant-row ant-form-item"
+  >
+    <div
+      class="ant-form-item-label"
+    >
+      <label
+        class="ant-form-item-required"
+        title="name"
+      >
+        name
+      </label>
+    </div>
+    <div
+      class="ant-form-item-control-wrapper"
+    >
+      <div
+        class="ant-form-item-control has-success"
+      >
+        <span
+          class="test ant-cascader-picker"
+          tabindex="0"
+        >
+          <input
+            autocomplete="off"
+            class="ant-input ant-cascader-input "
+            name="test"
+            readonly=""
+            type="cascader"
+            value=""
+          />
+          <span
+            class="ant-cascader-picker-label"
+          >
+            Jiangsu / Nanjing / Zhong Hua Men
+          </span>
+          <i
+            class="anticon anticon-cross-circle ant-cascader-picker-clear"
+          />
+          <i
+            class="anticon anticon-down ant-cascader-picker-arrow"
+          />
+        </span>
+      </div>
+    </div>
+  </div>
+  <span>
+    <input
+      class="ant-input"
+      name="test"
+      type="hidden"
+      value="jiangsu"
+    />
+  </span>
+  <span>
+    <input
+      class="ant-input"
+      name="test"
+      type="hidden"
+      value="nanjing"
+    />
+  </span>
+  <span>
+    <input
+      class="ant-input"
+      name="test"
+      type="hidden"
+      value="zhonghuamen"
+    />
+  </span>
+</span>
+`;

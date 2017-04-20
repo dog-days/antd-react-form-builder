@@ -1,6 +1,14 @@
 ## 更新日志
 
-### 0.4.5
+### 0.4.8
+
+`2017-04-20`
+
+- Fix FormBuilder.valuesToConfig的type类型为array，值填充失败问题
+- Fix IconGroup缺失lodash问题
+- modify FormBuilderConfiger 的props.config可以不用添加key值
+
+### 0.4.7
 
 `2017-04-19`
 

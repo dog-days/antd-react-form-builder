@@ -383,7 +383,7 @@ class FormBuilderConfiger extends React.Component {
           //<span>&nbsp;</span>,
           v.name + "：" + v.label,
           this.getTableColumns(v.children),
-          dataSource,
+          util.antdTableFieldBind(dataSource),
           v.children,
         );
       }
@@ -459,7 +459,7 @@ class FormBuilderConfiger extends React.Component {
           this.getTableComponent(
             title || "字段管理",
             this.getTableColumns(this.config),
-            dataSource,
+            util.antdTableFieldBind(dataSource),
             this.config,
           ) 
         }
