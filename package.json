@@ -1,13 +1,12 @@
 {
   "name": "antd-react-form-builder",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "A form-builder based on Ant Design UI",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
-    "babel-jest": "^19.0.0",
     "babel-loader": "^6.2.8",
     "babel-plugin-import": "^1.1.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
