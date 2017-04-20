@@ -68,6 +68,9 @@ function create(){
 */
 function valuesToConfig(formBuilderConfig,data){
   formBuilderConfig.forEach((v,k)=>{
+    if(v.type === "array"){
+      v.type = "table";
+    }
     if(!v.key){
       v.key = util.getUniqueKey();
     }
@@ -79,7 +82,7 @@ function valuesToConfig(formBuilderConfig,data){
       if(data[v.name] !== undefined){
         valuesToConfig(v.children,data[v.name]);
       }
-    }else if(v.type === "array" && v.children){
+    }else if(v.type === "table" && v.children){
       if(data[v.name] !== undefined){
         var arr = [];
         var temp_data = data[v.name];

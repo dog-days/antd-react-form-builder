@@ -1,6 +1,7 @@
 import React from 'react'
 import { shallow,mount,render } from 'enzyme'
 import sinon from 'sinon'
+import util from '../../../util'
 import FormBuilder from '../index'
 import Input from '../../Input'
 import Button from 'antd/lib/button'
@@ -284,6 +285,104 @@ describe('FormBuilder',function(){
     const antdInputMount = getAntdFormComponentMount(wrapper);
     const buttonMount = wrapper.childAt(2);
     expect(antdInputMount.props().value).toEqual("test");
+    buttonMount.simulate('click');
+  })
+  it("FormBuilder.valuesToConfig should work correctly",function(){
+    var config = [{
+      key: util.getUniqueKey(),
+      name: "physics",
+      label: "服务器物理属性表",
+      type: "object",
+      required: true,
+      children: [
+        {
+          name: "power_num",
+          type: "number",
+          required: 'true',
+          label: "电源个数",
+        },
+        {
+          name: "rack_digit",
+          type: "boolean",
+          required: true,
+          label: "机架位数",
+        },
+        {
+          name: "disk_list",
+          type: "table",
+          required: true,
+          label: "硬盘列表",
+          children: [
+            [
+              {
+                name: "brand",
+                type: "string",
+                required: true,
+                label: "硬盘品牌",
+              },
+              {
+                name: "model",
+                type: "string",
+                required: true,
+                label: "硬盘型号",
+              },
+            ]
+          ],
+        },
+      ]
+    }];
+    @FormBuilder.create()
+    class DefaultComponent extends React.Component {
+      constructor(props){
+        super(props);
+        this.data = {
+          physics: {
+            disk_list: [
+              {
+                brand: "lenovo",
+                model: "t210"
+              },
+              {
+                brand: "lenovo2",
+                model: "t212"
+              },
+            ],
+            rack_digit: "10",
+            power_num: "10",
+          }
+        };
+        this.state = {
+          formBuilderConfig: FormBuilder.valuesToConfig(config,this.data),
+        };
+      }
+      submit = (e)=>{
+        this.props.formBuilder &&
+        this.props.formBuilder.validateFields((err, values) => {
+          expect(values).toEqual(this.data); 
+        });
+      }
+
+      render(){
+        return (
+          <FormBuilder 
+            hasFeedback={ true }
+            config={ this.state.formBuilderConfig }
+          >
+            <Button
+              onClick={ this.submit }
+              htmlType="submit"
+            >
+              提交
+            </Button>
+          </FormBuilder>
+        );
+      }
+    }
+    const wrapper = mount(
+      <DefaultComponent />   
+    ); 
+    //console.log(wrapper.props)
+    const buttonMount = wrapper.childAt(1);
     buttonMount.simulate('click');
   })
 })
