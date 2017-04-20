@@ -327,7 +327,6 @@ var config = [
     required: true,
     children: [
       {
-        key: util.getUniqueKey(),
         name: "power_num",
         type: "number",
         required: true,
@@ -337,14 +336,12 @@ var config = [
         can_not_delete: true,
       },
       {
-        key: util.getUniqueKey(),
         name: "rack_digit",
         type: "number",
         required: true,
         label: "机架位数",
       },
       {
-        key: util.getUniqueKey(),
         name: "dist_list",
         type: "array",
         required: true,
@@ -352,14 +349,12 @@ var config = [
         children: [
           [
             {
-              key: util.getUniqueKey(),
               name: "brand",
               type: "string",
               required: true,
               label: "硬盘品牌",
             },
             {
-              key: util.getUniqueKey(),
               name: "model",
               type: "string",
               required: true,
@@ -368,14 +363,12 @@ var config = [
           ],
 		 [
             {
-              key: util.getUniqueKey(),
               name: "brand1",
               type: "string",
               required: true,
               label: "硬盘品牌1",
             },
             {
-              key: util.getUniqueKey(),
               name: "model1",
               type: "string",
               required: true,
@@ -393,7 +386,7 @@ var config = [
 
 | 字段名      | 类型     | 说明                                       | 必填   |
 | -------- | ------ | ---------------------------------------- | ---- |
-| key      | string | react key值                               | 是    |
+| key      | string | react key值                               | 否    |
 | name     | string | 字段名                                      | 是    |
 | type     | string | 字段类型                                     | 是    |
 | label    | string | 字段说明                                     | 否    |
@@ -437,7 +430,7 @@ class CustomizedForm extends React.Component {}
 | 参数             | 说明                                       | 类型     | 类型                                   |
 | -------------- | ---------------------------------------- | ------ | ------------------------------------ |
 | setFieldsValue | 跟antd的一样，设置一组输入控件的值（注意：不要在 `componentWillReceiveProps` 内使用，否则会导致死循环） | string | setFieldsValue({xxx: value})         |
-| validateFields | 校验并获取全部表单组件的输入域的值与 Error，通常在onSubmit中使用，这里返回的参数values的值都是字符串或数字，TimePicker、DataPicker、MonthPicker、RangePicker返回的时unix时间戳。（跟antd不一样的地方在于不可以局部校验） | string | validateFields(function(err,values)) |
+| validateFields | 校验并获取全部表单组件的输入域的值与 Error，通常在onSubmit中使用，这里返回的参数values的值都是字符串，TimePicker、DataPicker、MonthPicker、RangePicker返回的时unix时间戳。（跟antd不一样的地方在于不可以局部校验） | string | validateFields(function(err,values)) |
 | 其他props        | 其他props完全跟antd \<Input /\>一致             |        |                                      |
 
 #### FormBuilder.valuesToConfig
@@ -453,12 +446,14 @@ formBuilderConfig value赋值（根据FormBuilder的表单结构所存储的值�
 //配置
 var config = [
   {
+    key: 1,
     type: "email",
     required: true,
     label: "说明",
     placeholder: "请输入"
   },
   {
+    key: 2,
     type: "email2",
     required: true,
     label: "说明",
@@ -836,7 +831,7 @@ RadioGroup的`props.options`结构如下：
 | props                | 说明                                       | 类型       | 默认值                         |
 | -------------------- | ---------------------------------------- | -------- | --------------------------- |
 | title                | 第一级table的title，hasNoneTableTitle为true时隐藏 | string   | 字段管理                        |
-| config               | 配置数据，只要config改变了都会以新的config重新渲染（父组件传进来）  | array    | []                          |
+| config               | 配置数据，只要config改变了都会以新的config重新渲染（父组件传进来，跟formBuilder的config有细微区别） | array    | []                          |
 | onChange             | 配置数据变化时触发的回调函数（这里的配置数据与父组件传进来的是相互独立的）,function(data01,data02)，data01是formBuilderConfiger的配置数据，data02是formBuilder的配置数据 | function | 无                           |
 | hasNoneTableTitle    | antd table title是否显示（两种添加新字段的方式）         | boolean  | true                        |
 | selectSourceDataMap  | 拉选择数据源选项                                 | array    | 无                           |
@@ -845,18 +840,17 @@ RadioGroup的`props.options`结构如下：
 | readOnlyFunction     | 开启只读选项                                   | boolean  | false                       |
 
 `props.config`
+**formBuider和formBuilderConfiger他们的区别在于type为array类型的时候，formBuilder的children需要再包一层数组，`children: [] => children: [[]]`。**。
 
 ```js
 var config = [
   {
-    key: util.getUniqueKey(),
     name: "physics",
     label: "服务器物理属性表",
     type: "object",
     required: true,
     children: [
       {
-        key: util.getUniqueKey(),
         name: "power_num",
         type: "number",
         required: true,
@@ -866,28 +860,24 @@ var config = [
         can_not_delete: true,
       },
       {
-        key: util.getUniqueKey(),
         name: "rack_digit",
         type: "number",
         required: true,
         label: "机架位数",
       },
       {
-        key: util.getUniqueKey(),
         name: "dist_list",
         type: "array",
         required: true,
         label: "硬盘列表",
         children: [
           {
-            key: util.getUniqueKey(),
             name: "brand",
             type: "string",
             required: true,
             label: "硬盘品牌",
           },
           {
-            key: util.getUniqueKey(),
             name: "model",
             type: "string",
             required: true,
