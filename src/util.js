@@ -2,25 +2,6 @@ import localeText from "./locale-provider/zh_CN"
 import _ from "lodash"
 
 export default {
-  /**
-   * antdTabelFieldBind Antd Table 简易键值绑定
-   * @param  {Array}   data   二维json对象,原始数据
-   * @param  {Function}  callback 参数为data遍历的值和data索引 
-   * @return {Object}       加key后的对象
-   */
-  antdTableFieldBind(data,callback){
-    if(!_.isArray(data)){
-      return [];
-    }
-    var reData = _.cloneDeep(data);
-    reData.forEach((d,dk)=>{
-      if(d && !d.key){
-        d.key = this.getUniqueKey();
-      }
-      callback && callback(d,dk);
-    })
-    return reData;
-  },
   isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
   },
