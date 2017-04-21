@@ -289,7 +289,6 @@ describe('FormBuilder',function(){
   })
   it("FormBuilder.valuesToConfig should work correctly",function(){
     var config = [{
-      key: util.getUniqueKey(),
       name: "physics",
       label: "服务器物理属性表",
       type: "object",
