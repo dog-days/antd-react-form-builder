@@ -69,36 +69,42 @@ class Container extends React.Component {
     function getData(){
 
       var data = {
+        key: util.getUniqueKey(),
         name: "physics",
         label: "服务器物理属性表",
         type: "object",
         required: true,
         children: [
           {
+            key: util.getUniqueKey(),
             name: "power_num",
             type: "number",
             required: 'true',
             label: "电源个数",
           },
           {
+            key: util.getUniqueKey(),
             name: "rack_digit",
             type: "boolean",
             required: true,
             label: "机架位数",
           },
           {
+            key: util.getUniqueKey(),
             name: "disk_list",
             type: "table",
             required: true,
             label: "硬盘列表",
             children: [
               {
+                key: util.getUniqueKey(),
                 name: "brand",
                 type: "string",
                 required: true,
                 label: "硬盘品牌",
               },
               {
+                key: util.getUniqueKey(),
                 name: "model",
                 type: "string",
                 required: true,
