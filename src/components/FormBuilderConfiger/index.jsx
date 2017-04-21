@@ -449,9 +449,9 @@ class FormBuilderConfiger extends React.Component {
     var locale = this.getLocale(localeText,"FormBuilderConfiger");
     //console.debug("render",config);
     //console.debug(this.config)
-    var dataSource = this.dataSourceAdapter(this.config);
+    var dataSource = this.dataSourceAdapter(this.config || []);
     //对外提供最外层添加窗口
-    if(this.context.formBuilderConfiger){
+    if(this.context && this.context.formBuilderConfiger){
       this.context.formBuilderConfiger.openAddFieldDialog = this.openAddFieldDialogEvent(this.config);
     }
     return (

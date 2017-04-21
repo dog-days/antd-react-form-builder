@@ -1,6 +1,6 @@
 {
   "name": "antd-react-form-builder",
-  "version": "0.4.9",
+  "version": "0.5.0",
   "description": "A form-builder based on Ant Design UI",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
