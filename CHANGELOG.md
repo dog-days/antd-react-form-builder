@@ -1,5 +1,17 @@
 ## 更新日志
 
+### 0.5.0
+
+`2017-04-20`
+
+- Fix 无props.config报错问题
+
+### 0.4.9
+
+`2017-04-20`
+
+- Recover FormBuilderConfiger中的config每个数据都要设置key值
+
 ### 0.4.8
 
 `2017-04-20`
