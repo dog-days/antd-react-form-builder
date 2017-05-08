@@ -34,13 +34,13 @@ npm install antd-react-form-builder --save
 
 ```js
 import "antd/dist/antd.css"
-import "antd-react-form-buider/lib/style/style.css"
+import "antd-react-form-builder/lib/style/style.css"
 ```
 
 或者
 
 ```jsx
-import "antd-react-form-buider/lib/style/index"
+import "antd-react-form-builder/lib/style/index"
 ```
 
 #### JSX直接使用
@@ -50,7 +50,7 @@ import React from 'react'
 import {
   FormBuilder,
   Input,
-} from "antd-react-form-buider"
+} from "antd-react-form-builder"
 import {
   Form,
 } from "antd"
@@ -118,7 +118,7 @@ import React from 'react'
 import {
   FormBuilder,
   Input,
-} from "antd-react-form-buider"
+} from "antd-react-form-builder"
 let config = [
   {
     type: "text",
@@ -184,7 +184,7 @@ import React from 'react'
 import {
   FormBuilder,
   Input,
-} from "antd-react-form-buider"
+} from "antd-react-form-builder"
 let config = [
   {
     type: "text",
@@ -840,7 +840,7 @@ RadioGroup的`props.options`结构如下：
 | readOnlyFunction     | 开启只读选项                                   | boolean  | false                       |
 
 `props.config`
-**formBuider和formBuilderConfiger他们的区别在于type为array类型的时候，formBuilder的children需要再包一层数组，`children: [] => children: [[]]`。还有FormBuilderConfiger中的config每个数据都要设置key值**。
+**formBuilder和formBuilderConfiger他们的区别在于type为array类型的时候，formBuilder的children需要再包一层数组，`children: [] => children: [[]]`。还有FormBuilderConfiger中的config每个数据都要设置key值**。
 
 ```js
 var config = [
