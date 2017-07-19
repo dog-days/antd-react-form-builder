@@ -99,6 +99,10 @@ class FormBuilderWidthConfig extends React.Component {
       if(v.type === "array"){
         v.type = "table";
       }
+      //处理为字符串的情况
+      if(v.required === '0' || v.required === '1') {
+        v.required = parseInt(v.required,10);
+      }
       var required = util.convertStringOfTrueAndFalseToBollean(v.required);
       var rules = v.rules || [];
       switch(v.type){

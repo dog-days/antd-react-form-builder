@@ -192,6 +192,10 @@ class FormBuilderConfiger extends React.Component {
         key: 'required',
         render: (value)=>{
           var text = locale.requiredField;
+          //处理为字符串的情况
+          if(value === '0' || value === '1') {
+            value = parseInt(value,10);
+          }
           value = util.convertStringOfTrueAndFalseToBollean(value);
           if(value){
             text = locale.requiredField;

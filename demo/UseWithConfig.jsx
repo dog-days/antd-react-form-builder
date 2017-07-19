@@ -107,7 +107,7 @@ class Container extends React.Component {
                 key: util.getUniqueKey(),
                 name: "model",
                 type: "string",
-                required: true,
+                required: "0",
                 label: "硬盘型号",
               },
             ],

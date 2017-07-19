@@ -58,6 +58,10 @@ class AddAndUpdateForm extends React.Component {
         obj.select_target = data.select_target;
       }
       if(data.required !== undefined){
+        //处理为字符串的情况
+        if(data.required === '0' || data.required === '1') {
+          data.required = parseInt(data.required,10);
+        }
         obj.required = !!util.convertStringOfTrueAndFalseToBollean(data.required) + "";
       }
       if(data.min){
