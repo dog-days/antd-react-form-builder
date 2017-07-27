@@ -1,13 +1,13 @@
-import React, { PropTypes } from 'react'
-import _ from 'lodash'
-import Modal from 'antd/lib/modal'
-import Table from 'antd/lib/table'
-import Icon from 'antd/lib/icon'
-import util from "../../util"
-import PureRender,{ shallowCompare } from "../../decorator/PureRender"
-import localeDecorator from "../../decorator/Locale"
-import AddAndUpdateForm from "./components/AddAndUpdateForm"
-import localeText from './zh_CN'
+import React, { PropTypes } from 'react';
+import _ from 'lodash';
+import Modal from 'antd/lib/modal';
+import Table from 'antd/lib/table';
+import Icon from 'antd/lib/icon';
+import util from '../../util';
+import PureRender, { shallowCompare } from '../../decorator/PureRender';
+import localeDecorator from '../../decorator/Locale';
+import AddAndUpdateForm from './components/AddAndUpdateForm';
+import localeText from './zh_CN';
 /**
  * FormBuilder config 配置器 
  *@prop { string } title 第一级table的title
@@ -22,51 +22,55 @@ import localeText from './zh_CN'
  */
 @localeDecorator
 class FormBuilderConfiger extends React.Component {
-
   static contextTypes = {
     formBuilderConfiger: React.PropTypes.object,
-    antLocale: React.PropTypes.object,
-  }
+    antLocale: React.PropTypes.object
+  };
 
-  static create(){
+  static create() {
     class Decorator extends React.Component {
-
-      constructor(props){
+      constructor(props) {
         super(props);
         this.formBuilderConfiger = {};
       }
 
       static childContextTypes = {
-        formBuilderConfiger: PropTypes.object.isRequired,
-      }
+        formBuilderConfiger: PropTypes.object.isRequired
+      };
 
       getChildContext() {
         return {
-          formBuilderConfiger: this.formBuilderConfiger,
+          formBuilderConfiger: this.formBuilderConfiger
         };
       }
 
-      render(){
-        this.formBuilderConfiger.openAddFieldDialogEvent = (e)=>{
+      render() {
+        this.formBuilderConfiger.openAddFieldDialogEvent = e => {
           this.formBuilderConfiger.openAddFieldDialog(e);
-        }
-        var WrapperComponent = this.getWrapperComponent(); 
+        };
+        var WrapperComponent = this.getWrapperComponent();
         return (
-          <WrapperComponent 
-            { ...this.props }
-            formBuilderConfiger={ this.formBuilderConfiger }
+          <WrapperComponent
+            {...this.props}
+            formBuilderConfiger={this.formBuilderConfiger}
           />
-        )
+        );
       }
     }
-    return (WrappedComponent)=>{
+    return WrappedComponent => {
       function getDisplayName(WrappedComponent) {
-        return WrappedComponent.displayName || WrappedComponent.name || 'WrappedComponent';
+        return (
+          WrappedComponent.displayName ||
+          WrappedComponent.name ||
+          'WrappedComponent'
+        );
       }
-      Decorator.displayName = `FormBuilderConfiger(${getDisplayName(WrappedComponent)})`;
-      Decorator.prototype.getWrapperComponent = ()=>WrappedComponent; 
+      Decorator.displayName = `FormBuilderConfiger(${getDisplayName(
+        WrappedComponent
+      )})`;
+      Decorator.prototype.getWrapperComponent = () => WrappedComponent;
       return Decorator;
-    }
+    };
   }
   /**
   * formBuilderConfiger配置转换成FormBuilder的config配置
@@ -74,30 +78,36 @@ class FormBuilderConfiger extends React.Component {
   * children: [] => children: [[]]
   * @param { array } data formBuilderConfiger的配置
   */
-  static formBuilderConfigAdapter(data){
+  static formBuilderConfigAdapter(data) {
     var re = [];
-    data && data[0] && data.forEach((v,k)=>{
-      //兼容处理
-      if(v.data_type && !v.type){
-        v.type = v.data_type;
-      }
-      //console.debug(v)
-      if(v.type === "array"){
-        v.type = "table";
-      }
-      if((v.type === "table" || v.type === "object") && v.children && v.children){
-        if(v.type === "table"){
-          v.children = [v.children];
-          v.children.forEach((v2,k2)=>{
-            FormBuilderConfiger.formBuilderConfigAdapter(v2);
-          })
+    data &&
+      data[0] &&
+      data.forEach((v, k) => {
+        //兼容处理
+        if (v.data_type && !v.type) {
+          v.type = v.data_type;
         }
-        if(v.type !== "table"){
-          FormBuilderConfiger.formBuilderConfigAdapter(v.children);
+        //console.debug(v)
+        if (v.type === 'array') {
+          v.type = 'table';
         }
-      }
-      re.push(v);
-    })
+        if (
+          (v.type === 'table' || v.type === 'object') &&
+          v.children &&
+          v.children
+        ) {
+          if (v.type === 'table') {
+            v.children = [v.children];
+            v.children.forEach((v2, k2) => {
+              FormBuilderConfiger.formBuilderConfigAdapter(v2);
+            });
+          }
+          if (v.type !== 'table') {
+            FormBuilderConfiger.formBuilderConfigAdapter(v.children);
+          }
+        }
+        re.push(v);
+      });
     return re;
   }
 
@@ -105,14 +115,14 @@ class FormBuilderConfiger extends React.Component {
   * @this { boolean } outerUpdate 是否父组件更新
   * @this { array } config 配置数据this.props.config 
   */
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {};
     //this.config克隆后，跟props.config不同步，props.config还是原始的数据源
     this.config = _.cloneDeep(this.props.config);
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     //是否是父级组件更新，state的变化是内部更新
     this.outerUpdate = true;
   }
@@ -121,66 +131,62 @@ class FormBuilderConfiger extends React.Component {
     var flag = shallowCompare(this, nextProps, nextState);
     //一般都是外部props.config改变后触发的。
     //console.debug(flag,this.outerUpdate)
-    if(flag && this.outerUpdate){
+    if (flag && this.outerUpdate) {
       this.config = _.cloneDeep(nextProps.config);
     }
     //console.debug(flag)
     return flag;
   }
 
-  componentDidUpdate(){
-    let {
-      onChange,
-    } = this.props;
-    if(this.random !== this.state.random){
-      onChange && 
-      onChange(
-        this.config,
-        FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(this.config))
-      );
+  componentDidUpdate() {
+    let { onChange } = this.props;
+    if (this.random !== this.state.random) {
+      onChange &&
+        onChange(
+          this.config,
+          FormBuilderConfiger.formBuilderConfigAdapter(_.cloneDeep(this.config))
+        );
     }
     this.random = this.state.random;
   }
 
-  setAddFieldDialogState = (visible)=>{
-    return ()=>{
+  setAddFieldDialogState = visible => {
+    return () => {
       this.outerUpdate = false;
       this.setState({
-        addField: visible, 
+        addField: visible
       });
-    }
-  }
+    };
+  };
 
-  setChangeState = ()=>{
+  setChangeState = () => {
     var random = util.getUniqueKey();
     this.outerUpdate = false;
     this.setState({
-      random,
-    })
-  }
- 
-  getTableColumns(currentData){
-    let {
-      hasNoneTableTitle = true,
-    } = this.props;
-    var locale = this.getLocale(localeText,"FormBuilderConfiger");
+      random
+    });
+  };
+
+  getTableColumns(currentData) {
+    let { hasNoneTableTitle = true } = this.props;
+    var locale = this.getLocale(localeText, 'FormBuilderConfiger');
     var columns = [
       {
         title: locale.fieldName,
         dataIndex: 'name',
-        key: 'name',
+        key: 'name'
       },
       {
         title: locale.labelName,
         dataIndex: 'label',
-        key: 'label',
+        key: 'label'
       },
       {
         title: locale.dataType,
         dataIndex: 'type',
         key: 'type',
-        render: (text,row,id)=>{
-          if(!text){
+        render: (text, row, id) => {
+          if (!text) {
             text = row.type;
           }
           return text;
@@ -190,118 +196,93 @@ class FormBuilderConfiger extends React.Component {
         title: locale.required,
         dataIndex: 'required',
         key: 'required',
-        render: (value)=>{
+        render: value => {
           var text = locale.requiredField;
           //处理为字符串的情况
-          if(value === '0' || value === '1') {
-            value = parseInt(value,10);
+          if (value === '0' || value === '1') {
+            value = parseInt(value, 10);
           }
           value = util.convertStringOfTrueAndFalseToBollean(value);
-          if(value){
+          if (value) {
             text = locale.requiredField;
-          }else {
+          } else {
             text = locale.couldEmpty;
           }
           return text;
         }
-      },
-    ]; 
+      }
+    ];
     columns.push({
       title: locale.operation,
       key: 'operation',
       //width: 55,
-      render: (data,record,id) => {
-        var read_only = util.convertStringOfTrueAndFalseToBollean(currentData[id].read_only);
+      render: (data, record, id) => {
+        var read_only = util.convertStringOfTrueAndFalseToBollean(
+          currentData[id].read_only
+        );
         //兼容处理
-        if(read_only == "0"){
+        if (read_only == '0') {
           read_only = false;
-        }else if(read_only == "1") {
+        } else if (read_only == '1') {
           read_only = true;
         }
-        var can_not_delete = util.convertStringOfTrueAndFalseToBollean(currentData[id].can_not_delete); return (
+        var can_not_delete = util.convertStringOfTrueAndFalseToBollean(
+          currentData[id].can_not_delete
+        )//兼容处理
+        if (can_not_delete == '0') {
+          can_not_delete = false;
+        } else if (can_not_delete == '1') {
+          can_not_delete = true;
+        };
+        return (
           <div>
-            {
-              !read_only &&
-              <a 
-                href="javascript:void(0)" 
+            {!read_only &&
+              <a
+                href="javascript:void(0)"
                 className="mr10"
-                onClick={
-                  this.openAddFieldDialogEvent(currentData,id)
-                }
+                onClick={this.openAddFieldDialogEvent(currentData, id)}
               >
-                <Icon 
-                  type="edit" 
-                />
-              </a>
-            }
-            {
-              !can_not_delete &&
-              <a 
-                href="javascript:void(0)" 
+                <Icon type="edit" />
+              </a>}
+            {!can_not_delete &&
+              <a
+                href="javascript:void(0)"
                 className="mr10"
-                onClick={ 
-                  this.dataDeleteEvent(currentData,id) 
-                }
+                onClick={this.dataDeleteEvent(currentData, id)}
               >
-                <Icon 
-                  type="delete"
-                />
-              </a>
-            }
-            {
-              id !== 0 &&
-              <a 
-                href="javascript:void(0)" 
+                <Icon type="delete" />
+              </a>}
+            {id !== 0 &&
+              <a
+                href="javascript:void(0)"
                 className="mr10"
-                onClick={
-                  this.dataUpEvent(currentData,id)
-                }
+                onClick={this.dataUpEvent(currentData, id)}
               >
-                <Icon 
-                  type="arrow-up" 
-                />
-              </a>
-            }
-            {
-              id !== currentData.length - 1 &&
-              <a 
-                href="javascript:void(0)" 
+                <Icon type="arrow-up" />
+              </a>}
+            {id !== currentData.length - 1 &&
+              <a
+                href="javascript:void(0)"
                 className="mr10"
-                onClick={
-                  this.dataDownEvent(currentData,id)
-                }
+                onClick={this.dataDownEvent(currentData, id)}
               >
-                <Icon 
-                  type="arrow-down"
-                />
-              </a>
-            }
-            {
-              hasNoneTableTitle && 
-              currentData[id].children && 
-              <a 
-                href="javascript:void(0)" 
+                <Icon type="arrow-down" />
+              </a>}
+            {hasNoneTableTitle &&
+              currentData[id].children &&
+              <a
+                href="javascript:void(0)"
                 className="mr10"
-                onClick={
-                  this.openAddFieldDialogEvent(currentData[id].children)
-                }
+                onClick={this.openAddFieldDialogEvent(currentData[id].children)}
               >
-                {
-                  this.props.fieldAddedOperation &&
-                  this.props.fieldAddedOperation
-                }
-                {
-                  !this.props.fieldAddedOperation &&
-                  <Icon 
-                    type="plus"
-                  />
-                }
-              </a>
-            }
+                {this.props.fieldAddedOperation &&
+                  this.props.fieldAddedOperation}
+                {!this.props.fieldAddedOperation && <Icon type="plus" />}
+              </a>}
           </div>
-        ); 
-      },
-    })
+        );
+      }
+    });
     return columns;
   }
 
@@ -311,23 +292,21 @@ class FormBuilderConfiger extends React.Component {
   * @param { object } currentData 当前列数据   
   * @param { boolean } first 是否是最外层table的标题 
   */
-  getTitle(title,currentData,first){
-    return ()=>{
+  getTitle(title, currentData, first) {
+    return () => {
       return (
         <div>
           <span>
-            { title }
-          </span> 
-          <Icon 
-            type="plus-circle" 
+            {title}
+          </span>
+          <Icon
+            type="plus-circle"
             className="configer-add"
-            onClick={
-              this.openAddFieldDialogEvent(currentData)
-            }
+            onClick={this.openAddFieldDialogEvent(currentData)}
           />
         </div>
       );
-    }
+    };
   }
   /**
   * 获取Table组件 (已配置)
@@ -337,109 +316,106 @@ class FormBuilderConfiger extends React.Component {
   * @param { array } dataSource antd table dataSource 
   * @param { array } currentData 当前表格源数据 
   */
-  getTableComponent(title,columns,dataSource,currentData){
-    var obj = { }; 
-    let {
-      hasNoneTableTitle = true,
-    } = this.props;
-    if(!hasNoneTableTitle){
-      obj.title = this.getTitle(title,currentData); 
+  getTableComponent(title, columns, dataSource, currentData) {
+    var obj = {};
+    let { hasNoneTableTitle = true } = this.props;
+    if (!hasNoneTableTitle) {
+      obj.title = this.getTitle(title, currentData);
     }
     return (
-      <Table 
-        { ...obj }
+      <Table
+        {...obj}
         bordered
-        pagination={ false }
+        pagination={false}
         size="middle"
-        columns={ columns }
-        defaultExpandAllRows={ true }
-        expandedRowRender={
-          record => {
-            if(!record.description){
-              return false;
-            }
-            return (
-              <div>
-                {record.description}
-              </div>
-            )
+        columns={columns}
+        defaultExpandAllRows={true}
+        expandedRowRender={record => {
+          if (!record.description) {
+            return false;
           }
-        }
-        dataSource={ dataSource }
+          return (
+            <div>
+              {record.description}
+            </div>
+          );
+        }}
+        dataSource={dataSource}
       />
-    )
+    );
   }
 
-  dataSourceAdapter(data){
+  dataSourceAdapter(data) {
     var re_data = [];
-    data.forEach((v,k)=>{
+    data.forEach((v, k) => {
       //兼容处理
-      if(v.data_type && !v.type){
+      if (v.data_type && !v.type) {
         v.type = v.data_type;
       }
-      if(v.type === "array"){
-        v.type = "table";
+      if (v.type === 'array') {
+        v.type = 'table';
       }
       var description = null;
-      if(_.isArray(v.children) && (v.type === "object" || v.type === "table")){
+      if (
+        _.isArray(v.children) &&
+        (v.type === 'object' || v.type === 'table')
+      ) {
         var dataSource = this.dataSourceAdapter(v.children);
         description = this.getTableComponent(
           //<span>&nbsp;</span>,
-          v.name + "：" + v.label,
+          v.name + '：' + v.label,
           this.getTableColumns(v.children),
           dataSource,
-          v.children,
+          v.children
         );
       }
-        //console.debug(description)
+      //console.debug(description)
       re_data.push({
         key: v.key,
         name: v.name,
         label: v.label,
         type: v.type,
         required: v.required,
-        description,
-      }); 
-    })
+        description
+      });
+    });
     return re_data;
   }
 
-  addEvent = (currentData,index)=>{
-  }
+  addEvent = (currentData, index) => {};
   //下上切换，上移
-  dataUpEvent = (currentData,index)=>{
-    return (e)=>{
-      util.swapArrayItem(currentData,index,index - 1);
+  dataUpEvent = (currentData, index) => {
+    return e => {
+      util.swapArrayItem(currentData, index, index - 1);
       this.setChangeState();
-    }
-  }
+    };
+  };
   //上下切换，下移
-  dataDownEvent = (currentData,index)=>{
-    return (e)=>{
-      util.swapArrayItem(currentData,index,index + 1);
+  dataDownEvent = (currentData, index) => {
+    return e => {
+      util.swapArrayItem(currentData, index, index + 1);
       this.setChangeState();
-    }
-  }
+    };
+  };
 
   //删除
-  dataDeleteEvent = (currentData,index)=>{
-    return (e)=>{
+  dataDeleteEvent = (currentData, index) => {
+    return e => {
       currentData.splice(index, 1);
       this.setChangeState();
-    }
-  }
+    };
+  };
 
-
-  openAddFieldDialogEvent = (currentData,index)=>{
-    return (e)=>{
+  openAddFieldDialogEvent = (currentData, index) => {
+    return e => {
       //console.debug(currentData)
       this.setAddFieldDialogState(true)();
       this.setState({
         currentData,
-        index,
-      })
-    }
-  }
+        index
+      });
+    };
+  };
 
   render() {
     let {
@@ -448,53 +424,46 @@ class FormBuilderConfiger extends React.Component {
       title,
       selectSourceDataMap,
       readOnlyFunction,
-      canNotDeleteFunction,
+      canNotDeleteFunction
     } = this.props;
-    var locale = this.getLocale(localeText,"FormBuilderConfiger");
+    var locale = this.getLocale(localeText, 'FormBuilderConfiger');
     //console.debug("render",config);
     //console.debug(this.config)
     var dataSource = this.dataSourceAdapter(this.config || []);
     //对外提供最外层添加窗口
-    if(this.context && this.context.formBuilderConfiger){
-      this.context.formBuilderConfiger.openAddFieldDialog = this.openAddFieldDialogEvent(this.config);
+    if (this.context && this.context.formBuilderConfiger) {
+      this.context.formBuilderConfiger.openAddFieldDialog = this.openAddFieldDialogEvent(
+        this.config
+      );
     }
     return (
       <div className="configer">
-        { 
-          this.getTableComponent(
-            title || "字段管理",
-            this.getTableColumns(this.config),
-            dataSource,
-            this.config,
-          ) 
-        }
-        {
-          this.state.addField &&
-          <Modal 
-            title={ 
-              this.state.index !== undefined 
-              ?  locale.edit : locale.add
-            } 
-            visible={ this.state.addField } 
-            onCancel={ this.setAddFieldDialogState(false) }
-            footer={ false }
+        {this.getTableComponent(
+          title || '字段管理',
+          this.getTableColumns(this.config),
+          dataSource,
+          this.config
+        )}
+        {this.state.addField &&
+          <Modal
+            title={this.state.index !== undefined ? locale.edit : locale.add}
+            visible={this.state.addField}
+            onCancel={this.setAddFieldDialogState(false)}
+            footer={false}
           >
             <AddAndUpdateForm
-              currentData={ this.state.currentData }
-              index={ this.state.index }
-              setChangeState={ this.setChangeState }
-              setAddFieldDialogState={ this.setAddFieldDialogState.bind(this) }
-              selectSourceDataMap={ selectSourceDataMap }
-              canNotDeleteFunction={ canNotDeleteFunction }
-              readOnlyFunction={ readOnlyFunction }
+              currentData={this.state.currentData}
+              index={this.state.index}
+              setChangeState={this.setChangeState}
+              setAddFieldDialogState={this.setAddFieldDialogState.bind(this)}
+              selectSourceDataMap={selectSourceDataMap}
+              canNotDeleteFunction={canNotDeleteFunction}
+              readOnlyFunction={readOnlyFunction}
             />
-          </Modal>
-        }
+          </Modal>}
       </div>
-    )
+    );
   }
 }
 
 export default FormBuilderConfiger;
-
-
