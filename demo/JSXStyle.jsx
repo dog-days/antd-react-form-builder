@@ -85,7 +85,6 @@ class Container extends React.Component {
             type="phone"
             name="text"
             label="phone类型"
-            required
             placeholder="请输入"
           />
           <Input
