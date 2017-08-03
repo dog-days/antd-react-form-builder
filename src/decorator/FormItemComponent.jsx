@@ -52,26 +52,22 @@ function propsAdapter(props){
   }
   //只有text类型有长度限制
   switch(props.type){
-    case "text":
-      if(onlyLetter){
-        rules.unshift({
-          validator(rule, value, callback, source, options) {
-            var errors = [];
-            var pass = new RegExp("^[A-Za-z]*$").test(value);
-            if(!pass){
-              errors.push({
-                message: locale.charactersOnlyLetter,
-              })
-            }
-            callback(errors);
+    default:
+    if(onlyLetter){
+      rules.unshift({
+        validator(rule, value, callback, source, options) {
+          var errors = [];
+          var pass = new RegExp("^[A-Za-z]*$").test(value);
+          if(!pass){
+            errors.push({
+              message: locale.charactersOnlyLetter,
+            })
           }
-        });
-      }
-      validateLength(); 
-    break;
-    case "password":
-      validateLength(); 
-    break;
+          callback(errors);
+        }
+      });
+    }
+    validateLength(); 
   }
   if(required){
     rules.unshift({

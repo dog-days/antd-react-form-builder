@@ -85,6 +85,7 @@ class Container extends React.Component {
             type="phone"
             name="text"
             label="phone类型"
+            required
             placeholder="请输入"
           />
           <Input
@@ -105,6 +106,8 @@ class Container extends React.Component {
             type="textarea"
             name="textarea"
             label="textarea类型"
+            max="9"
+            min="2"
             required
             placeholder="请输入"
           />
