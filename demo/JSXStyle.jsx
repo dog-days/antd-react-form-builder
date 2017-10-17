@@ -1,6 +1,6 @@
-import React from 'react';
-import util from '../lib/util';
-import moment from 'moment';
+import React from 'react'
+import util from '../lib/util'
+import moment from 'moment'
 import {
   FormBuilder,
   Input,
@@ -15,71 +15,75 @@ import {
   RadioGroup,
   Password,
   Cascader,
-} from '../lib/index';
-import { Icon } from 'antd';
+} from '../lib/index'
+import {
+  Icon
+} from "antd"
 
 @FormBuilder.create()
 class Container extends React.Component {
-  constructor(props) {
+  constructor(props){
     super(props);
     this.state = {};
   }
 
-  componentDidMount() {
+  componentDidMount(){
     //console.debug(this.props.formBuilder)
     var obj = {
       number: 1,
       integer: 1.1,
-      textarea: 'dddddd',
-      city: 'shenzhen',
+      textarea: "dddddd",
+      city: "shenzhen",
     };
-    this.props.formBuilder && this.props.formBuilder.setFieldsValue(obj);
+    this.props.formBuilder &&
+    this.props.formBuilder.setFieldsValue(obj); 
   }
 
-  handleOnsubmit(e) {
+  handleOnsubmit(e){
     e.preventDefault();
     this.props.formBuilder &&
-      this.props.formBuilder.validateFields((err, values) => {
-        if (err) {
-          console.log('表单错误', err);
-          return;
-        } else {
-          console.log('表单值: ', values);
-        }
-      });
+    this.props.formBuilder.validateFields((err, values) => {
+      if(err){
+        console.log("表单错误",err)
+        return; 
+      }else {
+        console.log('表单值: ', values);
+      }
+    });
     var value = this.props.formBuilder.getFieldsValue('text');
-    console.log(value);
+    console.log(value)
+
   }
 
   render() {
     return (
       <div>
-        <FormBuilder
-          onSubmit={this.handleOnsubmit.bind(this)}
+        <FormBuilder 
+          onSubmit={ this.handleOnsubmit.bind(this) }
           size="default"
-          hasFeedback={true}
+          hasFeedback={ true }
         >
-          <Input
+          <Input 
             required
             type="text"
             name="text"
             value="类型"
             label="text类型"
             placeholder="请输入"
-            onlyLetter={true}
+            onlyLetter={ true }
             max="10"
             min="5"
           />
-          <Input
+          <Input 
             required
-            array={true}
+            array={ true }
             type="text"
             name="text-arrray"
-            value={'text'}
+            value={ "text" }
             label="text array 类型"
             placeholder="请输入"
-          />
-          <Input
+          /> 
+          <Input 
             type="phone"
             name="phone"
             label="phone类型"
@@ -131,70 +135,80 @@ class Container extends React.Component {
             label="float类型"
             required
           />
-          <Select
+          <Select 
             name="boolean"
-            boolean={true}
+            boolean={ true }
             label="boolean select类型"
             required
-            value={true}
+            value={ true }
           />
-          <Select
+          <Select 
             name="city"
-            options={[
-              {
-                value: 'shenzhen',
-                label: '深圳',
-              },
-              {
-                value: 'beijing',
-                label: '北京',
-              },
-            ]}
+            options={
+              [
+                {
+                  value: "shenzhen",
+                  label: "深圳"
+                },
+                {
+                  value: "beijing",
+                  label: "北京"
+                },
+              ]
+            }
             label="单选select类型"
             required
           />
-          <Select
+          <Select 
             name="city2"
-            group={[
-              {
-                label: '广东省',
-                options: [
-                  {
-                    value: 'shenzen',
-                    label: '深圳',
-                  },
-                ],
-              },
-            ]}
+            group={
+              [
+                {
+                  label: "广东省",
+                  options: [
+                    {
+                      value: "shenzen",
+                      label: "深圳"
+                    }
+                  ] 
+                }
+              ]
+            }
             label="分组select类型"
             required
           />
-          <Select
+          <Select 
             name="city3"
-            multiple={true}
-            options={[
-              {
-                label: '深圳',
-                value: 'shenzhen',
-              },
-              {
-                label: '上海',
-                value: 'shanghai',
-              },
-            ]}
+            multiple={ true }
+            options={
+              [
+                {
+                  label: "深圳",
+                  value: "shenzhen",
+                },
+                {
+                  label: "上海",
+                  value: "shanghai",
+                },
+              ]
+            }
             label="多选select类型"
             required
           />
           <TimePicker
             name="timepicker"
             label="TimePicker类型"
-            value={moment('2016-04-14 10:10:00')}
-            rules={[
-              {
-                required: true,
-                message: '请选择时间',
-              },
-            ]}
+            value={
+              moment("2016-04-14 10:10:00")
+            }
+            rules={
+              [
+                {
+                  required: true,
+                  message: "请选择时间"
+                }
+              ]
+            }
             placeholder="请选择时间"
           />
           <DatePicker
@@ -217,83 +231,84 @@ class Container extends React.Component {
             required
             name="rangepicker"
             label="RangePicker类型"
-            value={['2016-04-05', '2016-04-05']}
+            value={ ["2016-04-05","2016-04-05"] }
           />
           <CheckboxGroup
             name="checkboxgroup"
-            options={[
-              { label: 'Apple', value: 'Apple' },
-              { label: 'Pear', value: 'Pear' },
-              { label: 'Orange', value: 'Orange' },
-            ]}
+            options={
+              [
+                { label: 'Apple', value: 'Apple' },
+                { label: 'Pear', value: 'Pear' },
+                { label: 'Orange', value: 'Orange' },
+              ]
+            }
             label="CheckboxGroup类型"
             required
           />
           <RadioGroup
             name="radiogroup"
-            options={[
-              { label: 'Apple', value: 'Apple' },
-              { label: 'Pear', value: 'Pear' },
-              { label: 'Orange', value: 'Orange' },
-            ]}
+            options={
+              [
+                { label: 'Apple', value: 'Apple' },
+                { label: 'Pear', value: 'Pear' },
+                { label: 'Orange', value: 'Orange' },
+              ]
+            }
             label="RadioGroup类型"
             required
           />
           <Password
-            onChange={e => {
-              this.setState({
-                value: e.target.value,
-              });
-            }}
+            onChange={
+              e=>{
+                this.setState({
+                  value: e.target.value
+                })
+              }
+            }
             name="password"
-            rePassword={{
-              placeholder: '请再次输入密码',
-            }}
+            rePassword={ true }
             label="密码"
             required
-            min={6}
-            max={12}
+            min={ 6 }
+            max={ 12 }
           />
           <Cascader
             name="cascader"
             label="省市级联动"
-            options={[
-              {
-                value: 'zhejiang',
-                label: 'Zhejiang',
-                children: [
-                  {
+            options={
+              [
+                {
+                  value: 'zhejiang',
+                  label: 'Zhejiang',
+                  children: [{
                     value: 'hangzhou',
                     label: 'Hangzhou',
-                    children: [
-                      {
-                        value: 'xihu',
-                        label: 'West Lake',
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                value: 'jiangsu',
-                label: 'Jiangsu',
-                children: [
-                  {
+                    children: [{
+                      value: 'xihu',
+                      label: 'West Lake',
+                    }],
+                  }],
+                }, 
+                {
+                  value: 'jiangsu',
+                  label: 'Jiangsu',
+                  children: [{
                     value: 'nanjing',
                     label: 'Nanjing',
-                    children: [
-                      {
-                        value: 'zhonghuamen',
-                        label: 'Zhong Hua Men',
-                      },
-                    ],
-                  },
-                ],
-              },
-            ]}
+                    children: [{
+                      value: 'zhonghuamen',
+                      label: 'Zhong Hua Men',
+                    }],
+                  }],
+                }
+              ]
+            }
             required
           />
-          <Button htmlType="submit" buttonType="primary">
+          <Button 
+            htmlType="submit"
+            buttonType="primary" 
+          >
             提交
           </Button>
         </FormBuilder>
@@ -302,4 +317,4 @@ class Container extends React.Component {
   }
 }
 
-export default Container;
+export default Container; 

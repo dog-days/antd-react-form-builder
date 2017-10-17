@@ -51,10 +51,13 @@ class FormBuilder extends React.Component {
         tempTarget = target;
         target = [target];
       }
-      const values = this.context.formBuilder.validateFields(function() {}, target);
+      const values = this.context.formBuilder.validateFields(
+        function() {},
+        target
+      );
       if (tempTarget) {
-        return values[tempTarget]
-      }else {
+        return values[tempTarget];
+      } else {
         return values;
       }
     };
@@ -69,7 +72,7 @@ class FormBuilder extends React.Component {
           if (~target.indexOf(originName)) {
             hasError = true;
           }
-        }else {
+        } else {
           hasError = true;
         }
         hasError &&
@@ -95,10 +98,13 @@ class FormBuilder extends React.Component {
       }
       let values = serialize(formDom, { hash: true });
       let lastValues = {};
-      target &&
+      if (target) {
         target.forEach(v => {
           lastValues[v] = values[v];
         });
+      } else {
+        lastValues = values;
+      }
       if (this.errors[0]) {
         this.setState({
           random: util.getUniqueKey(),
