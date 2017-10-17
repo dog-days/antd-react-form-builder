@@ -1,12 +1,12 @@
-import React, { PropTypes } from 'react'
-import ReactDOM from 'react-dom'
-import schema from "async-validator"
-import _ from 'lodash'
-import serialize from "form-serialize" 
-import Form from 'antd/lib/form'
-import BuilderDecorator from '../../decorator/Builder'
-import util from "../../util"
-import FormBuilderWidthConfig from "./FormBuilderWidthConfig"
+import React, { PropTypes } from 'react';
+import ReactDOM from 'react-dom';
+import schema from 'async-validator';
+import _ from 'lodash';
+import serialize from 'form-serialize';
+import Form from 'antd/lib/form';
+import BuilderDecorator from '../../decorator/Builder';
+import util from '../../util';
+import FormBuilderWidthConfig from './FormBuilderWidthConfig';
 /**
  * SimpleFormBuilder 
  * @prop {String} size size 设置表单子项（包括antd Input、Select等和FormItem）size，表单子项size优先级更高。
@@ -19,12 +19,11 @@ import FormBuilderWidthConfig from "./FormBuilderWidthConfig"
  */
 @BuilderDecorator
 class FormBuilder extends React.Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {};
     //存放各个表单项设置value的方法
-    this.setFieldValueFunc = { };
+    this.setFieldValueFunc = {};
     //表单各个输入组件验证方法存储
     this.itemsValidateFunc = {};
     //表单错误信息存放
@@ -33,57 +32,89 @@ class FormBuilder extends React.Component {
     this.validateAll = false;
   }
 
-  componentDidMount(){
+  componentDidMount() {
     var formDom = ReactDOM.findDOMNode(this.refs.formBuilder);
-    if(!this.context.formBuilder){
+    if (!this.context.formBuilder) {
       return;
     }
-    this.context.formBuilder.setFieldsValue = (values)=>{
-      for(var k in values){
-        this.setFieldValueFunc[k] && 
-        this.setFieldValueFunc[k](values[k]);
+    this.context.formBuilder.setFieldsValue = values => {
+      for (var k in values) {
+        this.setFieldValueFunc[k] && this.setFieldValueFunc[k](values[k]);
       }
-    }
-    this.context.formBuilder.validateFields = (callback)=>{
+    };
+    this.context.formBuilder.getFieldsValue = target => {
+      if (!target) {
+        return false;
+      }
+      let tempTarget;
+      if (_.isString(target)) {
+        tempTarget = target;
+        target = [target];
+      }
+      const values = this.context.formBuilder.validateFields(function() {}, target);
+      if (tempTarget) {
+        return values[tempTarget]
+      }else {
+        return values;
+      }
+    };
+    this.context.formBuilder.validateFields = (callback, target) => {
       this.errors = [];
       //表单验证
-      for(var k in this.itemsValidateFunc){
-        this.itemsValidateFunc[k]((errors,currentFormItem)=>{
-          //console.debug(k)
-          this.errors.push(errors);
-          //使用jsx style组件，特殊处理
-          if(!this.props.config){
-            var message = "";
-            errors.forEach((v,k)=>{
-              if(k !== 0){
-                message += "，" + v.message;
-              }else {
-                message += v.message;
-              }
-            })
-            var obj = {
-              errors_type: "error",
-              errors_message: message,
-            };
-            currentFormItem.setState(obj)
+      for (var k in this.itemsValidateFunc) {
+        let hasError = false;
+        //原来的name命名
+        let originName = k.split('[')[0];
+        if (_.isArray(target)) {
+          if (~target.indexOf(originName)) {
+            hasError = true;
           }
-        });
+        }
+        hasError &&
+          this.itemsValidateFunc[k]((errors, currentFormItem) => {
+            this.errors.push(errors);
+            //使用jsx style组件，特殊处理
+            if (!this.props.config) {
+              var message = '';
+              errors.forEach((v, k) => {
+                if (k !== 0) {
+                  message += '，' + v.message;
+                } else {
+                  message += v.message;
+                }
+              });
+              var obj = {
+                errors_type: 'error',
+                errors_message: message,
+              };
+              currentFormItem.setState(obj);
+            }
+          });
       }
-      var values = serialize(formDom, { hash: true });
-      if(this.errors[0]){
+      let values = serialize(formDom, { hash: true });
+      let lastValues = {};
+      target &&
+        target.forEach(v => {
+          lastValues[v] = values[v];
+        });
+      if (this.errors[0]) {
         this.setState({
           random: util.getUniqueKey(),
           validateAll: true,
-        })
-        callback(this.errors,values);
-      }else {
-        callback(null,values);
+        });
+        callback && callback(this.errors, {});
+      } else {
+        callback && callback(null, lastValues);
       }
-    }
+      if (this.errors[0]) {
+        return false;
+      }
+      return lastValues;
+    };
   }
 
   render() {
-    let { 
+    let {
       form,
       size,
       config,
@@ -92,25 +123,22 @@ class FormBuilder extends React.Component {
       wrapperCol,
       className,
       selectSourceData,
-      ...other 
+      ...other
     } = this.props;
-    other.className = className + " builder-con";
+    other.className = className + ' builder-con';
     return (
-      <Form { ...other } ref="formBuilder">
-        {
-          config &&
-          <FormBuilderWidthConfig 
-            config={ config }
-            random={ this.state.random }
-            validateAll={ this.state.validateAll }
+      <Form {...other} ref="formBuilder">
+        {config && (
+          <FormBuilderWidthConfig
+            config={config}
+            random={this.state.random}
+            validateAll={this.state.validateAll}
           />
-        }
-        { this.props.children }
+        )}
+        {this.props.children}
       </Form>
     );
   }
 }
 
 export default FormBuilder;
-
-

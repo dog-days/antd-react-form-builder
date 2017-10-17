@@ -43,14 +43,16 @@ class Container extends React.Component {
     e.preventDefault();
     this.props.formBuilder &&
     this.props.formBuilder.validateFields((err, values) => {
-      console.debug('values: ', values);
       if(err){
-        console.debug("表单错误",err)
+        console.log("表单错误",err)
         return; 
       }else {
-        console.debug('表单值: ', values);
+        console.log('表单值: ', values);
       }
-    });
+    },['text']);
+    var value = this.props.formBuilder.getFieldsValue('text');
+    console.log(value)
+
   }
 
   render() {
@@ -83,7 +85,7 @@ class Container extends React.Component {
           /> 
           <Input 
             type="phone"
-            name="text"
+            name="phone"
             label="phone类型"
             required
             placeholder="请输入"
