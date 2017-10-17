@@ -35,7 +35,7 @@ class Container extends React.Component {
     return (
       <div>
         <div style={ { padding: "20px" } }>
-          <Tabs defaultActiveKey="2">
+          <Tabs defaultActiveKey="1">
             <TabPane tab="JSX风格" key="1">
               <JSXStyle />   
             </TabPane>

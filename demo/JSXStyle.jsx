@@ -256,6 +256,13 @@ class Container extends React.Component {
             required
           />
           <Password
+            onChange={
+              e=>{
+                this.setState({
+                  value: e.target.value
+                })
+              }
+            }
             name="password"
             rePassword={ true }
             label="密码"
