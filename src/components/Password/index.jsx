@@ -36,7 +36,10 @@ function component(BasicItemComponent) {
       locale = this.getLocale(localeText, 'FormBuilderPassword');
 
       other.targetComponent = Input;
-      other.type = 'password';
+      console.log(other.type)
+      if(other.type !== 'text') {
+        other.type = 'password';
+      }
       this.propsAdapter(other);
       if (onlyLetterAndNumber) {
         other.rules.push({
