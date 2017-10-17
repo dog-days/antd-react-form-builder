@@ -20,7 +20,10 @@ function component(BasicItemComponent) {
         React.PropTypes.string,
         React.PropTypes.number,
       ]),
-      rePassword: React.PropTypes.bool,
+      rePassword: React.PropTypes.oneOfType([
+        React.PropTypes.object,
+        React.PropTypes.bool,
+      ]),
       onlyLetterAndNumber: React.PropTypes.bool,
     };
 
@@ -36,8 +39,7 @@ function component(BasicItemComponent) {
       locale = this.getLocale(localeText, 'FormBuilderPassword');
 
       other.targetComponent = Input;
-      console.log(other.type)
-      if(other.type !== 'text') {
+      if (other.type !== 'text') {
         other.type = 'password';
       }
       this.propsAdapter(other);
@@ -57,8 +59,8 @@ function component(BasicItemComponent) {
           },
         });
       }
+      let reProps = { };
       if (rePassword) {
-        var reProps = {};
         reProps.type = other.type;
         reProps.required = other.required;
         reProps.targetComponent = other.targetComponent;
@@ -83,6 +85,12 @@ function component(BasicItemComponent) {
             callback(errors);
           },
         });
+        if(_.isPlainObject(rePassword)) {
+          reProps = {
+            ...reProps,
+            ...rePassword,
+          };
+        }
       }
       return (
         <span key={key} className="password-con">
