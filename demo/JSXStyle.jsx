@@ -49,7 +49,7 @@ class Container extends React.Component {
       }else {
         console.log('表单值: ', values);
       }
-    },['text']);
+    });
     var value = this.props.formBuilder.getFieldsValue('text');
     console.log(value)
 

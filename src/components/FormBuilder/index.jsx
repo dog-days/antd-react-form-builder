@@ -69,6 +69,8 @@ class FormBuilder extends React.Component {
           if (~target.indexOf(originName)) {
             hasError = true;
           }
+        }else {
+          hasError = true;
         }
         hasError &&
           this.itemsValidateFunc[k]((errors, currentFormItem) => {
