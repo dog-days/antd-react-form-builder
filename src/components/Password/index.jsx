@@ -60,9 +60,9 @@ function component(BasicItemComponent) {
           },
         });
       }
-      if (!this.reProps) {
-        let reProps = {};
-        if (rePassword) {
+      if (rePassword) {
+        if (!this.reProps) {
+          let reProps = {};
           reProps.type = other.type;
           reProps.required = other.required;
           reProps.targetComponent = other.targetComponent;
@@ -93,8 +93,15 @@ function component(BasicItemComponent) {
               ...rePassword,
             };
           }
+          this.reProps = reProps;
+        } else {
+          this.reProps.name = other.name;
+          this.reProps.type = other.type;
+          this.reProps.required = other.required;
+          this.reProps.targetComponent = other.targetComponent;
+          this.reProps.formItemProps = _.cloneDeep(other.formItemProps);
+          this.reProps.formItemProps.label = locale.reLabel;
         }
-        this.reProps = reProps;  
       }
       return (
         <span key={key} className="password-con">
