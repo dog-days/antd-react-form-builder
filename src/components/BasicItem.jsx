@@ -13,7 +13,6 @@ import util from '../util'
 
 let FormItem = Form.Item;
 
-
 /**
  * 所有表单组件的公共处理部分
  * @prop { string } type 组件类型 

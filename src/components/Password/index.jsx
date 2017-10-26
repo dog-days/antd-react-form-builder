@@ -47,8 +47,9 @@ function component(BasicItemComponent) {
         other.rules.push({
           validator(rule, value, callback, source, options) {
             var errors = [];
+            //数组和字母结合
             var pass = new RegExp(
-              '^[A-Za-z]+[0-9]+[A-Za-z0-9]*|[0-9]+[A-Za-z]+[A-Za-z0-9]*$'
+              '^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]*$'
             ).test(value);
             if (!pass && value != '') {
               errors.push({
@@ -59,43 +60,46 @@ function component(BasicItemComponent) {
           },
         });
       }
-      let reProps = { };
-      if (rePassword) {
-        reProps.type = other.type;
-        reProps.required = other.required;
-        reProps.targetComponent = other.targetComponent;
-        reProps.rules = [];
-        reProps.min = undefined;
-        reProps.max = undefined;
-        reProps.value = undefined;
-        reProps.storage = { value: undefined };
-        reProps.formItemProps = _.cloneDeep(other.formItemProps);
-        reProps.formItemProps.label = locale.reLabel;
-        reProps.name = 're-' + reProps.name;
-        reProps.rules.push({
-          validator(rule, value, callback, source, options) {
-            var errors = [];
-            var passwordDom = document.getElementsByName(other.name);
-            var password_value = passwordDom[0] && passwordDom[0].value;
-            if (password_value !== value) {
-              errors.push({
-                message: locale.checkErrorMsg,
-              });
-            }
-            callback(errors);
-          },
-        });
-        if(_.isPlainObject(rePassword)) {
-          reProps = {
-            ...reProps,
-            ...rePassword,
-          };
+      if (!this.reProps) {
+        let reProps = {};
+        if (rePassword) {
+          reProps.type = other.type;
+          reProps.required = other.required;
+          reProps.targetComponent = other.targetComponent;
+          reProps.rules = [];
+          reProps.min = undefined;
+          reProps.max = undefined;
+          reProps.value = undefined;
+          reProps.storage = { value: undefined };
+          reProps.formItemProps = _.cloneDeep(other.formItemProps);
+          reProps.formItemProps.label = locale.reLabel;
+          reProps.name = 're-' + reProps.name;
+          reProps.rules.push({
+            validator(rule, value, callback, source, options) {
+              var errors = [];
+              var passwordDom = document.getElementsByName(other.name);
+              var password_value = passwordDom[0] && passwordDom[0].value;
+              if (password_value !== value) {
+                errors.push({
+                  message: locale.checkErrorMsg,
+                });
+              }
+              callback(errors);
+            },
+          });
+          if (_.isPlainObject(rePassword)) {
+            reProps = {
+              ...reProps,
+              ...rePassword,
+            };
+          }
         }
+        this.reProps = reProps;  
       }
       return (
         <span key={key} className="password-con">
           <BasicItemComponent {...other} />
-          {rePassword && <BasicItemComponent {...reProps} />}
+          {rePassword && <BasicItemComponent {...this.reProps} />}
         </span>
       );
     }
