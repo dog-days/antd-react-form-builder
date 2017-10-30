@@ -95,7 +95,7 @@ function component(BasicItemComponent) {
           }
           this.reProps = reProps;
         } else {
-          this.reProps.name = other.name;
+          this.reProps.name = 're-' + this.reProps.name;
           this.reProps.type = other.type;
           this.reProps.required = other.required;
           this.reProps.targetComponent = other.targetComponent;

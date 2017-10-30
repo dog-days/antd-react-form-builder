@@ -50,7 +50,7 @@ class Container extends React.Component {
         console.log('表单值: ', values);
       }
     });
-    //var value = this.props.formBuilder.getFieldsValue('text');
+    //var value = this.props.formBuilder.getFieldsValue('password');
     //console.log(value)
   }
 
@@ -257,7 +257,6 @@ class Container extends React.Component {
             required
           />
           <Password
-            type="text"
             name="password"
             rePassword={ true }
             label="密码"
