@@ -10,8 +10,8 @@ let FormItem = Form.Item;
 
 /**
  * 所有表单组件的公共处理部分
- * @prop { string } type 组件类型 
- * @prop { string } name 跟原生的html一样，同时async-validator要用到（表单验证），取值要用到，要唯一。 
+ * @prop { string } type 组件类型
+ * @prop { string } name 跟原生的html一样，同时async-validator要用到（表单验证），取值要用到，要唯一。
  * @prop { array } rules 参考 async-validatord的rules。
  * @prop { object } formItemProps 跟antd的Form.Item的props完全一致，请参考Form.Item，这个不经常使用。
  */
@@ -64,9 +64,9 @@ class BasicItem extends React.Component {
   }
 
   /**
-  * 公共验证方法
-  * @param { object } props 当前组件props或结构差不多的object对象 
-  */
+   * 公共验证方法
+   * @param { object } props 当前组件props或结构差不多的object对象
+   */
   commonValidate = props => {
     let { name, storage, rules, type } = props;
     //console.debug("dddd",name,storage)
@@ -133,10 +133,10 @@ class BasicItem extends React.Component {
   }
 
   /**
-  * 当前表单组件验证，并提示
-  * @param { object } props 当前组件props 
-  * @param { boolean } isConstructor 是否是当类构造器（构造函数实例化后只运行一次） 
-  */
+   * 当前表单组件验证，并提示
+   * @param { object } props 当前组件props
+   * @param { boolean } isConstructor 是否是当类构造器（构造函数实例化后只运行一次）
+   */
   validate(props, isConstructor) {
     let {
       name,
@@ -381,7 +381,7 @@ class BasicItem extends React.Component {
           storage.value.map((v, k) => {
             return (
               <span key={k}>
-                <Input type="hidden" name={other.name} value={v} />
+                <Input type="hidden" name={other.name + '[]'} value={v} />
               </span>
             );
           })}
