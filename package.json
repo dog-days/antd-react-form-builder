@@ -41,10 +41,10 @@
     "webpack": "^2.2.1",
     "webpack-dev-middleware": "^1.8.3",
     "webpack-dev-server": "^2.4.1",
+    "antd": "^2.13.7",
     "webpack-hot-middleware": "^2.13.0"
   },
   "dependencies": {
-    "antd": "^2.13.11",
     "form-serialize": "^0.7.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
