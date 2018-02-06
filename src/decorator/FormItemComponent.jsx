@@ -4,33 +4,35 @@ import localeText from '../locale-provider/zh_CN';
 import { sprintf } from 'sprintf-js';
 import util from '../util';
 
-function lenthRule(min, max) {
+function lenthRule(min, max, locale) {
   let message;
   return {
     validator(rule, value, callback, source, options) {
-      const valueLength = util.strlen(value);
       const errors = [];
-      let flag = true;
-      if (min && max) {
-        if (valueLength < min || valueLength > max) {
-          flag = false;
-          message = sprintf(locale.charactersBetwteen, min, max);
+      if (_.isString(value)) {
+        const valueLength = util.strlen(value);
+        let flag = true;
+        if (min && max) {
+          if (valueLength < min || valueLength > max) {
+            flag = false;
+            message = sprintf(locale.charactersBetwteen, min, max);
+          }
+        } else if (min) {
+          if (valueLength < min) {
+            flag = false;
+            message = sprintf(locale.charactersMin, min);
+          }
+        } else if (max) {
+          if (valueLength > max) {
+            flag = false;
+            message = sprintf(locale.charactersMax, max);
+          }
         }
-      } else if (min) {
-        if (valueLength < min) {
-          flag = false;
-          message = sprintf(locale.charactersMin, min);
+        if (!flag) {
+          errors.push({
+            message,
+          });
         }
-      } else if (max) {
-        if (valueLength > max) {
-          flag = false;
-          message = sprintf(locale.charactersMax, max);
-        }
-      }
-      if (!flag) {
-        errors.push({
-          message,
-        });
       }
       callback(errors);
     },
@@ -65,6 +67,9 @@ function propsAdapter(props) {
   }
   min = parseInt(min, 10);
   max = parseInt(max, 10);
+  function validateLength() {
+    rules.unshift(lenthRule(min, max, locale));
+  }
   //只有text类型有长度限制
   switch (props.type) {
     default:
@@ -82,7 +87,7 @@ function propsAdapter(props) {
           },
         });
       }
-      lenthRule(min, max);
+      validateLength();
   }
   if (required) {
     rules.unshift({

@@ -55,6 +55,8 @@ class Container extends React.Component {
           hasFeedback={true}
         >
           <Input
+            max={10}
+            min={5}
             type="text"
             name="text"
             label="text类型"
