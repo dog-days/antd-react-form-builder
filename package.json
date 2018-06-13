@@ -1,6 +1,6 @@
 {
   "name": "antd-react-form-builder",
-  "version": "0.5.0",
+  "version": "0.6.9",
   "description": "A form-builder based on Ant Design UI",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
@@ -41,10 +41,10 @@
     "webpack": "^2.2.1",
     "webpack-dev-middleware": "^1.8.3",
     "webpack-dev-server": "^2.4.1",
+    "antd": "^2.13.7",
     "webpack-hot-middleware": "^2.13.0"
   },
   "dependencies": {
-    "antd": "^2.8.3",
     "form-serialize": "^0.7.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
@@ -56,10 +56,14 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development node server.js",
     "build-demo": "cross-env NODE_ENV=production grunt",
-    "build": "npm run build-es && npm run build-default && node-sass style/css/style.scss lib/style/style.css",
-    "build-es": "cross-env BABEL_ENV=es babel ./src -d es --ignore spec.js,test.js",
-    "build-default": "cross-env BABEL_ENV=default babel ./src -d lib --ignore spec.js,test.js",
-    "build-default-watch": "cross-env BABEL_ENV=default babel ./src -d lib -w --ignore spec.js,test.js",
+    "build":
+      "npm run build-es && npm run build-default && node-sass style/css/style.scss lib/style/style.css",
+    "build-es":
+      "cross-env BABEL_ENV=es babel ./src -d es --ignore spec.js,test.js",
+    "build-default":
+      "cross-env BABEL_ENV=default babel ./src -d lib --ignore spec.js,test.js",
+    "build-default-watch":
+      "cross-env BABEL_ENV=default babel ./src -d lib -w --ignore spec.js,test.js",
     "build-es-watch": "cross-env BABEL_ENV=es babel ./src -d es -w",
     "updateSnapshot": "cross-env NODE_ENV=default jest --updateSnapshot",
     "test": "cross-env NODE_ENV=default jest --coverage"
@@ -75,19 +79,9 @@
   },
   "homepage": "https://github.com/dog-days/react-react-form-builder#readme",
   "jest": {
-    "setupFiles": [
-      "./tests/setup.js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/lib/",
-      "/es/",
-      "/demo/"
-    ],
+    "setupFiles": ["./tests/setup.js"],
+    "moduleFileExtensions": ["js", "jsx"],
+    "testPathIgnorePatterns": ["/node_modules/", "/lib/", "/es/", "/demo/"],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/lib/",
@@ -95,8 +89,6 @@
       "/demo/",
       "/test/"
     ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
   }
 }

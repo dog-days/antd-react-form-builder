@@ -1,5 +1,29 @@
 ## 更新日志
 
+### 0.5.4
+
+`2017-08-03`
+
+- Fix `<Input />` type=textarea props.max和props.min不生效问题。
+
+### 0.5.3
+
+`2017-08-02`
+
+- Fix `<Input />` type=phone 值为空是提交验证不通过问题。
+
+### 0.5.0
+
+`2017-04-20`
+
+- Fix 无props.config报错问题
+
+### 0.4.9
+
+`2017-04-20`
+
+- Recover FormBuilderConfiger中的config每个数据都要设置key值
+
 ### 0.4.8
 
 `2017-04-20`

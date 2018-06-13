@@ -1,6 +1,6 @@
 # antd-react-form-builder
 
-[![build status](https://travis-ci.org/dog-days/antd-react-form-builder.svg?branch=master)](https://travis-ci.org/dog-days/antd-react-form-builder) [![Coverage Status](https://coveralls.io/repos/github/dog-days/antd-react-form-builder/badge.svg?branch=master)](https://coveralls.io/github/dog-days/antd-react-form-builder?branch=master) [![npm package](https://badge.fury.io/js/antd-react-form-builder.svg)](https://www.npmjs.org/package/antd-react-form-builder) [![NPM downloads](http://img.shields.io/npm/dm/antd-react-form-builder.svg)](https://npmjs.org/package/antd-react-form-builder)
+> **Deprecated，请使用[antd-form-component](https://github.com/dog-days/antd-form-component)**
 
 之所以写了这个项目有以下几点原因：
 

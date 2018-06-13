@@ -47,10 +47,12 @@ function component(BasicItemComponent){
             validator: function(rule, value, callback, source, options){
               var reg = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i;
               var errors = [];
-              if(!reg.test(value) && value !=""){
-                errors.push({
-                  message: locale.phoneErrorMsg,
-                })
+              if(value) {
+                if(!reg.test(value)){
+                  errors.push({
+                    message: locale.phoneErrorMsg,
+                  })
+                }
               }
               callback(errors);
             }
